@@ -1,53 +1,93 @@
-import { PrismaAdapter } from '@auth/prisma-adapter'
-import { getServerSession } from 'next-auth/next'
-import GithubProvider from 'next-auth/providers/github'
-import GoogleProvider from 'next-auth/providers/google'
-import { db as prisma } from './db'
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import bcrypt from "bcrypt"
+import { NextAuthOptions } from "next-auth"
+import { getServerSession } from "next-auth/next"
+import Credentials from "next-auth/providers/credentials"
+import GithubProvider from "next-auth/providers/github"
+import GoogleProvider from "next-auth/providers/google"
 
-export const authOptions = {
-  adapter: PrismaAdapter(prisma),
+import { db as prisma } from "./db"
+
+export const authOptions: NextAuthOptions = {
+  // @ts-ignore
+  adapter: PrismaAdapter(prisma as any),
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
-  // https://next-auth.js.org/configuration/pages
   pages: {
-    signIn: "/auth/signin",
-    // signOut: '/auth/signout',
-    // error: '/auth/error', // Error code passed in query string as ?error=
-    // verifyRequest: '/auth/verify-request', // (used for check email message)
-    // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
+    signIn: "/login",
+    error: "/login",
+    signOut: "/auth/signout",
   },
   callbacks: {
-    // https://github.com/nextauthjs/next-auth/discussions/536
-    // session: async ({ session, token }) => {
-    //   if (session?.user) {
-    //     session.user.id = token.sub;
-    //   }
-    //   return session;
-    // },
-    // // https://next-auth.js.org/configuration/callbacks#jwt-callback
-    // async jwt({ token, user, account, profile, isNewUser }) {
-    //   // Add user ID to token on successful login
-    //   if (user) {
-    //     token.role = user.role;
-    //   }
-    //   return token;
-    // },
-  },
+    async session({ token, session }) {
+      if (token) {
+        session.user.id = token.id
+        session.user.name = token.name as string
+        session.user.email = token.email as string
+        session.user.image = token.picture
+      }
 
-  // Configure one or more authentication providers
+      return session
+    },
+    async jwt({ token, user }) {
+      const dbUser = await prisma.user.findFirst({
+        where: {
+          email: token.email,
+        },
+      })
+
+      if (!dbUser) {
+        if (user) {
+          token.id = user?.id
+        }
+        return token
+      }
+
+      return {
+        id: dbUser.id,
+        name: dbUser.name,
+        email: dbUser.email,
+        picture: dbUser.image,
+      }
+    },
+  },
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string
+      clientSecret: process.env.GITHUB_SECRET as string,
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
-      clientSecret: process.env.GOOGLE_SECRET as string
-    })
-    // ...add more providers here
-  ]
+      clientSecret: process.env.GOOGLE_SECRET as string,
+    }),
+    Credentials({
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        const user = await prisma.user.findUnique({
+          where: { email: credentials?.email },
+        })
+
+        if (!user || !user.password) {
+          throw new Error("No user found")
+        }
+
+        const isValidPassword = await bcrypt.compare(
+          credentials?.password as string,
+          user.password
+        )
+        if (!isValidPassword) {
+          throw new Error("Invalid password")
+        }
+
+        return user
+      },
+    }),
+  ],
 }
 
 export async function getCurrentUser() {
