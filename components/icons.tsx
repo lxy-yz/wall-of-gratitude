@@ -4,11 +4,23 @@ import {
   SunMedium,
   Twitter,
   type Icon as LucideIcon,
+  Palette,
+  Type,
+  Baseline,
+  X,
+  Eraser,
+  Upload
 } from "lucide-react"
 
 export type Icon = LucideIcon
 
 export const Icons = {
+  upload: Upload,
+  x: X,
+  clear: Eraser,
+  baseline: Baseline,
+  type: Type,
+  palette: Palette,
   sun: SunMedium,
   moon: Moon,
   twitter: Twitter,

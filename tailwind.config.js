@@ -2,11 +2,18 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
+  // https://stackoverflow.com/questions/60989191/purgecss-whitelist-patterns-with-tailwindcss
+  // https://tailwindcss.com/docs/content-configuration#safelisting-classes
+  safelist: [
+    {
+      pattern: /^(bg|text|font)-/,
+    },
+  ],
   theme: {
     container: {
       center: true,
@@ -16,6 +23,16 @@ module.exports = {
       },
     },
     extend: {
+      boxShadow: {
+        "sticky-note": `
+          inset 0 -40px 40px rgba(0,0,0,0.2),
+          inset 0 25px 10px rgba(0,0,0,0.2),
+          0 5px 6px 5px rgba(0,0,0,0.2)
+        `,
+      },
+      fontFamily: {
+        cursive: ["Marck Script", "cursive"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

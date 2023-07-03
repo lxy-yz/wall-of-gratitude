@@ -1,0 +1,1 @@
+- Email https://vercel.com/templates/other/react-email-resend
