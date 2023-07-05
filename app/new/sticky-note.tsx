@@ -11,12 +11,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Menubar, MenubarContent, MenubarMenu, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarTrigger } from "@/components/ui/menubar";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { AtSign, Check, ChevronsUpDown, Save, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const frameworks = [
   {
@@ -51,6 +52,7 @@ export function StickyNote() {
       fontSize: FontSize.Regular,
       typeface: Typeface.Simple,
       tags: [],
+      notify: true
     },
   })
 
@@ -67,7 +69,7 @@ export function StickyNote() {
     <div className="">
       <Form {...form}>
         <div className={cn(`
-          bg-${currentBg}-300 bg-cover bg-center 
+          bg-${currentBg}-300 dark:bg-${currentBg}-600
           p-4 shadow-md 
           grid h-[320px] w-[320px] grid-rows-4
         `)}>
@@ -83,8 +85,9 @@ export function StickyNote() {
                         placeholder="Share your gratitude..."
                         className={cn(`h-full resize-none border-0 overflow-clip`,
                           `text-${currentFontSize}`,
-                          `font-${currentTypeface}`)
-                        }
+                          `font-${currentTypeface}`,
+                          `placeholder:text-gray-700 dark:placeholder:text-gray-200`
+                        )}
                         style={{ boxShadow: "none" }}
                         // onInput={({ currentTarget }: React.FormEvent<HTMLTextAreaElement>) => {
                         //   if (currentTarget.scrollHeight > currentTarget.clientHeight) {
@@ -142,43 +145,64 @@ export function StickyNote() {
               </PopoverContent>
             </Popover> */}
 
-            <div className="flex justify-between text-sm">
-              <div className="">
-                <div className="">
-                  <div className="before:content-['@'] before:text-slate-700 before:mr-1 text-slate-500" contentEditable>person</div>
-                </div>
-                <div className="mt-2">
-                  <div className="before:content-['#'] before:text-slate-700 before:mr-1 text-slate-500" contentEditable>tag</div>
-                </div>
+            <div className="flex flex-col gap-2 text-sm">
+              <div className="flex items-center">
+                <label className="">
+                  <AtSign className="w-4 h-4" />
+                </label>
+                <input
+                  placeholder="someone"
+                  className="w-full px-2 bg-transparent appearance-none leading-tight focus:outline-none" id="inline-full-name"
+                />
               </div>
-              <div className="text-gray-700">
-                <div className="">
+              <div className="flex items-center">
+                <label className="rotate-45">🏷️</label>
+                <input
+                  placeholder="tag1, tag2, tag3"
+                  className="px-2 bg-transparent appearance-none leading-tight focus:outline-none" id="inline-full-name"
+                />
+              </div>
+              <div className="" onClick={() => form.setValue('notify', !form.getValues('notify'))}>
+                <FormField
+                  control={form.control}
+                  name="notify"
+                  render={({ field }) => (
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={(state: boolean) => field.onChange(state)}
+                      />
+                      <label
+                        htmlFor="terms"
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        Send email
+                      </label>
+                    </div>
+                  )}
+                />
+                {/* <div className="flex items-center gap-2">
+                    <Check valueChecked={form.watch('notify') === true} className="w-4 h-4" />
+                    <span></span>
+                  </div> */}
+
+                {/* 
                   <FormField
                     control={form.control}
                     name="notify"
                     render={({ field }) => (
                       <div className="inline-flex">
-                        <Switch
-                          className="mr-2"
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                        notify
                       </div>
-                    )}
-                  />
-                </div>
-                <div className="mt-2 text-right">
-                  {new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}
-                </div>
+                    )} */}
+                {/* /> */}
               </div>
             </div >
           </div >
         </div >
-        <Menubar className="mt-4 py-6">
+        <Menubar className="mt-4 py-6 px-3">
           <MenubarMenu>
             <MenubarTrigger>
-              <Icons.palette className={`h-4 w-4`} />
+              <Icons.palette className='h-4 w-4' />
             </MenubarTrigger>
             <MenubarContent>
               <FormField
@@ -206,7 +230,7 @@ export function StickyNote() {
           </MenubarMenu>
           <MenubarMenu>
             <MenubarTrigger>
-              <Icons.type className={`h-4 w-4`} />
+              <Icons.type className="h-4 w-4" />
             </MenubarTrigger>
             <MenubarContent>
               <FormField
@@ -232,7 +256,7 @@ export function StickyNote() {
           </MenubarMenu>
           <MenubarMenu>
             <MenubarTrigger>
-              <Icons.baseline className={`h-4 w-4`} />
+              <Icons.baseline className='h-4 w-4' />
             </MenubarTrigger>
             <MenubarContent>
               <FormField
@@ -259,10 +283,13 @@ export function StickyNote() {
           <div className="cursor-pointer px-3 py-2" onClick={() => form.setValue('content', '')}>
             <Icons.clear className="h-4 w-4" />
           </div>
-          {/* <Separator orientation="vertical" /> */}
-          <div className="flex gap-2">
-            <Button variant="secondary" size="sm">Save</Button>
-            <Button variant="default" size="sm">Post</Button>
+          <div className="flex gap-2 flex-1 justify-end">
+            <Button variant="secondary" size="sm">
+              <Save className="h-4 w-4" />
+            </Button>
+            <Button variant="default" size="sm">
+              <Send className="h-4 w-4" />
+            </Button>
           </div>
         </Menubar>
       </Form >

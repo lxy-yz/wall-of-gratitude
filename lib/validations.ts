@@ -1,6 +1,15 @@
 import { z } from "zod"
 
 export const authSchema = z.object({
+  username: z
+    .string()
+    .min(2, {
+      message: "Username must be at least 2 characters.",
+    })
+    .max(30, {
+      message: "Username must not be longer than 30 characters.",
+    })
+    .optional(),
   email: z.string().email("Email must valid email."),
   password: z.string().min(6, {
     message: "Password must be at least 6 characters long.",
@@ -64,4 +73,26 @@ export const noteSchema = z.object({
     FontSize["Extra Large"],
   ]),
   password: z.string(),
+})
+
+export const profileSchema = z.object({
+  name: z.string().min(3, "Name must be at least 3 characters long."),
+  username: z
+    .string()
+    .min(2, {
+      message: "Username must be at least 2 characters.",
+    })
+    .max(30, {
+      message: "Username must not be longer than 30 characters.",
+    }),
+  email: z.string().email("Email must be a valid email."),
+  image: z.string(),
+  bio: z.string().max(160).min(4),
+  urls: z
+    .array(
+      z.object({
+        value: z.string().url({ message: "Please enter a valid URL." }),
+      })
+    )
+    .optional(),
 })

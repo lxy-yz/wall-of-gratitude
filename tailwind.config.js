@@ -12,6 +12,7 @@ module.exports = {
   safelist: [
     {
       pattern: /^(bg|text|font)-/,
+      variants: ["dark", "placeholder"],
     },
   ],
   theme: {

@@ -16,7 +16,7 @@ export async function POST(
 ) {
   try {
     const body = await req.json()
-    const { email, password } = authSchema.parse(body)
+    const { username, email, password } = authSchema.parse(body)
 
     if (!email || !password) {
       return new Response(
@@ -29,6 +29,7 @@ export async function POST(
 
     const user = await db.user.create({
       data: {
+        username,
         email,
         password: hashedPassword,
       },
