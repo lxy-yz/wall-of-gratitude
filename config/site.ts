@@ -17,6 +17,10 @@ export const siteConfig = {
       title: "Send Gratitude",
       href: "/new",
     },
+    {
+      title: "Discover",
+      href: "/discover",
+    },
   ],
   links: {
     twitter: "https://twitter.com/shadcn",

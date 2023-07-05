@@ -10,6 +10,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Gratitude {
+  id       String   @id @default(cuid())
+  content  String
+  notify   Boolean?
+  typeface String?
+  bg       String?
+  fontSize String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  from       User   @relation("GratitudeFromUser", fields: [fromUserId], references: [id])
+  fromUserId String
+  to         User   @relation("GratitudeToUser", fields: [toUserId], references: [id])
+  toUserId   String
+  tags       Tag[]
+
+  @@map("gratitudes")
+}
+
+model Tag {
+  id   String @id @default(cuid())
+  name String @unique
+
+  gratitudes Gratitude[]
+
+  @@map("tags")
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -27,6 +56,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@map(name: "accounts")
 }
 
 model Session {
@@ -35,18 +65,24 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map(name: "sessions")
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String?
-  username      String?   @unique
-  email         String?   @unique
+  username      String?     @unique
+  email         String?     @unique
   emailVerified DateTime?
   password      String?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  sent          Gratitude[] @relation("GratitudeFromUser")
+  received      Gratitude[] @relation("GratitudeToUser")
+
+  @@map(name: "users")
 }
 
 model VerificationToken {
@@ -55,4 +91,5 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+  @@map(name: "verification_tokens")
 }

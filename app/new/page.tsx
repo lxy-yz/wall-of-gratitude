@@ -1,12 +1,12 @@
 import Link from "next/link"
 
-import { StickyNote } from "./sticky-note"
+import { Panel } from "./panel"
 
-export default function IndexPage() {
+export default function NewPage() {
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="pt-[96px] mx-auto max-w-screen-sm">
-        <StickyNote />
+      <div className="pt-[96px]">
+        <Panel />
       </div>
     </section>
   )

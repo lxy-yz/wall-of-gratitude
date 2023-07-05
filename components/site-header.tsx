@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 
 export function SiteHeader() {
   const { data: sess } = useSession()
@@ -31,7 +31,10 @@ export function SiteHeader() {
                 </div>
               </Link>
             ) : (
-              <Link href="/api/auth/signout">
+              <Link href="/" onClick={(e) => {
+                e.preventDefault()
+                signOut()
+              }}>
                 <div
                   className={buttonVariants({
                     size: "sm",

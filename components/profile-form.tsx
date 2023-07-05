@@ -19,7 +19,7 @@ interface FormData extends Omit<FormValues, 'image'> {
   image?: string | null
 }
 
-export default function UserForm({ data }: {
+export default function ProfileForm({ data }: {
   data: FormData | null
 }) {
   const form = useForm<FormValues>({

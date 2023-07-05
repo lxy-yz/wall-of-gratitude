@@ -73,7 +73,16 @@ export function AuthForm({ login }: { login?: boolean }) {
         <Icon icon="devicon:google" className="h-4 w-4" />
         Sign In with Google
       </button>
-      <Separator className="my-4" />
+      <div className="relative my-4">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-background px-2 text-muted-foreground">
+            Or continue with
+          </span>
+        </div>
+      </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
           {!login && (

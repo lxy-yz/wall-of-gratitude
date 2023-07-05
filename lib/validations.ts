@@ -42,11 +42,20 @@ export enum FontSize {
   "Extra Large" = "3xl",
 }
 
-export const noteSchema = z.object({
+export const gratitudeSchema = z.object({
   to: z.string().min(3, "To must be at least 3 characters long."),
   notify: z.boolean().optional().default(true),
-  content: z.string().nonempty("Don't leave the gratitude empty :)"),
-  tags: z.array(z.string()).optional(),
+  content: z
+    .string()
+    .max(140, "Keep it shorter than 140 characters.")
+    .nonempty("Don't leave the gratitude empty :)"),
+  tags: z
+    .array(
+      z.object({
+        value: z.string(),
+      })
+    )
+    .optional(),
   bg: z
     .enum([
       Colors.Red,
@@ -72,7 +81,6 @@ export const noteSchema = z.object({
     FontSize.Large,
     FontSize["Extra Large"],
   ]),
-  password: z.string(),
 })
 
 export const profileSchema = z.object({

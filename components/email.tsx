@@ -1,7 +1,6 @@
 import * as React from "react"
 import {
   Body,
-  Button,
   Column,
   Container,
   Head,
@@ -16,6 +15,8 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components"
+
+import { Button, buttonVariants } from '@/components/ui/button'
 
 interface VercelInviteUserEmailProps {
   username?: string
@@ -35,13 +36,11 @@ const baseUrl = process.env.VERCEL_URL
 
 // https://demo.react.email/preview/vercel-invite-user?view=source
 
-export const VercelInviteUserEmail = ({
+export const GratitudeEmail = ({
   username = "zenorocha",
   userImage = `${baseUrl}/static/vercel-user.png`,
   invitedByUsername = "bukinoshita",
   invitedByEmail = "bukinoshita@example.com",
-  teamName = "My Project",
-  teamImage = `${baseUrl}/static/vercel-team.png`,
   inviteLink = "https://vercel.com/teams/invite/foo",
   inviteFromIp = "204.13.186.218",
   inviteFromLocation = "São Paulo, Brazil",
@@ -57,15 +56,15 @@ export const VercelInviteUserEmail = ({
           <Container className="mx-auto my-[40px] w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
             <Section className="mt-[32px]">
               <Img
-                src={`${baseUrl}/static/vercel-logo.png`}
+                src={`${baseUrl}/icons/logo.png`}
                 width="40"
                 height="37"
-                alt="Vercel"
+                alt="Logo"
                 className="mx-auto my-0"
               />
             </Section>
             <Heading className="mx-0 my-[30px] p-0 text-center text-[24px] font-normal text-black">
-              Join <strong>{teamName}</strong> on <strong>Vercel</strong>
+              Wall of Gratitude
             </Heading>
             <Text className="text-[14px] leading-[24px] text-black">
               Hello {username},
@@ -78,8 +77,7 @@ export const VercelInviteUserEmail = ({
               >
                 {invitedByEmail}
               </Link>
-              ) has invited you to the <strong>{teamName}</strong> team on{" "}
-              <strong>Vercel</strong>.
+              ) has sent you his <strong>gratitude</strong>
             </Text>
             <Section>
               <Row>
@@ -99,24 +97,20 @@ export const VercelInviteUserEmail = ({
                     alt="invited you to"
                   />
                 </Column>
-                <Column align="left">
-                  <Img
-                    className="rounded-full"
-                    src={teamImage}
-                    width="64"
-                    height="64"
-                  />
-                </Column>
               </Row>
             </Section>
-            <Section className="my-[32px] text-center">
+            <Section className="my-[32px] text-center space-x-2">
               <Button
-                pX={20}
-                pY={12}
-                className="rounded bg-[#000000] text-center text-[12px] font-semibold text-white no-underline"
+                className={buttonVariants({ variant: "default" })}
                 href={inviteLink}
               >
-                Join the team
+                Visit
+              </Button>
+              <Button
+                className={buttonVariants({ variant: "secondary" })}
+                href={inviteLink}
+              >
+                Send back
               </Button>
             </Section>
             <Text className="text-[14px] leading-[24px] text-black">
@@ -139,8 +133,8 @@ export const VercelInviteUserEmail = ({
           </Container>
         </Body>
       </Tailwind>
-    </Html>
+    </Html >
   )
 }
 
-export default VercelInviteUserEmail
+export default GratitudeEmail
