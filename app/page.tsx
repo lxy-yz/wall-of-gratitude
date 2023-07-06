@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
 import { Edit, Share, Trash2 } from "lucide-react"
+import { GratitudeCard } from "@/components/gratitude-card"
 
 export default function IndexPage() {
   return (
@@ -105,34 +106,42 @@ export default function IndexPage() {
           <TabsContent value="received" className="mt-4">
             <div className="grid gap-8 grid-cols-3 grid-rows-3">
               {Array.from({ length: 9 }).map((_, i) => (
-                <Card className={cn("max-w-[] w-[300px] h-[300px]", `bg-blue-300`, `font-cursive`, `text-xl`)}>
-                  <CardHeader>
-                    <div className="flex items-center gap-2">
-                      <Avatar className="">
-                        <AvatarImage src="/avatars/01.png" />
-                        <AvatarFallback>OM</AvatarFallback>
-                      </Avatar>
-                      <div className="order-1">
-                        <p className="text-sm font-medium leading-none">Sofia Davis</p>
-                        <p className="text-sm text-muted-foreground">m@example.com</p>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="grid gap-6">
-                    Thanks for being a great friend!
-                  </CardContent>
-                  <CardDescription className="px-6">
-                    <div>
-                      2021/10/10
-                    </div>
-                    <div>
-                      #eaeaea #cool #awesome
-                    </div>
-                  </CardDescription>
-                  <CardFooter>
-                    Footer
-                  </CardFooter>
-                </Card>
+                <GratitudeCard
+                  color="blue"
+                  typeface="cursive"
+                  fontSize="lg"
+                  to=""
+                  content="Thanks for being a great friend!"
+                  tags={["cool", "awesome"]}
+                />
+                // <Card className={cn("max-w-[] w-[300px] h-[300px]", `bg-blue-300`, `font-cursive`, `text-xl`)}>
+                //   <CardHeader>
+                //     <div className="flex items-center gap-2">
+                //       <Avatar className="">
+                //         <AvatarImage src="/avatars/01.png" />
+                //         <AvatarFallback>OM</AvatarFallback>
+                //       </Avatar>
+                //       <div className="order-1">
+                //         <p className="text-sm font-medium leading-none">Sofia Davis</p>
+                //         <p className="text-sm text-muted-foreground">m@example.com</p>
+                //       </div>
+                //     </div>
+                //   </CardHeader>
+                //   <CardContent className="grid gap-6">
+                //     Thanks for being a great friend!
+                //   </CardContent>
+                //   <CardDescription className="px-6">
+                //     <div>
+                //       2021/10/10
+                //     </div>
+                //     <div>
+                //       #eaeaea #cool #awesome
+                //     </div>
+                //   </CardDescription>
+                //   <CardFooter>
+                //     Footer
+                //   </CardFooter>
+                // </Card>
               ))}
             </div>
           </TabsContent>

@@ -27,6 +27,7 @@ export async function POST(
 
     const hashedPassword = await hash(password, 10)
 
+    console.log(username, email, hashedPassword)
     const user = await db.user.create({
       data: {
         username,
@@ -40,6 +41,7 @@ export async function POST(
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
 
+    console.error(error)
     return new Response(null, { status: 500 })
   }
 }

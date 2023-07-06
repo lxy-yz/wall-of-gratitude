@@ -1,157 +1,226 @@
 "use client"
 
-import { useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { profileSchema } from "@/lib/validations";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
-import { Input } from "./ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import Link from "next/link";
-import { Textarea } from "./ui/textarea";
-import { Button } from "./ui/button";
+import { useFieldArray, useFormContext } from "react-hook-form";
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form";
+import { Input } from "../../components/ui/input";
+import { Textarea } from "../../components/ui/textarea";
+import { Button } from "../../components/ui/button";
 import { cn } from "@/lib/utils";
+import { Info, Send, X } from "lucide-react";
+import { Checkbox } from "../../components/ui/checkbox";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-type FormValues = z.infer<typeof profileSchema>
 
-interface FormData extends Omit<FormValues, 'image'> {
-  image?: string | null
-}
-
-export default function ProfileForm({ data }: {
-  data: FormData | null
+export default function PaneEdit({ data }: {
+  data?: FormData | null
 }) {
-  const form = useForm<FormValues>({
-    resolver: zodResolver(profileSchema),
-    defaultValues: {
-      ...data,
-      bio: "I own a computer.",
-      urls: [
-        { value: "https://shadcn.com" },
-        { value: "http://twitter.com/shadcn" },
-      ],
-    },
-  })
-
-  const { fields, append, } = useFieldArray({
-    name: "urls",
+  const form = useFormContext()
+  const { fields, append, remove } = useFieldArray({
+    name: "tags",
     control: form.control,
   })
 
-  function onSubmit(data: FormValues) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
-  }
-
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+    <div className="max-w-[512px] px-4 space-y-4">
+      {/* <div className="grid grid-cols-3 gap-4">
         <FormField
           control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+          name="typeface"
+          render={({ field }) => {
+            return (
+              <FormItem>
+                <FormLabel>Font</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
-                  </SelectTrigger>
+                  <Select onValueChange={(value: Typeface) => field.onChange(value)} defaultValue={field.value}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Choose font" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.entries(Typeface).map(([key, value]) => (
+                        <SelectItem
+                          className={`font-${value}`}
+                          key={key}
+                          value={value}
+                        >
+                          {key}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="m@example.com">m@example.com</SelectItem>
-                  <SelectItem value="m@google.com">m@google.com</SelectItem>
-                  <SelectItem value="m@support.com">m@support.com</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormDescription>
-                You can manage verified email addresses in your{" "}
-                <Link href="/examples/forms">email settings</Link>.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
+                <FormDescription></FormDescription>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
         />
         <FormField
           control={form.control}
-          name="bio"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Bio</FormLabel>
+          name="fontSize"
+          render={({ field }) => {
+            return (
+              <FormItem>
+                <FormLabel>Size</FormLabel>
+                <FormControl>
+                  <Select onValueChange={(value: FontSize) => field.onChange(value)} defaultValue={field.value}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Choose size" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.entries(FontSize).map(([key, value]) => (
+                        <SelectItem
+                          className={`text-${value}`}
+                          key={key} value={value}>{key}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormDescription></FormDescription>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        />
+        <FormField
+          control={form.control}
+          name="bg"
+          render={({ field }) => {
+            return (
+              <FormItem>
+                <FormLabel>Background</FormLabel>
+                <FormControl>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Choose background" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.entries(Colors).map(([key, value]) => (
+                        <SelectItem
+                          className={`text-${value}-500`}
+                          key={key} value={value}>{key}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormDescription></FormDescription>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        />
+      </div> */}
+      <FormField
+        control={form.control}
+        name="to"
+        render={({ field }) => (
+          <FormItem className="">
+            <FormLabel className="">
+              To
+            </FormLabel>
+            <FormControl>
+              <Input
+                type="email"
+                placeholder="alice@example.com"
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="content"
+        render={({ field }) => {
+          return (
+            <FormItem className="row-span-3 h-full">
+              <FormLabel>Gratitude</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Tell us a little bit about yourself"
-                  className="resize-none"
+                  placeholder="Share your gratitude..."
+                  className={cn(`resize-none`)}
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                You can <span>@mention</span> other users and organizations to
-                link to them.
-              </FormDescription>
+              <FormDescription></FormDescription>
               <FormMessage />
             </FormItem>
-          )}
-        />
-        <div>
+          );
+        }}
+      />
+      <div className="flex">
+        <div className="w-1/2 space-y-2">
           {fields.map((field, index) => (
             <FormField
               control={form.control}
               key={field.id}
-              name={`urls.${index}.value`}
+              name={`tags.${index}.value`}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className={cn(index !== 0 && "sr-only")}>
-                    URLs
+                    Tags
                   </FormLabel>
                   <FormDescription className={cn(index !== 0 && "sr-only")}>
-                    Add links to your website, blog, or social media profiles.
+                    {/* Add links to your website, blog, or social media profiles. */}
                   </FormDescription>
                   <FormControl>
-                    <Input {...field} />
+                    <div className="flex items-center gap-2">
+                      <Input {...field} />
+                      <X onClick={() => remove(index)} className="h-4 w-4 text-gray-500" />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           ))}
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="mt-2"
-            onClick={() => append({ value: "" })}
-          >
-            Add URL
+          {form.watch('tags') && form.watch('tags')!.length < 3 && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="mt-2"
+              onClick={() => append({ value: "" })}
+            >
+              Add tag
+            </Button>
+          )}
+          <FormField
+            control={form.control}
+            name="notify"
+            render={({ field }) => (
+              <FormItem
+                className="!mt-4 flex w-1/2 items-center space-x-2">
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={(state: boolean) => field.onChange(state)}
+                />
+                <FormLabel className="!my-0">
+                  Send email
+                </FormLabel>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger className="!my-0">
+                      <Info className="h-4 w-4 text-gray-500" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Receiver will be notified via email address above</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex flex-1 justify-end">
+          <Button className="inline-flex h-[96px] w-[96px] gap-2" type="submit">
+            <Send className="h-4 w-4" />
+            Send
           </Button>
         </div>
-        <Button type="submit">Update profile</Button>
-      </form>
-    </Form>
+      </div>
+    </div>
   )
 
   // const [previewImage, setPreviewImage] = useState(data?.image)
