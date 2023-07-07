@@ -1,15 +1,49 @@
 import { NextResponse } from "next/server"
+import Email from "@/emails/welcome"
 import { render } from "@react-email/render"
+import { z } from "zod"
 
-import Email from "@/components/email"
+import { gratitudeSchema } from "@/lib/validations"
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY
 
-export async function GET() {
+const bodySchema = gratitudeSchema
+  .pick({
+    to: true,
+    content: true,
+    fontSize: true,
+    typeface: true,
+    bg: true,
+  })
+  .extend({
+    tags: z.array(z.string()),
+  })
+
+export async function POST(req: Request) {
   try {
-    const html = render(Email(), {
-      pretty: true,
-    })
+    const body = await req.json()
+    const { to, content, fontSize, typeface, bg, tags } = bodySchema.parse(body)
+
+    const html = render(
+      Email({
+        to,
+        data: {
+          content,
+          fontSize,
+          typeface,
+          bg,
+          tags,
+          date: new Date().toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          }),
+        },
+      }),
+      {
+        pretty: true,
+      }
+    )
 
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -20,9 +54,9 @@ export async function GET() {
       body: JSON.stringify({
         //TODO: email domain
         // from: "onboarding@resend.dev",
-        from: "support@liallen.me",
+        from: "noreply@wallofgratitute.site",
         to: "lxy.dev.yz@gmail.com",
-        subject: "Welcome to my website!",
+        subject: "Hello from WallOfGratitude!",
         html,
       }),
     })

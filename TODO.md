@@ -1,1 +1,4 @@
+- Customize email template similar to app's components
+- Send email when submitting new gratitude
+- Prune login/registeration flow, fix redirect
 - Email https://vercel.com/templates/other/react-email-resend

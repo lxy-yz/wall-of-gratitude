@@ -29,6 +29,19 @@ export function GratitudeForm() {
   })
 
   async function onSubmit(data: GratitudeFormValues) {
+    if (data.notify) {
+      fetch("/api/email/send", {
+        method: "POST",
+        body: JSON.stringify({
+          ...data,
+          tags: data.tags?.map((tag) => tag.value) || [],
+        }),
+      }).catch((err) => {
+        console.error(err)
+        // toast({ title: 'error', description: err })
+      })
+    }
+
     const res = await fetch("/api/gratitude", {
       method: "POST",
       body: JSON.stringify({
