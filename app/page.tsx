@@ -85,7 +85,7 @@ export default function IndexPage() {
                   <div className="">
                     <div className="flex gap-2">
                       <Share className="h-4 w-4" />
-                      <Edit className="h-4 w-4" />
+                      {/* <Edit className="h-4 w-4" /> */}
                       <Trash2 className="h-4 w-4" />
                     </div>
                     {/* <div className="flex justify-end items-center gap-2">

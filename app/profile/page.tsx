@@ -17,7 +17,7 @@ export default async function ProfilePage() {
                 Edit Profile
             </h1>
             <div className="mt-10 mx-auto max-w-xl">
-                <ProfileForm />
+                <ProfileForm data={{}} />
             </div>
         </div>
     )

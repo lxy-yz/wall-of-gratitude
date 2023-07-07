@@ -94,7 +94,7 @@ export const profileSchema = z.object({
       message: "Username must not be longer than 30 characters.",
     }),
   email: z.string().email("Email must be a valid email."),
-  image: z.string(),
+  image: z.string().optional(),
   bio: z.string().max(160).min(4),
   urls: z
     .array(

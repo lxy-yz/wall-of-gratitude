@@ -47,7 +47,7 @@ export const GratitudeEmail = ({
     fontSize: 'xl',
     tags: ['friend', 'bettertogther'],
     content: 'Thanks for being an awesome friend <3',
-    date: '2021/10/10'
+    date: '07/07/2023'
   }
 }: {
   to?: string

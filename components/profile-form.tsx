@@ -12,20 +12,21 @@ import Link from "next/link";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import { toast } from "./ui/use-toast";
+import { objectEnumValues } from "@prisma/client/runtime";
 
 type FormValues = z.infer<typeof profileSchema>
 
-interface FormData extends Omit<FormValues, 'image'> {
-  image?: string | null
-}
-
 export default function ProfileForm({ data }: {
-  data: FormData | null
+  data?: FormValues | null
 }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       ...data,
+      name: "Shad",
+      email: 'hi@shadcn.me',
+      username: "shadcn",
       bio: "I own a computer.",
       urls: [
         { value: "https://shadcn.com" },
@@ -39,9 +40,34 @@ export default function ProfileForm({ data }: {
     control: form.control,
   })
 
-  function onSubmit(data: FormValues) {
+  const [isSaving, setIsSaving] = useState(false)
+  const [previewImage, setPreviewImage] = useState(data?.image)
+
+  async function onSubmit(values: FormValues) {
+    const {
+      username, bio, urls, image
+    } = values;
+    // console.log(values)
+    setIsSaving(true)
+    const res = await fetch('/api/profile', {
+      method: 'POST',
+      body: JSON.stringify({
+        username,
+        bio,
+        urls,
+        image: previewImage
+      })
+    })
+    setIsSaving(false)
+
+    if (!res.ok) {
+      return toast({
+        title: 'Something went wrong.'
+      })
+    }
+
     toast({
-      title: "You submitted the following values:",
+      title: "Profile updated.",
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
@@ -53,6 +79,55 @@ export default function ProfileForm({ data }: {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Avatar</FormLabel>
+              <div
+                style={{ backgroundImage: `url("${previewImage}")` }}
+                className="relative mx-auto h-24 w-24 rounded-full bg-gray-900 bg-cover bg-center md:h-[200px] md:w-[200px]"
+              >
+                <Input
+                  type="file"
+                  className="absolute left-0 top-0 h-full w-full cursor-pointer opacity-0"
+                  {...field}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    field.onChange(event)
+
+                    if (!event.target.files || event.target.files.length === 0) {
+                      return
+                    }
+                    const image = event.target.files[0] as File;
+                    setPreviewImage(URL.createObjectURL(image))
+                  }}
+                />
+              </div>
+              <FormDescription className="text-center">
+                This is your public display image.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your public display name. It can be your real name or a
+                pseudonym. You can only change this once every 30 days.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="username"

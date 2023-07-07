@@ -190,7 +190,7 @@ export default function PaneEdit({ data }: {
             name="notify"
             render={({ field }) => (
               <FormItem
-                className="!mt-4 flex w-1/2 items-center space-x-2">
+                className="!mt-4 flex items-center space-x-2">
                 <Checkbox
                   checked={field.value}
                   onCheckedChange={(state: boolean) => field.onChange(state)}
@@ -200,7 +200,7 @@ export default function PaneEdit({ data }: {
                 </FormLabel>
                 <TooltipProvider>
                   <Tooltip>
-                    <TooltipTrigger className="!my-0">
+                    <TooltipTrigger type="button" className="!my-0">
                       <Info className="h-4 w-4 text-gray-500" />
                     </TooltipTrigger>
                     <TooltipContent>
@@ -214,7 +214,7 @@ export default function PaneEdit({ data }: {
           />
         </div>
         <div className="flex flex-1 justify-end">
-          <Button className="inline-flex h-[96px] w-[96px] gap-2" type="submit">
+          <Button type="submit" className="inline-flex h-[96px] w-[96px] gap-2" type="submit">
             <Send className="h-4 w-4" />
             Send
           </Button>

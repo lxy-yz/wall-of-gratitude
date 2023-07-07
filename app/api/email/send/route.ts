@@ -3,6 +3,7 @@ import Email from "@/emails/welcome"
 import { render } from "@react-email/render"
 import { z } from "zod"
 
+import { getCurrentUser } from "@/lib/auth"
 import { gratitudeSchema } from "@/lib/validations"
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY
@@ -21,12 +22,20 @@ const bodySchema = gratitudeSchema
 
 export async function POST(req: Request) {
   try {
+    const user = await getCurrentUser()
+    if (!user) {
+      return new Response("Unauthorized", { status: 403 })
+    }
+
     const body = await req.json()
     const { to, content, fontSize, typeface, bg, tags } = bodySchema.parse(body)
 
     const html = render(
       Email({
+        from: user.name ?? "Anonymous",
+        fromEmail: user.email,
         to,
+        logoLink: "https://wallofgratitute.site",
         data: {
           content,
           fontSize,
@@ -52,11 +61,9 @@ export async function POST(req: Request) {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        //TODO: email domain
-        // from: "onboarding@resend.dev",
         from: "noreply@wallofgratitute.site",
-        to: "lxy.dev.yz@gmail.com",
-        subject: "Hello from WallOfGratitude!",
+        to,
+        subject: `💌 Thank you from ${user.name || user.email}!`,
         html,
       }),
     })

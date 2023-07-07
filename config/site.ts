@@ -10,12 +10,12 @@ export const siteConfig = {
       href: "/",
     },
     {
-      title: "Dashboard",
-      href: "/dashboard",
+      title: "Profile",
+      href: "/profile",
     },
     {
       title: "Send Gratitude",
-      href: "/new",
+      href: "/send-gratitude",
     },
     {
       title: "Discover",
