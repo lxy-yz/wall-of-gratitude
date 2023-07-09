@@ -22,11 +22,8 @@ import { redirect, useSearchParams } from "next/navigation"
 
 import { AlertCircle } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Separator } from "./ui/separator"
 import { cn } from "@/lib/utils"
 import { toast } from "./ui/use-toast";
-
-// import { getCsrfToken } from "next-auth/react"
 
 export function AuthForm({ login }: { login?: boolean }) {
   const searchParams = useSearchParams();
@@ -68,7 +65,6 @@ export function AuthForm({ login }: { login?: boolean }) {
         onClick={() => {
           signIn("google")
         }}
-      // disabled={}
       >
         <Icon icon="devicon:google" className="h-4 w-4" />
         Sign In with Google
@@ -93,7 +89,7 @@ export function AuthForm({ login }: { login?: boolean }) {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="username" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -107,7 +103,7 @@ export function AuthForm({ login }: { login?: boolean }) {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="abc@example.com" {...field} />
+                  <Input type="email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -122,22 +118,21 @@ export function AuthForm({ login }: { login?: boolean }) {
                 <FormControl>
                   <Input type="password" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          {!login && (
-            <Button type="submit">Sign Up →</Button>
-          )}
-          {login && (
-            <Button type="submit">Sign In →</Button>
-          )}
+          <div className="!mt-4">
+            {!login && (
+              <Button type="submit">Sign Up →</Button>
+            )}
+            {login && (
+              <Button type="submit">Sign In →</Button>
+            )}
+          </div>
         </form>
         {error && (
-          <Alert>
+          <Alert className="mt-4">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>{error}</AlertDescription>

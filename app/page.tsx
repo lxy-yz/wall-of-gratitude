@@ -1,29 +1,42 @@
 import Link from "next/link"
 
-import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
 import { Edit, Share, Trash2 } from "lucide-react"
 import { GratitudeCard } from "@/components/gratitude-card"
+import { db } from "@/lib/db"
+import { getCurrentUser } from "@/lib/auth"
 
-export default function IndexPage() {
+export default async function IndexPage() {
+  const user = await getCurrentUser()
+  const gratitudesSentByUser = await db.gratitude.findMany({
+    where: {
+      fromUserId: user!.id
+    },
+    include: {
+      from: true,
+      to: true,
+      tags: true
+    }
+  })
+  const gratitudesReceivedByUser = await db.gratitude.findMany({
+    where: {
+      toUserId: user!.id
+    },
+    include: {
+      from: true,
+      to: true,
+      tags: true
+    }
+  })
+  console.log(gratitudesSentByUser, gratitudesReceivedByUser);
+
+
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-2">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-          Beautifully designed components <br className="hidden sm:inline" />
-          built with Radix UI and Tailwind CSS.
-        </h1>
-        <p className="max-w-[700px] text-lg text-muted-foreground">
-          Accessible and customizable components that you can copy and paste
-          into your apps. Free. Open Source. And Next.js 13 Ready.
-        </p>
-      </div>
-      <div className="mx-auto flex max-w-screen-lg w-full flex-col">
-        {/* <GratitudeEmail /> */}
+      <div className="mx-auto flex w-full max-w-screen-lg flex-col">
         <Card className="text-center">
           <CardHeader>
             <CardTitle>
@@ -104,15 +117,16 @@ export default function IndexPage() {
             </div>
           </TabsContent>
           <TabsContent value="received" className="mt-4">
-            <div className="grid gap-8 grid-cols-3 grid-rows-3">
-              {Array.from({ length: 9 }).map((_, i) => (
+            <div className="grid grid-cols-3 grid-rows-3 gap-8">
+              {gratitudesReceivedByUser.map((data, i) => (
                 <GratitudeCard
-                  color="blue"
-                  typeface="cursive"
-                  fontSize="lg"
-                  to=""
-                  content="Thanks for being a great friend!"
-                  tags={["cool", "awesome"]}
+                  color={data.bg}
+                  typeface={data.typeface}
+                  fontSize={data.fontSize}
+                  from={data.from.name}
+                  to={data.to.name}
+                  content={data.content}
+                  tags={data.tags.map((tag) => tag.name)}
                 />
                 // <Card className={cn("max-w-[] w-[300px] h-[300px]", `bg-blue-300`, `font-cursive`, `text-xl`)}>
                 //   <CardHeader>

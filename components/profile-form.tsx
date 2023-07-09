@@ -7,13 +7,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import Link from "next/link";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "./ui/use-toast";
-import { objectEnumValues } from "@prisma/client/runtime";
+import { Loader } from "lucide-react";
 
 type FormValues = z.infer<typeof profileSchema>
 
@@ -23,15 +21,11 @@ export default function ProfileForm({ data }: {
   const form = useForm<FormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      ...data,
-      name: "Shad",
-      email: 'hi@shadcn.me',
-      username: "shadcn",
-      bio: "I own a computer.",
       urls: [
-        { value: "https://shadcn.com" },
-        { value: "http://twitter.com/shadcn" },
+        // https://github.com/orgs/react-hook-form/discussions/7586
+        { value: "" },
       ],
+      ...data,
     },
   })
 
@@ -45,17 +39,25 @@ export default function ProfileForm({ data }: {
 
   async function onSubmit(values: FormValues) {
     const {
-      username, bio, urls, image
+      name,
+      username,
+      email,
+      bio,
+      urls,
     } = values;
-    // console.log(values)
     setIsSaving(true)
+
     const res = await fetch('/api/profile', {
       method: 'POST',
       body: JSON.stringify({
+        name,
         username,
+        email,
         bio,
         urls,
-        image: previewImage
+        // input file is imuumable, so use a custom input rather than RHF
+        // https://github.com/orgs/react-hook-form/discussions/2496
+        image: previewImage,
       })
     })
     setIsSaving(false)
@@ -82,25 +84,26 @@ export default function ProfileForm({ data }: {
         <FormField
           control={form.control}
           name="image"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>Avatar</FormLabel>
               <div
-                style={{ backgroundImage: `url("${previewImage}")` }}
-                className="relative mx-auto h-24 w-24 rounded-full bg-gray-900 bg-cover bg-center md:h-[200px] md:w-[200px]"
+                style={{
+                  backgroundImage: previewImage
+                    ? `url("${previewImage}")`
+                    : `url("https://avatar.vercel.sh/${data?.username || data?.email || 'anonymous'}")`
+                }}
+                className="relative mx-auto h-24 w-24 rounded-full bg-cover bg-center md:h-[200px] md:w-[200px]"
               >
                 <Input
                   type="file"
                   className="absolute left-0 top-0 h-full w-full cursor-pointer opacity-0"
-                  {...field}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    field.onChange(event)
-
-                    if (!event.target.files || event.target.files.length === 0) {
+                  onChange={async (event: React.ChangeEvent<HTMLInputElement>) => {
+                    if (!event.currentTarget.files || event.currentTarget.files.length === 0) {
                       return
                     }
-                    const image = event.target.files[0] as File;
-                    setPreviewImage(URL.createObjectURL(image))
+                    const image = event.currentTarget.files[0] as File;
+                    setPreviewImage(await fileToBase64(image))
                   }}
                 />
               </div>
@@ -120,10 +123,7 @@ export default function ProfileForm({ data }: {
               <FormControl>
                 <Input placeholder="" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
-              </FormDescription>
+              <FormDescription></FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -135,12 +135,9 @@ export default function ProfileForm({ data }: {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
-              </FormDescription>
+              <FormDescription></FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -151,21 +148,10 @@ export default function ProfileForm({ data }: {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="m@example.com">m@example.com</SelectItem>
-                  <SelectItem value="m@google.com">m@google.com</SelectItem>
-                  <SelectItem value="m@support.com">m@support.com</SelectItem>
-                </SelectContent>
-              </Select>
+              <FormControl>
+                <Input type="email" disabled placeholder="" {...field} />
+              </FormControl>
               <FormDescription>
-                You can manage verified email addresses in your{" "}
-                <Link href="/examples/forms">email settings</Link>.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -185,8 +171,6 @@ export default function ProfileForm({ data }: {
                 />
               </FormControl>
               <FormDescription>
-                You can <span>@mention</span> other users and organizations to
-                link to them.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -224,9 +208,12 @@ export default function ProfileForm({ data }: {
             Add URL
           </Button>
         </div>
-        <Button type="submit">Update profile</Button>
+        <Button className="flex items-center gap-2" type="submit">
+          Update profile
+          {isSaving && <Loader className="h-4 w-4 animate-spin" />}
+        </Button>
       </form>
-    </Form>
+    </Form >
   )
 
   // const [previewImage, setPreviewImage] = useState(data?.image)
@@ -369,7 +356,7 @@ export default function ProfileForm({ data }: {
   // )
 }
 
-function fileToBase64(file: File) {
+function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = () => resolve(reader.result);

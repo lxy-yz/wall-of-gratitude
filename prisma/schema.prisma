@@ -78,6 +78,7 @@ model User {
   emailVerified DateTime?
   password      String?
   image         String?
+  urls          String[]
   accounts      Account[]
   sessions      Session[]
   sent          Gratitude[] @relation("GratitudeFromUser")

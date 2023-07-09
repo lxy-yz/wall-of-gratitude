@@ -9,12 +9,12 @@ import { User } from "lucide-react";
 import Link from "next/link";
 
 export function GratitudeCard({
-  color,
-  typeface,
-  fontSize,
+  color = 'blue',
+  typeface = 'sans',
+  fontSize = 'base',
   from = 'Anonymous',
-  to,
   content,
+  to,
   tags
 }: {
   color: string,
@@ -57,6 +57,7 @@ export function GratitudeCard({
           </div>
           <div className="">
             -
+            {/* TODO: https://ui.shadcn.com/docs/components/hover-card */}
             <Link href="" className="font-bold underline">{from}</Link>
           </div>
         </div>

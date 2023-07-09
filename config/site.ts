@@ -10,10 +10,6 @@ export const siteConfig = {
       href: "/",
     },
     {
-      title: "Profile",
-      href: "/profile",
-    },
-    {
       title: "Send Gratitude",
       href: "/send-gratitude",
     },

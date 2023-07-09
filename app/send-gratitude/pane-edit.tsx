@@ -21,7 +21,7 @@ export default function PaneEdit({ data }: {
   })
 
   return (
-    <div className="max-w-[512px] px-4 space-y-4">
+    <div className="max-w-[512px] space-y-4 px-4">
       {/* <div className="grid grid-cols-3 gap-4">
         <FormField
           control={form.control}
@@ -120,7 +120,7 @@ export default function PaneEdit({ data }: {
             <FormControl>
               <Input
                 type="email"
-                placeholder="alice@example.com"
+                placeholder="abc@example.com"
                 {...field}
               />
             </FormControl>

@@ -13,7 +13,8 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json()
-    const { name, bio, image, urls } = profileSchema.parse(body)
+    const { name, username, bio, image, urls } = profileSchema.parse(body)
+    console.log("image", image)
 
     let uploadedImage
     if (image) {
@@ -27,6 +28,7 @@ export async function POST(req: Request) {
       },
       data: {
         name,
+        username,
         bio,
         urls: urls?.map((url) => url.value),
         image: uploadedImage,

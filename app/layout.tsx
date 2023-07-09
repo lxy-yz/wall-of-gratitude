@@ -42,7 +42,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         <head>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
-          <link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet" />
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" />
         </head>
         <body
           className={cn(
@@ -54,7 +54,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <div className="relative flex min-h-screen flex-col">
                 <SiteHeader />
-                <div className="flex-1">{children}</div>
+                <div className="flex-1 px-4">{children}</div>
               </div>
               <TailwindIndicator />
               <Toaster />
