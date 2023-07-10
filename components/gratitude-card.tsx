@@ -19,9 +19,9 @@ export function GratitudeCard({
   to,
   tags
 }: {
-  color: string,
-  typeface: string,
-  fontSize: string,
+  color?: string | null,
+  typeface?: string | null,
+  fontSize?: string | null,
   from: { email: string, name?: string, username?: string, image?: string, bio?: string },
   to: { email: string, name?: string, image?: string },
   content: string,

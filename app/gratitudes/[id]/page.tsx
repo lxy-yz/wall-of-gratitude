@@ -1,4 +1,5 @@
 import { GratitudeCard } from "@/components/gratitude-card"
+import { SocialShare } from "@/components/social-share"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { db } from "@/lib/db"
 
@@ -25,6 +26,7 @@ export default async function GratitudeDetailPage({
         My default route is named <code>gratitudeDetail</code>, link to me with `
         {/* <Link to={routes.gratitudeDetail()}>GratitudeDetail</Link>` */}
       </p>
+      <SocialShare />
       <section>
         <GratitudeCard
           color={data?.bg || 'blue'}
