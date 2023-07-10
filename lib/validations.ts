@@ -47,7 +47,7 @@ export const gratitudeSchema = z.object({
   notify: z.boolean().optional().default(true),
   content: z
     .string()
-    .max(140, "Keep it shorter than 140 characters.")
+    .max(180, "Keep it simple & concise :)")
     .nonempty("Don't leave the gratitude empty :)"),
   tags: z
     .array(

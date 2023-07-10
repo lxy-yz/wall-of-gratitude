@@ -9,6 +9,8 @@ import { Separator } from "@/components/ui/separator";
 import { PanePreview } from "./pane-preview";
 import PaneEdit from "@/app/send-gratitude/pane-edit";
 import { toast } from "@/components/ui/use-toast";
+import { redirect } from "next/dist/server/api-utils";
+import { useRouter } from "next/navigation";
 
 export type GratitudeFormValues = z.infer<typeof gratitudeSchema>
 
@@ -29,6 +31,7 @@ export function GratitudeForm() {
     },
   })
 
+  const router = useRouter()
   async function onSubmit(data: GratitudeFormValues) {
     if (data.notify) {
       fetch("/api/email/send", {
@@ -63,6 +66,7 @@ export function GratitudeForm() {
         </pre>
       ),
     })
+    router.push('/')
   }
 
   return (
@@ -78,7 +82,7 @@ export function GratitudeForm() {
           <div className="order-2 mx-4 hidden md:mx-8 md:block">
             <Separator orientation="vertical" />
           </div>
-          <div className="order-1 md:order-3 md:w-1/3">
+          <div className="order-1 md:order-3 md:w-1/2">
             <PanePreview />
           </div>
         </div>

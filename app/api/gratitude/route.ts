@@ -3,6 +3,7 @@ import { z } from "zod"
 
 import { getCurrentUser } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { getUserAvatarImage } from "@/lib/utils"
 import { gratitudeSchema } from "@/lib/validations"
 
 const routeContextSchema = z.object({
@@ -39,8 +40,13 @@ export async function POST(
         },
         to: {
           connectOrCreate: {
-            where: { email: to },
-            create: { email: to },
+            where: {
+              email: to,
+            },
+            create: {
+              email: to,
+              image: getUserAvatarImage({ email: to }),
+            },
           },
         },
         tags: {

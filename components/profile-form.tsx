@@ -9,23 +9,28 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
-import { cn } from "@/lib/utils";
+import { cn, getUserAvatarImage } from "@/lib/utils";
 import { toast } from "./ui/use-toast";
 import { Loader } from "lucide-react";
 
 type FormValues = z.infer<typeof profileSchema>
 
-export default function ProfileForm({ data }: {
-  data?: FormValues | null
+export default function ProfileForm({
+  data
+}: {
+  data: FormValues
 }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      urls: [
+      urls: data.urls || [
         // https://github.com/orgs/react-hook-form/discussions/7586
         { value: "" },
       ],
-      ...data,
+      email: data.email || '',
+      username: data.username || '',
+      name: data.name || '',
+      bio: data.bio || '',
     },
   })
 
@@ -91,7 +96,7 @@ export default function ProfileForm({ data }: {
                 style={{
                   backgroundImage: previewImage
                     ? `url("${previewImage}")`
-                    : `url("https://avatar.vercel.sh/${data?.username || data?.email || 'anonymous'}")`
+                    : `url("${getUserAvatarImage(data)}")`
                 }}
                 className="relative mx-auto h-24 w-24 rounded-full bg-cover bg-center md:h-[200px] md:w-[200px]"
               >

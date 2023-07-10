@@ -25,13 +25,20 @@ export async function POST(
       )
     }
 
-    const hashedPassword = await hash(password, 10)
+    const foundUser = await db.user.findUnique({ where: { email } })
+    if (foundUser?.password) {
+      return new Response(JSON.stringify({ error: "Account already exists" }), {
+        status: 400,
+      })
+    }
 
-    console.log(username, email, hashedPassword)
-    const user = await db.user.create({
-      data: {
-        username,
+    const hashedPassword = await hash(password, 10)
+    const user = await db.user.upsert({
+      where: { email },
+      update: { username, password: hashedPassword },
+      create: {
         email,
+        username,
         password: hashedPassword,
       },
     })

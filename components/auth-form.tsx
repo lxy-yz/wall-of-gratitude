@@ -32,7 +32,8 @@ export function AuthForm({ login }: { login?: boolean }) {
   const form = useForm<z.infer<typeof authSchema>>({
     resolver: zodResolver(authSchema),
     defaultValues: {
-
+      email: "",
+      password: "",
     },
   })
 
@@ -54,7 +55,6 @@ export function AuthForm({ login }: { login?: boolean }) {
       password: values.password,
       callbackUrl: searchParams.get("from") ?? "/",
     })
-    toast({ title: 'success', description: '', })
   }
 
   return (
@@ -132,7 +132,7 @@ export function AuthForm({ login }: { login?: boolean }) {
           </div>
         </form>
         {error && (
-          <Alert className="mt-4">
+          <Alert variant="destructive" className="mt-4">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>{error}</AlertDescription>

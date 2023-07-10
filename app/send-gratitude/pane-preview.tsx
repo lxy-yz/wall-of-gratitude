@@ -1,7 +1,9 @@
 import { Icons } from "@/components/icons";
 import { FormField } from "@/components/ui/form";
 import { Menubar, MenubarContent, MenubarMenu, MenubarRadioGroup, MenubarRadioItem, MenubarTrigger } from "@/components/ui/menubar";
+import { getUserAvatarImage } from "@/lib/utils";
 import { Colors, FontSize, Typeface } from "@/lib/validations";
+import { useSession } from "next-auth/react";
 import { useFormContext } from "react-hook-form";
 import { GratitudeCard } from "../../components/gratitude-card";
 
@@ -14,16 +16,23 @@ export const PanePreview = () => {
   const content = form.watch('content')
   const tags = form.watch('tags')
 
+  const { data: sess } = useSession()
+  const currentUser = sess!.user
+
   return (
     <div className="mx-auto w-[320px]">
-      <GratitudeCard
-        color={color}
-        typeface={typeface}
-        fontSize={fontSize}
-        to={to}
-        content={content}
-        tags={tags.map(({ value }: { value: string }) => value)}
-      />
+      <h3 className="text-sm font-medium capitalize">preview</h3>
+      <div className="mt-2">
+        <GratitudeCard
+          color={color}
+          typeface={typeface}
+          fontSize={fontSize}
+          to={{ email: to, image: getUserAvatarImage({ email: to }) }}
+          from={{ name: currentUser.name, email: currentUser.email }}
+          content={content}
+          tags={tags.map(({ value }: { value: string }) => value)}
+        />
+      </div>
       <Menubar className="mt-4 px-3 py-6">
         <MenubarMenu>
           <MenubarTrigger>

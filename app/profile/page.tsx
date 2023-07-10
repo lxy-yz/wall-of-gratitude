@@ -1,4 +1,3 @@
-// import { useRedirectIfNotLoggedIn } from '@/lib/auth'
 import { db } from '@/lib/db';
 import ProfileForm from "@/components/profile-form";
 import { getCurrentUser } from '@/lib/auth';
@@ -25,10 +24,11 @@ export default async function ProfilePage() {
         Edit Profile
       </h1>
       <div className="mx-auto mt-10 max-w-xl">
-        <ProfileForm data={{
-          ...data,
-          urls: data?.urls?.map((url) => ({ value: url }))
-        }} />
+        <ProfileForm
+          data={{
+            ...data,
+            urls: data?.urls?.map((url) => ({ value: url }))
+          }} />
       </div>
     </div>
   )

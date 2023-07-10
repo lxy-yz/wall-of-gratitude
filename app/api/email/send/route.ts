@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server"
-import Email from "@/emails/welcome"
+import Email from "@/emails/thank-you"
 import { render } from "@react-email/render"
 import { z } from "zod"
 
 import { getCurrentUser } from "@/lib/auth"
+import { today } from "@/lib/utils"
 import { gratitudeSchema } from "@/lib/validations"
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY
@@ -42,11 +43,7 @@ export async function POST(req: Request) {
           typeface,
           bg,
           tags,
-          date: new Date().toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          }),
+          date: today,
         },
       }),
       {
@@ -62,7 +59,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         from: "noreply@wallofgratitute.site",
-        to,
+        to: "hi@liallen.me", //TODO: change to user.email
         subject: `💌 Thank you from ${user.name || user.email}!`,
         html,
       }),

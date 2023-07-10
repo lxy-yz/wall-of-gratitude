@@ -3,7 +3,6 @@ import Link from "next/link"
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { signOut, useSession } from "next-auth/react"
@@ -22,8 +21,6 @@ const menuItems = [
 
 export function SiteHeader() {
   const { data: sess } = useSession()
-  console.log('session', sess);
-
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
@@ -62,14 +59,14 @@ export function SiteHeader() {
                     <NavigationMenuItem>
                       <NavigationMenuTrigger className="!bg-none">
                         <Avatar className="h-10 w-10">
-                          <AvatarImage src="/avatars/01.png" />
+                          <AvatarImage src={sess!.user.image as string} />
                           <AvatarFallback>OM</AvatarFallback>
                         </Avatar>
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
                         <ul className="grid w-[200px] p-3">
-                          <ListItem title="Discover" href="/discover" />
                           <ListItem title="Profile" href="/profile" />
+                          <ListItem title="Discover" href="/discover" />
                           <ListItem title="Logout" href="/" onClick={e => {
                             e.preventDefault()
                             signOut()
