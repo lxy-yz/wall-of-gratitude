@@ -27,7 +27,7 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name as string
         session.user.username = token.username as string
         session.user.email = token.email as string
-        session.user.image = token.picture
+        session.user.image = token.picture as string
       }
 
       return session
@@ -63,6 +63,13 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
+      profile(profile: any) {
+        const username = profile.email.split("@")[0]
+        return {
+          username,
+          ...profile,
+        }
+      },
     }),
     Credentials({
       credentials: {

@@ -7,6 +7,8 @@ import { cn, getUserAvatarImage, today } from "@/lib/utils";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { User } from "lucide-react";
 import Link from "next/link";
+import { Button } from "./ui/button";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 
 export function GratitudeCard({
   color = 'blue',
@@ -20,7 +22,7 @@ export function GratitudeCard({
   color: string,
   typeface: string,
   fontSize: string,
-  from: { email: string, name?: string, username?: string },
+  from: { email: string, name?: string, username?: string, image?: string, bio?: string },
   to: { email: string, name?: string, image?: string },
   content: string,
   tags: string[]
@@ -60,8 +62,44 @@ export function GratitudeCard({
           </div>
           <div className="">
             -{' '}
-            {/* TODO: https://ui.shadcn.com/docs/components/hover-card */}
-            <Link href="" className="font-bold italic underline">{from.name || '@' + (from.username || from.email)}</Link>
+            <HoverCard>
+              <HoverCardTrigger asChild>
+                <Button type="button" variant="link" className="p-0 font-semibold italic underline">
+                  {from.name || '@' + (from.username || from.email)}
+                </Button>
+              </HoverCardTrigger>
+              <HoverCardContent className="w-80">
+                <div className="flex space-x-4">
+                  <Avatar>
+                    <AvatarImage src={from.image} />
+                    <AvatarFallback>{ }</AvatarFallback>
+                  </Avatar>
+                  <div className="space-y-1">
+                    <h4 className="text-sm font-semibold">{
+                      `@${from.username}`
+                    }</h4>
+                    <p className="text-sm">
+                      {from.bio || (
+                        <span className="text-muted-foreground">
+                          no bio yet
+                        </span>
+                      )}
+                    </p>
+                    <div className="flex items-center pt-2">
+                      <Button type="button" variant="secondary">
+                        <Link href={`/u/${from.username}`}>
+                          Visit
+                        </Link>
+                      </Button>
+                      {/* <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
+              <span className="text-xs text-muted-foreground">
+                Joined December 2021
+              </span> */}
+                    </div>
+                  </div>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
           </div>
         </div>
       </CardContent>

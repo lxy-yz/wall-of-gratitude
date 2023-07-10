@@ -2,6 +2,7 @@ import { hash } from "bcrypt"
 import { z } from "zod"
 
 import { db } from "@/lib/db"
+import { getUserAvatarImage } from "@/lib/utils"
 import { authSchema } from "@/lib/validations"
 
 const routeContextSchema = z.object({
@@ -33,11 +34,13 @@ export async function POST(
     }
 
     const hashedPassword = await hash(password, 10)
+    const image = getUserAvatarImage({ email })
     const user = await db.user.upsert({
       where: { email },
-      update: { username, password: hashedPassword },
+      update: { image, username, password: hashedPassword },
       create: {
         email,
+        image,
         username,
         password: hashedPassword,
       },

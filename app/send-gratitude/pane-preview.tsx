@@ -28,7 +28,7 @@ export const PanePreview = () => {
           typeface={typeface}
           fontSize={fontSize}
           to={{ email: to.email, name: to.name, image: getUserAvatarImage({ email: to.email }) }}
-          from={{ name: currentUser.name, email: currentUser.email }}
+          from={{ username: currentUser.username, name: currentUser.name, email: currentUser.email, image: currentUser.image }}
           content={content}
           tags={tags.map(({ value }: { value: string }) => value)}
         />
