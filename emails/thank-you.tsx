@@ -27,12 +27,10 @@ const baseUrl = process.env.VERCEL_URL
 // https://demo.react.email/preview/vercel-invite-user?view=source
 // https://demo.react.email/preview/linear-login-code
 export const GratitudeEmail = ({
-  from = "Allen",
-  fromEmail = "allen@example.com",
-  to = "zenorocha",
-  userImage = `${baseUrl}/icons/logo.png`,
-  logoLink = "https://www.pixartprinting.es/blog/wp-content/uploads/2022/10/Cover-Lego.jpg",
-  detailsLink = `${baseUrl}/gratitude/1`,
+  from,
+  to,
+  logoLink = `${baseUrl}/icons/logo.png`,
+  detailsLink,
   sendBackLink = `${baseUrl}/send-gratitude`,
   data: {
     bg,
@@ -40,26 +38,23 @@ export const GratitudeEmail = ({
     fontSize,
     tags,
     content,
-    date
-  } = {
-    bg: 'red',
-    typeface: 'cursive',
-    fontSize: 'xl',
-    tags: ['friend', 'bettertogther'],
-    content: 'Thanks for being an awesome friend <3',
-    date: '07/07/2023'
+    date,
   }
 }: {
-  to?: string
-  userImage?: string
-  from?: string
-  fromEmail?: string
+  to: {
+    name: string
+    image?: string
+  }
+  from: {
+    name: string
+    email: string
+  }
   logoLink: string
   detailsLink?: string
   sendBackLink?: string
-  data: Omit<CardData, 'from'>
+  data: Omit<CardData, 'from' | 'to'>
 }) => {
-  const previewText = `Join ${from} on Wall of Gratitude`
+  const previewText = `${from.name} said "Thank you" via Wall of Gratitude`
 
   return (
     <Html>
@@ -93,15 +88,15 @@ export const GratitudeEmail = ({
               💌 Thank you!
             </Heading>
             <Text className="text-[14px] leading-[24px] text-black">
-              Hello {to},
+              Dear {to.name},
             </Text>
             <Text className="text-[14px] leading-[24px] text-black">
-              <strong>{from}</strong>
+              <strong>{from.name}</strong>
               (<Link
-                href={`mailto:${fromEmail}`}
+                href={`mailto:${from.email}`}
                 className="text-blue-600 no-underline"
               >
-                {fromEmail}
+                {from.email}
               </Link>)
               has sent you a thank-you note!
             </Text>
@@ -123,7 +118,6 @@ export const GratitudeEmail = ({
               <Quote />
               <Card
                 data={{
-                  userImage,
                   bg,
                   typeface,
                   fontSize,
@@ -131,6 +125,7 @@ export const GratitudeEmail = ({
                   content,
                   date,
                   from,
+                  to: { image: to.image }
                 }}
               />
               <Quote className="float-right" />
@@ -146,18 +141,17 @@ export default GratitudeEmail
 
 interface CardData {
   tags: string[],
-  userImage?: string,
   bg: string,
   typeface: string,
   fontSize: string,
   content: string
   date: string
-  from: string
+  from: { name: string, }
+  to: { image?: string }
 }
 
 function Card({
   data: {
-    userImage,
     bg,
     typeface,
     fontSize,
@@ -165,6 +159,7 @@ function Card({
     content,
     date,
     from,
+    to,
   }
 }: {
   data: CardData
@@ -193,9 +188,9 @@ function Card({
         <div className="flex items-center justify-end gap-2">
           <span className="relative order-2 flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
             <span className="flex h-full w-full items-center justify-center rounded-full bg-muted">
-              {userImage
+              {to.image
                 ? <Img
-                  src={userImage}
+                  src={to.image}
                   alt="User"
                   className="h-8 w-8 rounded-full"
                 />
@@ -222,7 +217,7 @@ function Card({
         {date}
       </Text>
       <Text className="my-2 space-y-2 px-6 text-sm text-gray-500">
-        - {from}
+        - {from.name}
       </Text>
       <div className="flex items-center p-6 pt-0" />
     </Section>

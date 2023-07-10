@@ -24,7 +24,7 @@ export default function PaneEdit({ data }: {
     <div className="mx-auto max-w-[512px] space-y-4 px-4">
       <FormField
         control={form.control}
-        name="to"
+        name="to.email"
         render={({ field }) => (
           <FormItem className="">
             <FormLabel className="">
@@ -37,6 +37,22 @@ export default function PaneEdit({ data }: {
                 {...field}
               />
             </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="to.name"
+        render={({ field }) => (
+          <FormItem className="">
+            <FormControl>
+              <Input
+                placeholder="name (optional)"
+                {...field}
+              />
+            </FormControl>
+            <FormDescription></FormDescription>
             <FormMessage />
           </FormItem>
         )}

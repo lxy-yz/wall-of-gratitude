@@ -22,7 +22,10 @@ export function GratitudeForm() {
   const form = useForm<GratitudeFormValues>({
     resolver: zodResolver(gratitudeSchema),
     defaultValues: {
-      to: '',
+      to: {
+        email: '',
+        name: '',
+      },
       bg: Colors.Blue,
       fontSize: FontSize.Regular,
       typeface: Typeface.Simple,

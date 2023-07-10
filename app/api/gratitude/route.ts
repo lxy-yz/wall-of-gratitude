@@ -1,4 +1,3 @@
-import { hash } from "bcrypt"
 import { z } from "zod"
 
 import { getCurrentUser } from "@/lib/auth"
@@ -41,11 +40,12 @@ export async function POST(
         to: {
           connectOrCreate: {
             where: {
-              email: to,
+              email: to.email,
             },
             create: {
-              email: to,
-              image: getUserAvatarImage({ email: to }),
+              email: to.email,
+              name: to.name,
+              image: getUserAvatarImage({ email: to.email }),
             },
           },
         },

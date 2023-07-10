@@ -27,8 +27,8 @@ export function GratitudeCard({
 }) {
   return (
     <Card className={cn(
-      'h-[320px] w-[320px]',
-      `bg-${color}-300 dark:bg-${color}-600`,
+      'h-[320px] w-[320px] text-gray-700 dark:text-gray-300',
+      `bg-${color}-300 dark:bg-${color}-700`,
       `font-${typeface} text-${fontSize}`
     )}>
       <CardHeader>
@@ -39,15 +39,17 @@ export function GratitudeCard({
               <User />
             </AvatarFallback>
           </Avatar>
-          <div className="order-1 space-y-1">
-            <p className="text-sm text-muted-foreground">{to.email}</p>
-            <p className="text-sm text-muted-foreground">{to.name}</p>
+          <div className="order-1 text-right">
+            <p className="text-sm">{to.email}</p>
+            <p className="text-sm">{to.name}</p>
           </div>
         </div>
       </CardHeader>
       <CardContent className="grid gap-6">
-        {content}
-        <div className="space-y-1 text-sm text-muted-foreground dark:text-muted">
+        <p className="font-semibold text-black dark:text-white">
+          {content}
+        </p>
+        <div className="space-y-1 text-sm">
           <div className="space-x-2">
             {tags.map(tag => (
               <Badge key={tag} variant="outline" className="border-none p-0 text-muted-foreground dark:text-muted">#{tag}</Badge>

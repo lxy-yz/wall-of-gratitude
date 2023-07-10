@@ -43,7 +43,10 @@ export enum FontSize {
 }
 
 export const gratitudeSchema = z.object({
-  to: z.string().min(3, "To must be at least 3 characters long."),
+  to: z.object({
+    email: z.string().email("Email must be a valid email."),
+    name: z.string().optional(),
+  }),
   notify: z.boolean().optional().default(true),
   content: z
     .string()
