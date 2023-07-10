@@ -144,12 +144,12 @@ export default function PaneEdit({ data }: {
           />
         </div>
         <div className="flex flex-1 justify-end">
-          <Button type="submit" className="inline-flex h-[96px] w-[96px] gap-2" type="submit">
+          <Button type="submit" className="inline-flex h-[96px] w-[96px] gap-2">
             <Send className="h-4 w-4" />
             Send
           </Button>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
