@@ -67,7 +67,13 @@ export const authOptions: NextAuthOptions = {
         const username = profile.email.split("@")[0]
         return {
           username,
-          ...profile,
+          // https://stackoverflow.com/questions/76244244/profile-id-is-missing-in-google-oauth-profile-response-nextauth
+          id: profile.sub,
+          name: profile.name,
+          firstname: profile.given_name,
+          lastname: profile.family_name,
+          email: profile.email,
+          image: profile.picture,
         }
       },
     }),
