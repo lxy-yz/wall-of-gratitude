@@ -27,53 +27,60 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center space-x-4 justify-center sm:space-x-0">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline">
-              <Image
-                height={48}
-                width={48}
-                src="/icons/logo.png"
-                alt="Logo"
-              />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side={'bottom'}>
-            <nav className="flex items-center justify-center space-x-4">
-              {!sess ? (
-                <Link href="/login">
-                  <div
-                    className={buttonVariants({
-                      size: "sm",
-                      variant: "ghost",
-                    })}
-                  >
-                    Login
-                  </div>
-                </Link>
-              ) : (
-                <>
-                  <Link
-                    href="/send-gratitude"
-                    className={cn(buttonVariants({ variant: 'ghost' }))}
-                  >
-                    Send
+        <Link href="/" className="flex items-center space-x-2">
+          <Image
+            height={48}
+            width={48}
+            src="/icons/logo.png"
+            alt="Logo"
+          />
+        </Link>
+
+        <MainNav items={siteConfig.mainNav} />
+
+        <div className="fixed bottom-[40px] right-[40px]">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" className="bg-slate-200 py-8 text-3xl">
+                🧭
+              </Button>
+            </SheetTrigger>
+            <SheetContent side={'bottom'}>
+              <nav className="flex items-center justify-center space-x-4">
+                {!sess ? (
+                  <Link href="/login">
+                    <div
+                      className={buttonVariants({
+                        size: "sm",
+                        variant: "ghost",
+                      })}
+                    >
+                      Login
+                    </div>
                   </Link>
-                  <Link
-                    className={cn(buttonVariants({ variant: 'ghost' }))}
-                    href="/profile"
-                  >
-                    Profile
-                  </Link>
-                  {/* <Link href="/discover">Discover</Link>  */}
-                  <Link
-                    className={cn(buttonVariants({ variant: 'ghost' }))}
-                    href="/"
-                    onClick={e => {
-                      e.preventDefault()
-                      signOut()
-                    }}>Logout</Link>
-                  {/* <DropdownMenu>
+                ) : (
+                  <>
+                    <Link
+                      href="/send-gratitude"
+                      className={cn(buttonVariants({ variant: 'ghost' }))}
+                    >
+                      Send
+                    </Link>
+                    <Link
+                      className={cn(buttonVariants({ variant: 'ghost' }))}
+                      href="/profile"
+                    >
+                      Profile
+                    </Link>
+                    {/* <Link href="/discover">Discover</Link>  */}
+                    <Link
+                      className={cn(buttonVariants({ variant: 'ghost' }))}
+                      href="/"
+                      onClick={e => {
+                        e.preventDefault()
+                        signOut()
+                      }}>Logout</Link>
+                    {/* <DropdownMenu>
                   <DropdownMenuTrigger>Open</DropdownMenuTrigger>
                   <DropdownMenuContent>
                     <DropdownMenuItem>
@@ -86,7 +93,7 @@ export function SiteHeader() {
                     <DropdownMenuItem>Subscription</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu> */}
-                  {/* <NavigationMenu>
+                    {/* <NavigationMenu>
                     <NavigationMenuList>
                       <NavigationMenuItem>
                         <NavigationMenuTrigger className="!bg-none">
@@ -108,17 +115,17 @@ export function SiteHeader() {
                       </NavigationMenuItem>
                     </NavigationMenuList>
                   </NavigationMenu> */}
-                </>
-              )}
-              <ThemeToggle />
-            </nav>
-            <SheetFooter>
-              <SheetClose asChild>
-              </SheetClose>
-            </SheetFooter>
-          </SheetContent>
-        </Sheet>
-        <MainNav items={siteConfig.mainNav} />
+                  </>
+                )}
+                <ThemeToggle />
+              </nav>
+              <SheetFooter>
+                <SheetClose asChild>
+                </SheetClose>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
+        </div>
 
       </div >
     </header >
