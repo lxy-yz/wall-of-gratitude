@@ -53,6 +53,7 @@ export function GratitudeForm() {
         body: JSON.stringify({
           ...data,
           to: {
+            email: data.to.email,
             name: data.to.name,
             image: getUserAvatarImage({ email: data.to.email }),
           },

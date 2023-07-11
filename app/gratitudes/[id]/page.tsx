@@ -33,13 +33,15 @@ export default async function GratitudeDetailPage({
   }
 
   return (
-    <div className="mx-auto mt-10 flex max-w-screen-lg flex-wrap gap-4">
+    <div className="mx-auto mt-20 flex max-w-screen-lg flex-wrap gap-4">
       <div className="w-full md:w-1/2">
-        <div className="grid grid-cols-3">
+        <h2 className="text-2xl font-bold">Spread kindness</h2>
+        <p className="mt-2 text-muted-foreground">One sticky note at a time</p>
+        <div className="mt-4 flex items-center justify-center">
           <div className="flex justify-end">
             <Avatar className="h-20 w-20">
-              <AvatarImage src="/avatars/01.png" />
-              <AvatarFallback>OM</AvatarFallback>
+              <AvatarImage src={data.from.image as string} />
+              <AvatarFallback></AvatarFallback>
             </Avatar>
           </div>
           <Image
@@ -51,8 +53,8 @@ export default async function GratitudeDetailPage({
           />
           <div className="flex">
             <Avatar className="h-20 w-20">
-              <AvatarImage src="/avatars/01.png" />
-              <AvatarFallback>OM</AvatarFallback>
+              <AvatarImage src={data.to.image as string} />
+              <AvatarFallback></AvatarFallback>
             </Avatar>
           </div>
         </div>
@@ -60,23 +62,23 @@ export default async function GratitudeDetailPage({
           <TableBody>
             <TableRow>
               <TableCell className="font-medium">From</TableCell>
-              <TableCell>{'@' + data.from.username}</TableCell>
+              <TableCell align="right">{'@' + data.from.username}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-medium">To</TableCell>
-              <TableCell>{'@' + data.to.username}</TableCell>
+              <TableCell align="right">{data.to.username ? ('@' + data.to.username) : '@unknown'}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="font-medium">Words</TableCell>
-              <TableCell>{data.content}</TableCell>
+              <TableCell className="font-medium">Gratitude</TableCell>
+              <TableCell align="right">{data.content}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-medium">Tags</TableCell>
-              <TableCell>{data.tags.map(tag => tag.name).join(',')}</TableCell>
+              <TableCell align="right">{data.tags.map(tag => tag.name).join(',')}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-medium">Share</TableCell>
-              <TableCell className="font-medium">
+              <TableCell align="right">
                 <SocialShare />
               </TableCell>
             </TableRow>
