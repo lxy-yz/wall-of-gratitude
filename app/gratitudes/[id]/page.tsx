@@ -1,76 +1,108 @@
 import { GratitudeCard } from "@/components/gratitude-card"
 import { SocialShare } from "@/components/social-share"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Separator } from "@/components/ui/separator"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { db } from "@/lib/db"
+import { Frown, ArrowRight } from "lucide-react"
+import Image from 'next/image'
 
 export default async function GratitudeDetailPage({
   params: { id },
 }: {
   params: { id: string }
 }) {
-  const data = await db.gratitude.findFirst({
+  const data = await db.gratitude.findUnique({
     where: { id },
     include: {
       from: true,
       to: true,
+      tags: true,
     }
   })
 
+  if (!data) {
+    return (
+      <Alert className="mx-auto mt-10 max-w-screen-lg">
+        <Frown className="h-4 w-4" />
+        <AlertTitle>Whoops!</AlertTitle>
+        <AlertDescription>No gratitude found.</AlertDescription>
+      </Alert>
+    )
+  }
+
   return (
-    <div>
-      <h1>Gratitude Detail</h1>
-      <p>
-        Find me in <code>./web/src/pages/GratitudeDetailPage/GratitudeDetailPage.tsx</code>
-      </p>
-      <p>
-        My default route is named <code>gratitudeDetail</code>, link to me with `
-        {/* <Link to={routes.gratitudeDetail()}>GratitudeDetail</Link>` */}
-      </p>
-      <SocialShare />
-      <section>
+    <div className="mx-auto mt-10 flex max-w-screen-lg flex-wrap gap-4">
+      <div className="w-full md:w-1/2">
+        <div className="grid grid-cols-3">
+          <div className="flex justify-end">
+            <Avatar className="h-20 w-20">
+              <AvatarImage src="/avatars/01.png" />
+              <AvatarFallback>OM</AvatarFallback>
+            </Avatar>
+          </div>
+          <Image
+            className="flex items-center"
+            src='/right_arrow.png'
+            alt='right arrow'
+            width={200}
+            height={100}
+          />
+          <div className="flex">
+            <Avatar className="h-20 w-20">
+              <AvatarImage src="/avatars/01.png" />
+              <AvatarFallback>OM</AvatarFallback>
+            </Avatar>
+          </div>
+        </div>
+        <Table className="mt-8">
+          <TableBody>
+            <TableRow>
+              <TableCell className="font-medium">From</TableCell>
+              <TableCell>{'@' + data.from.username}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium">To</TableCell>
+              <TableCell>{'@' + data.to.username}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium">Words</TableCell>
+              <TableCell>{data.content}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium">Tags</TableCell>
+              <TableCell>{data.tags.map(tag => tag.name).join(',')}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium">Share</TableCell>
+              <TableCell className="font-medium">
+                <SocialShare />
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </div>
+      <Separator orientation="vertical" className="" />
+      <section className="flex flex-1 justify-center">
         <GratitudeCard
-          color={data?.bg || 'blue'}
-          typeface={data?.typeface || 'font-sans'}
-          fontSize={data?.fontSize || 'text-base'}
+          color={data.bg || 'blue'}
+          typeface={data.typeface || 'font-sans'}
+          fontSize={data.fontSize || 'text-base'}
           from={{
-            email: data?.from.email as string,
-            name: data?.from.name as string,
-            username: data?.from.username as string,
+            email: data.from.email as string,
+            name: data.from.name as string,
+            username: data.from.username as string,
           }}
           to={{
-            email: data?.to.email as string,
-            name: data?.to.name as string,
-            image: data?.to.image as string,
+            email: data.to.email as string,
+            name: data.to.name as string,
+            image: data.to.image as string,
           }}
-          content={data?.content as string}
-          tags={data?.tags?.map((tag) => tag.name) || []}
+          content={data.content as string}
+          tags={data.tags?.map((tag) => tag.name) || []}
         />
       </section>
-      <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">From</TableCell>
-            <TableCell>Paid</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium">To</TableCell>
-            <TableCell>Paid</TableCell>
-          </TableRow><TableRow>
-            <TableCell className="font-medium">Words</TableCell>
-            <TableCell>Paid</TableCell>
-          </TableRow><TableRow>
-            <TableCell className="font-medium">Tags</TableCell>
-            <TableCell>Paid</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
     </div>
   )
 }

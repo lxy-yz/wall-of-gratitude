@@ -39,8 +39,8 @@ export function SocialShare({
           <div className="col-span-1 flex justify-end">
             {/* <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" className="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script> */}
             <TwitterShareButton
-              url={''}
-              title={''}
+              url={link}
+              title={'Spread some love here!'}
               className=""
             >
               <TwitterIcon size={48} round />
@@ -48,8 +48,8 @@ export function SocialShare({
           </div>
           <div className="col-span-1 flex">
             <FacebookShareButton
-              url={''}
-              quote={''}
+              url={link}
+              quote={'Spread some love here!'}
               className=""
             >
               <FacebookIcon size={48} round />
@@ -59,9 +59,6 @@ export function SocialShare({
         </div>
         <Separator />
         <DialogFooter className="flex !flex-col">
-          <p className="text-center my-4">
-            or copy link
-          </p>
           <div className="relative">
             <Input disabled value={link} />
             <Button variant="secondary" className="absolute right-0 top-0">copy link</Button>
