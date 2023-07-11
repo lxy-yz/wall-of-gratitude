@@ -11,12 +11,9 @@ import PaneEdit from "@/app/send-gratitude/pane-edit";
 import { toast } from "@/components/ui/use-toast";
 import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
+import { getUserAvatarImage } from "@/lib/utils";
 
 export type GratitudeFormValues = z.infer<typeof gratitudeSchema>
-
-interface FormData extends Omit<GratitudeFormValues, 'image'> {
-  image?: string | null
-}
 
 export function GratitudeForm() {
   const form = useForm<GratitudeFormValues>({
@@ -36,29 +33,36 @@ export function GratitudeForm() {
 
   const router = useRouter()
   async function onSubmit(data: GratitudeFormValues) {
-    if (data.notify) {
-      fetch("/api/email/send", {
-        method: "POST",
-        body: JSON.stringify({
-          ...data,
-          tags: data.tags?.map((tag) => tag.value) || [],
-        }),
-      }).catch((err) => {
-        console.error(err)
-        // toast({ title: 'error', description: err })
-      })
-    }
-
     const res = await fetch("/api/gratitude", {
       method: "POST",
       body: JSON.stringify({
         ...data,
       }),
     })
+
     if (!res.ok) {
       const error = await res.text()
       console.error(error)
       return toast({ title: 'error', description: error })
+    }
+
+    const json = await res.json()
+    if (data.notify) {
+      fetch("/api/email/send", {
+        method: "POST",
+        body: JSON.stringify({
+          ...data,
+          to: {
+            name: data.to.name,
+            image: getUserAvatarImage({ email: data.to.email }),
+          },
+          id: json.data.id,
+          tags: data.tags?.map((tag) => tag.value) || [],
+        }),
+      }).catch((err) => {
+        console.error(err)
+        // toast({ title: 'error', description: err })
+      })
     }
 
     toast({
@@ -69,7 +73,7 @@ export function GratitudeForm() {
         </pre>
       ),
     })
-    router.push('/')
+    router.push(`/gratitudes/${json.data.id}`)
   }
 
   return (

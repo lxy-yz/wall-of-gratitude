@@ -12,7 +12,7 @@ export default withAuth(
 
     if (hasAuthenticatedPage) {
       if (hasAuthenticated) {
-        return NextResponse.redirect(new URL("/dashboard", req.url))
+        return NextResponse.redirect(new URL("/", req.url))
       }
 
       return null
@@ -47,6 +47,7 @@ export const config = {
     "/editor/:path*",
     "/login",
     "/register",
+    "/send-gratitude",
     "/",
     "/profile",
   ],

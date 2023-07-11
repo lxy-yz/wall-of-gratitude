@@ -3,8 +3,6 @@ import Link from "next/link"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { cn } from "@/lib/utils"
-import { Edit, Share, Trash2 } from "lucide-react"
 import { GratitudeCard } from "@/components/gratitude-card"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/auth"
@@ -38,13 +36,13 @@ export default async function IndexPage() {
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="mx-auto flex w-full max-w-screen-lg flex-col">
-        <Card className="text-center">
+        <Card className="border-0 text-center shadow-none">
           <CardHeader>
             <CardTitle>
               <div className="flex flex-col items-center space-y-4">
-                <Avatar className="h-20 w-20">
+                <Avatar className="h-40 w-40">
                   <AvatarImage src={profile?.image as string} />
-                  <AvatarFallback>OM</AvatarFallback>
+                  <AvatarFallback>{ }</AvatarFallback>
                 </Avatar>
                 <div className="space-y-2">
                   <p className="text-xl leading-none">
@@ -71,9 +69,9 @@ export default async function IndexPage() {
             </TabsList>
           </div>
           <TabsContent className="mt-10" value="sent">
-            <div className="grid grid-cols-3 grid-rows-3 gap-8">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
               {gratitudesSentByUser.map((data, i) => (
-                <Link href={`/gratitudes/${data.id}`} className="flex items-center space-x-2">
+                <Link href={`/gratitudes/${data.id}`} className="mx-auto">
                   <GratitudeCard
                     color={data.bg || 'blue'}
                     typeface={data.typeface || 'font-sans'}

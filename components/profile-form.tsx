@@ -62,7 +62,7 @@ export default function ProfileForm({
         urls,
         // input file is imuumable, so use a custom input rather than RHF
         // https://github.com/orgs/react-hook-form/discussions/2496
-        image: previewImage,
+        image: previewImage || await getUserAvatarImage(data),
       })
     })
     setIsSaving(false)

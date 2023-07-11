@@ -11,14 +11,19 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY
 
 const bodySchema = gratitudeSchema
   .pick({
-    to: true,
     content: true,
     fontSize: true,
     typeface: true,
     bg: true,
   })
   .extend({
+    id: z.string(),
     tags: z.array(z.string()),
+    to: z.object({
+      email: z.string(),
+      name: z.string().optional(),
+      image: z.string().optional(),
+    }),
   })
 
 export async function POST(req: Request) {
@@ -29,14 +34,21 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json()
-    const { to, content, fontSize, typeface, bg, tags } = bodySchema.parse(body)
+    const { id, to, content, fontSize, typeface, bg, tags } =
+      bodySchema.parse(body)
 
     const html = render(
       Email({
-        from: user.name ?? "Anonymous",
-        fromEmail: user.email,
-        to,
-        logoLink: "https://wallofgratitute.site",
+        from: {
+          name: user.name ?? "Anonymous",
+          email: user.email,
+        },
+        to: {
+          name: to.name,
+          image: to.image,
+        },
+        logoLink: "https://wallofgratitute.site/icons/logo.png",
+        detailsLink: "https://wallofgratitute.site/gratitudes/" + id,
         data: {
           content,
           fontSize,
@@ -59,7 +71,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         from: "WallOfGratitute <noreply@wallofgratitute.site>",
-        to: "hi@liallen.me", //TODO: change to user.email
+        to: to.email, //TODO: change to user.email
         subject: `💌 Thank you from ${user.name || user.email}!`,
         html,
       }),

@@ -42,7 +42,7 @@ export const GratitudeEmail = ({
   }
 }: {
   to: {
-    name: string
+    name?: string
     image?: string
   }
   from: {
