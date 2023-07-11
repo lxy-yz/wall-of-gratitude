@@ -49,7 +49,7 @@ export const GratitudeEmail = ({
     name: string
     email: string
   }
-  logoLink: string
+  logoLink?: string
   detailsLink?: string
   sendBackLink?: string
   data: Omit<CardData, 'from' | 'to'>

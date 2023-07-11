@@ -47,8 +47,7 @@ export async function POST(req: Request) {
           name: to.name,
           image: to.image,
         },
-        logoLink: "https://wallofgratitute.site/icons/logo.png",
-        detailsLink: "https://wallofgratitute.site/gratitudes/" + id,
+        detailsLink: `${process.env.VERCEL_URL}/gratitudes/${id}`,
         data: {
           content,
           fontSize,
