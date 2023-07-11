@@ -3,14 +3,15 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { cn, getUserAvatarImage, today } from "@/lib/utils";
+import { cn, today } from "@/lib/utils";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { User } from "lucide-react";
-import Link from "next/link";
 import { Button } from "./ui/button";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
+import { UserCard } from "./user-card";
 
 export function GratitudeCard({
+  className,
   color = 'blue',
   typeface = 'sans',
   fontSize = 'base',
@@ -19,6 +20,7 @@ export function GratitudeCard({
   to,
   tags
 }: {
+  className?: string,
   color?: string | null,
   typeface?: string | null,
   fontSize?: string | null,
@@ -31,7 +33,8 @@ export function GratitudeCard({
     <Card className={cn(
       'h-[320px] w-[320px] text-gray-700 dark:text-gray-300',
       `bg-${color}-300 dark:bg-${color}-700`,
-      `font-${typeface} text-${fontSize}`
+      `font-${typeface} text-${fontSize}`,
+      className
     )}>
       <CardHeader>
         <div className="flex items-center justify-end gap-2">
@@ -69,35 +72,15 @@ export function GratitudeCard({
                 </Button>
               </HoverCardTrigger>
               <HoverCardContent className="w-80">
-                <div className="flex space-x-4">
-                  <Avatar>
-                    <AvatarImage src={from.image} />
-                    <AvatarFallback>{ }</AvatarFallback>
-                  </Avatar>
-                  <div className="space-y-1">
-                    <h4 className="text-sm font-semibold">{
-                      `@${from.username}`
-                    }</h4>
-                    <p className="text-sm">
-                      {from.bio || (
-                        <span className="text-muted-foreground">
-                          no bio yet
-                        </span>
-                      )}
-                    </p>
-                    <div className="flex items-center pt-2">
-                      <Button type="button" variant="secondary">
-                        <Link href={`/u/${from.username}`}>
-                          Visit
-                        </Link>
-                      </Button>
-                      {/* <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
-              <span className="text-xs text-muted-foreground">
-                Joined December 2021
-              </span> */}
-                    </div>
-                  </div>
-                </div>
+                <UserCard
+                  data={{
+                    name: from.name,
+                    username: from.username,
+                    image: from.image,
+                    bio: from.bio,
+                    email: from.email
+                  }}
+                />
               </HoverCardContent>
             </HoverCard>
           </div>

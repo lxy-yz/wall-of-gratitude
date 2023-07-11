@@ -10,7 +10,7 @@ export const Filters = ({ tags }: {
   const router = useRouter()
 
   return (
-    <div className="mt-8 space-x-2">
+    <div className="space-x-2">
       <Badge
         onClick={() => {
           const newSearchParams = new URLSearchParams(searchParams)
