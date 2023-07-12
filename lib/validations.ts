@@ -84,6 +84,8 @@ export const gratitudeSchema = z.object({
     FontSize.Large,
     FontSize["Extra Large"],
   ]),
+  top: z.number().optional(),
+  left: z.number().optional(),
 })
 
 export const profileSchema = z.object({

@@ -15,7 +15,15 @@ export const Boxes = ({
       top: number
       left: number
     }
-  }>({})
+  }>(gratitudes.reduce((acc: Record<string, { left: number, top: number }>, e: any) => {
+    return {
+      ...acc,
+      [e.id]: {
+        top: e.top || 0,
+        left: e.left || 0,
+      }
+    }
+  }, {}))
 
   const moveBox = useCallback(
     (id: string, left: number, top: number) => {
@@ -43,17 +51,28 @@ export const Boxes = ({
         const left = Math.round((item.left ?? 0) + delta.x)
         const top = Math.round((item.top ?? 0) + delta.y)
         moveBox(item.id, left, top)
+        savePosition(item.id, left, top)
         return undefined
       },
     }),
     [moveBox],
   )
 
+  async function savePosition(id: string, left: number, top: number,) {
+    await fetch(`/api/gratitude/${id}/move`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ left, top })
+    })
+  }
+
   return (
     <div ref={drop} className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
       {gratitudes.map((data, i) => {
         return (
-          <Box data={data} setBoxes={setBoxes} left={boxes[data.id]?.left} top={boxes[data.id]?.top} />
+          <Box key={i} data={data} setBoxes={setBoxes} left={boxes[data.id].left} top={boxes[data.id].top} />
         )
       })}
     </div>
