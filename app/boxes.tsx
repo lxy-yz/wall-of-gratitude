@@ -1,29 +1,36 @@
 'use client'
 
 import { GratitudeCard } from "@/components/gratitude-card"
+import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useCallback, useEffect, useState } from "react"
 import { useDrag, useDrop, XYCoord } from "react-dnd"
 
 export const Boxes = ({
-  gratitudes
+  gratitudes,
+  draggable = false
 }: {
-  gratitudes: any
+  gratitudes: any,
+  draggable: boolean
 }) => {
   const [boxes, setBoxes] = useState<{
     [key: string]: {
       top: number
       left: number
     }
-  }>(gratitudes.reduce((acc: Record<string, { left: number, top: number }>, e: any) => {
-    return {
-      ...acc,
-      [e.id]: {
-        top: e.top || 0,
-        left: e.left || 0,
-      }
-    }
-  }, {}))
+  }>(
+    draggable
+      ? gratitudes.reduce((acc: Record<string, { left: number, top: number }>, e: any) => {
+        return {
+          ...acc,
+          [e.id]: {
+            top: e.top || 0,
+            left: e.left || 0,
+          }
+        }
+      }, {})
+      : {}
+  )
 
   const moveBox = useCallback(
     (id: string, left: number, top: number) => {
@@ -68,18 +75,43 @@ export const Boxes = ({
     })
   }
 
+  async function resetAll() {
+    return Promise.all(
+      gratitudes.map((data: any) => {
+        return savePosition(data.id, 0, 0)
+      })
+    )
+  }
+
   return (
-    <div ref={drop} className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-      {gratitudes.map((data, i) => {
-        return (
-          <Box key={i} data={data} setBoxes={setBoxes} left={boxes[data.id].left} top={boxes[data.id].top} />
-        )
-      })}
+    <div className="space-y-6">
+      {draggable && (
+        <div className="flex justify-center">
+          <Button variant="secondary" onClick={resetAll}>Reset All</Button>
+        </div>
+      )}
+      <div ref={draggable ? drop : null} className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+        {gratitudes.map((data) => {
+          return (
+            <Box draggable={draggable} key={data.id} data={data} left={boxes[data.id]?.left} top={boxes[data.id]?.top} />
+          )
+        })}
+      </div>
     </div>
   )
 }
 
-function Box({ setBoxes, data, left, top }: { setBoxes: any, data: any, left: number, top: number }) {
+function Box({
+  draggable,
+  data,
+  left,
+  top
+}: {
+  draggable: boolean,
+  data: any,
+  left: number,
+  top: number
+}) {
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: 'box',
@@ -97,7 +129,7 @@ function Box({ setBoxes, data, left, top }: { setBoxes: any, data: any, left: nu
 
   return (
     <div className="relative mx-auto h-[320px] w-full">
-      <div id={`box-${data.id}`} ref={drag} style={{ left, top }} className="absolute left-0 top-0">
+      <div id={`box-${data.id}`} ref={draggable ? drag : null} style={{ left, top }} className="absolute left-0 top-0">
         <Link
           href={`/gratitudes/${data.id}`} className="">
           <GratitudeCard
@@ -115,7 +147,7 @@ function Box({ setBoxes, data, left, top }: { setBoxes: any, data: any, left: nu
               image: data.to.image as string,
             }}
             content={data.content}
-            tags={data.tags.map((tag) => tag.name)}
+            tags={data.tags.map((tag: { name: string }) => tag.name)}
           />
         </Link>
       </div>

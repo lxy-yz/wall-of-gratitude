@@ -7,6 +7,7 @@ import { GratitudeCard } from "@/components/gratitude-card"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/auth"
 import { Boxes } from "./boxes"
+import { Button } from "@/components/ui/button"
 
 export default async function IndexPage() {
   const user = await getCurrentUser()
@@ -34,9 +35,9 @@ export default async function IndexPage() {
   console.log(gratitudesSentByUser, gratitudesReceivedByUser);
 
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="mx-auto flex w-full max-w-screen-lg flex-col">
-        <Card className="border-0 text-center shadow-none">
+    <section className="-mx-4 grid items-center gap-6 pb-8 pt-6 md:py-10">
+      <div className="flex w-full flex-col">
+        <Card className="border-0 bg-transparent text-center shadow-none">
           <CardHeader>
             <CardTitle>
               <div className="flex flex-col items-center space-y-4">
@@ -45,19 +46,23 @@ export default async function IndexPage() {
                   <AvatarFallback>{ }</AvatarFallback>
                 </Avatar>
                 <div className="space-y-2">
-                  <p className="text-xl leading-none">
+                  <p className="text-3xl leading-none">
                     {profile?.name}{' '}
-                    <span className="text-sm font-medium leading-none">(@{profile?.username})</span>
+                    <span className="text-base font-medium leading-none">(@{profile?.username})</span>
                   </p>
-                  <p className="text-sm text-muted-foreground">{profile?.email}</p>
+                  <p className="text-base">{profile?.email}</p>
                 </div>
               </div>
             </CardTitle>
             <CardDescription className="">{profile?.bio}</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-6">
-            <div className="flex items-center justify-between space-x-4">
-
+            <div className="flex items-center justify-center">
+              <Button variant="outline">
+                <Link href={`/u/${user!.username}`}>
+                  Public Profile
+                </Link>
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -68,8 +73,16 @@ export default async function IndexPage() {
               <TabsTrigger value="received">Received</TabsTrigger>
             </TabsList>
           </div>
-          <TabsContent className="mt-10" value="sent">
-            <Boxes gratitudes={gratitudesSentByUser} />
+          <TabsContent
+            className="mt-10 py-12 bg-[url(https://images.unsplash.com/photo-1575108921107-8a15e73c9ff1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1671&q=80)]"
+            value="sent"
+          >
+            <div className="mx-auto max-w-screen-lg">
+              <Boxes
+                draggable={false}
+                gratitudes={gratitudesSentByUser}
+              />
+            </div>
           </TabsContent>
           <TabsContent value="received" className="mt-4">
             <div className="grid grid-cols-3 grid-rows-3 gap-8">
