@@ -10,13 +10,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Facebook, Share, Twitter } from "lucide-react"
+import { Share } from "lucide-react"
 import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton } from "react-share"
 import { Input } from "./ui/input"
 import { Separator } from "./ui/separator"
 
 export function SocialShare({
-  link = window.location.href
+  link = typeof window !== undefined ? window.location.href : "",
 }: {
   link?: string
 }) {

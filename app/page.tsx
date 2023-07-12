@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { GratitudeCard } from "@/components/gratitude-card"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/auth"
+import { Boxes } from "./boxes"
 
 export default async function IndexPage() {
   const user = await getCurrentUser()
@@ -31,7 +32,6 @@ export default async function IndexPage() {
     }
   })
   console.log(gratitudesSentByUser, gratitudesReceivedByUser);
-
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
@@ -69,29 +69,7 @@ export default async function IndexPage() {
             </TabsList>
           </div>
           <TabsContent className="mt-10" value="sent">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-              {gratitudesSentByUser.map((data, i) => (
-                <Link href={`/gratitudes/${data.id}`} className="mx-auto">
-                  <GratitudeCard
-                    color={data.bg || 'blue'}
-                    typeface={data.typeface || 'font-sans'}
-                    fontSize={data.fontSize || 'text-base'}
-                    from={{
-                      email: data.from.email as string,
-                      name: data.from.name as string,
-                      username: data.from.username as string,
-                    }}
-                    to={{
-                      email: data.to.email as string,
-                      name: data.to.name as string,
-                      image: data.to.image as string,
-                    }}
-                    content={data.content}
-                    tags={data.tags.map((tag) => tag.name)}
-                  />
-                </Link>
-              ))}
-            </div>
+            <Boxes gratitudes={gratitudesSentByUser} />
           </TabsContent>
           <TabsContent value="received" className="mt-4">
             <div className="grid grid-cols-3 grid-rows-3 gap-8">

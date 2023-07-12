@@ -27,10 +27,16 @@ const baseUrl = process.env.VERCEL_URL
 // https://demo.react.email/preview/vercel-invite-user?view=source
 // https://demo.react.email/preview/linear-login-code
 export const GratitudeEmail = ({
-  from,
-  to,
+  from = {
+    name: 'John Doe',
+    email: 'john@example.com'
+  },
+  to = {
+    name: 'Jane Doe',
+    email: 'jane@example.com'
+  },
   logoLink = `${baseUrl}/icons/logo.png`,
-  detailsLink,
+  detailsLink = `${baseUrl}/gratitudes/1`,
   sendBackLink = `${baseUrl}/send-gratitude`,
   data: {
     bg,
@@ -39,10 +45,18 @@ export const GratitudeEmail = ({
     tags,
     content,
     date,
+  } = {
+    bg: 'blue',
+    typeface: 'sans',
+    fontSize: 'base',
+    tags: ['a', 'b', 'c'],
+    content: 'Thank you',
+    date: '2021-01-01',
   }
 }: {
   to: {
     name?: string
+    email?: string
     image?: string
   }
   from: {
@@ -125,7 +139,7 @@ export const GratitudeEmail = ({
                   content,
                   date,
                   from,
-                  to: { image: to.image }
+                  to: { image: to.image, name: to.name, email: to.email }
                 }}
               />
               <Quote className="float-right" />
@@ -147,7 +161,7 @@ interface CardData {
   content: string
   date: string
   from: { name: string, }
-  to: { image?: string }
+  to: { image?: string, name?: string, email: string }
 }
 
 function Card({
@@ -198,8 +212,9 @@ function Card({
               }
             </span>
           </span>
-          <div className="order-1">
-            <p className="text-sm text-muted-foreground" />
+          <div className="order-1 flex flex-col items-center">
+            <p className="text-sm">{to.email}</p>
+            <p className="text-sm">{to.name}</p>
           </div>
         </div>
       </div>
