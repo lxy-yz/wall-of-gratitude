@@ -9,19 +9,19 @@ import { Separator } from "@/components/ui/separator";
 import { PanePreview } from "./pane-preview";
 import PaneEdit from "@/app/send-gratitude/pane-edit";
 import { toast } from "@/components/ui/use-toast";
-import { redirect } from "next/dist/server/api-utils";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getUserAvatarImage } from "@/lib/utils";
 
 export type GratitudeFormValues = z.infer<typeof gratitudeSchema>
 
 export function GratitudeForm() {
+  const searchParams = useSearchParams();
   const form = useForm<GratitudeFormValues>({
     resolver: zodResolver(gratitudeSchema),
     defaultValues: {
       to: {
-        email: '',
-        name: '',
+        email: searchParams.get("to.email") ?? '',
+        name: searchParams.get("to.name") ?? '',
       },
       bg: Colors.Blue,
       fontSize: FontSize.Regular,
@@ -62,7 +62,6 @@ export function GratitudeForm() {
         }),
       }).catch((err) => {
         console.error(err)
-        // toast({ title: 'error', description: err })
       })
     }
 

@@ -22,18 +22,19 @@ import { Quote, User } from "lucide-react"
 
 const baseUrl = process.env.VERCEL_URL
   ? process.env.VERCEL_URL
-  : ""
+  : "https://wallofgratitude.site"
 
 // https://demo.react.email/preview/vercel-invite-user?view=source
 // https://demo.react.email/preview/linear-login-code
 export const GratitudeEmail = ({
   from = {
-    name: 'John Doe',
+    name: '🐨',
     email: 'john@example.com'
   },
   to = {
-    name: 'Jane Doe',
-    email: 'jane@example.com'
+    name: '🧸',
+    email: 'jane@example.com',
+    image: 'https://avatar.vercel.sh/hi@liallen.me'
   },
   logoLink = `${baseUrl}/icons/logo.png`,
   detailsLink = `${baseUrl}/gratitudes/1`,
@@ -50,18 +51,18 @@ export const GratitudeEmail = ({
     typeface: 'sans',
     fontSize: 'base',
     tags: ['a', 'b', 'c'],
-    content: 'Thank you',
-    date: '2021-01-01',
+    content: 'Thank you for being awesome!',
+    date: '07/12/2023',
   }
 }: {
   to: {
+    email: string
+    image: string
     name?: string
-    email?: string
-    image?: string
   }
   from: {
-    name: string
     email: string
+    name?: string
   }
   logoLink?: string
   detailsLink?: string
@@ -98,14 +99,14 @@ export const GratitudeEmail = ({
                 className="mx-auto my-0"
               />
             </Section>
-            <Heading className="mx-0 my-[30px] p-0 text-center text-3xl font-normal text-black">
+            <Heading className="mx-0 my-[30px] p-0 text-center text-3xl font-bold text-black">
               💌 Thank you!
             </Heading>
             <Text className="text-[14px] leading-[24px] text-black">
               Dear {to.name},
             </Text>
             <Text className="text-[14px] leading-[24px] text-black">
-              <strong>{from.name}</strong>
+              <strong>{from.name}</strong>{' '}
               (<Link
                 href={`mailto:${from.email}`}
                 className="text-blue-600 no-underline"
@@ -122,10 +123,10 @@ export const GratitudeEmail = ({
             <Text className="text-[14px] leading-[24px] text-black">
               or copy and paste this URL into your browser:{" "}
               <Link href={detailsLink} className="text-blue-600 no-underline">
-                {detailsLink}
+                {new URL(detailsLink).pathname}
               </Link>. In addition, you can give the kindness back by visiting:{" "}
-              <Link href={sendBackLink} className="text-blue-600 no-underline">
-                {sendBackLink}
+              <Link href={sendBackLink + `?${new URLSearchParams([['to.name', from.name ?? ''], ['to.email', from.email ?? '']])}`} className="text-blue-600 no-underline">
+                {new URL(sendBackLink).pathname}
               </Link>
             </Text>
             <Section className="mt-10">
@@ -160,7 +161,7 @@ interface CardData {
   fontSize: string,
   content: string
   date: string
-  from: { name: string, }
+  from: { name?: string, }
   to: { image?: string, name?: string, email: string }
 }
 
@@ -198,7 +199,7 @@ function Card({
       fontSize === 'xl' && 'text-xl',
       fontSize === '3xl' && 'text-3xl',
     )}>
-      <div className="flex flex-col space-y-1.5 p-6">
+      <div className="flex flex-col space-y-1.5 p-6 pt-0">
         <div className="flex items-center justify-end gap-2">
           <span className="relative order-2 flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
             <span className="flex h-full w-full items-center justify-center rounded-full bg-muted">
@@ -212,26 +213,26 @@ function Card({
               }
             </span>
           </span>
-          <div className="order-1 flex flex-col items-center">
-            <p className="text-sm">{to.email}</p>
-            <p className="text-sm">{to.name}</p>
+          <div className="order-1 flex flex-col text-right">
+            <span className="text-sm">{to.email}</span>
+            <span className="text-sm">{to.name}</span>
           </div>
         </div>
       </div>
       <Text className="p-6 pt-0">
         {content}
       </Text>
-      <Text className="my-2 flex gap-2 px-6 text-sm text-gray-500">
+      <Text className="my-1 flex gap-2 px-6 text-sm text-gray-500">
         {tags.map(tag => (
           <span>
             #{tag}
           </span>
         ))}
       </Text>
-      <Text className="my-2 space-y-2 px-6 text-sm text-gray-500">
+      <Text className="my-1 px-6 text-sm text-gray-500">
         {date}
       </Text>
-      <Text className="my-2 space-y-2 px-6 text-sm text-gray-500">
+      <Text className="my-1 px-6 text-sm font-semibold text-gray-500">
         - {from.name}
       </Text>
       <div className="flex items-center p-6 pt-0" />
