@@ -86,7 +86,7 @@ export default async function GratitudeDetailPage({
         </Table>
       </div>
       <Separator orientation="vertical" className="" />
-      <section className="flex flex-1 justify-center">
+      <section className="flex flex-1 items-center justify-center">
         <GratitudeCard
           color={data.bg || 'blue'}
           typeface={data.typeface || 'font-sans'}

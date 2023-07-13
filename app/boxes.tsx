@@ -89,10 +89,10 @@ export const Boxes = ({
         return savePosition(data.id, left, top)
       })
     )
-      .then(() => router.refresh())
       .then(() => toast({
         title: "Successfully reset all positions",
       }))
+      .then(() => location.reload())
   }
 
   // useEffect(() => {
@@ -106,8 +106,8 @@ export const Boxes = ({
   return (
     <div className="space-y-6">
       {draggable && (
-        <div className="flex justify-center">
-          <Button variant="secondary" onClick={resetAll}>Reset All</Button>
+        <div className="mt-4 flex">
+          <Button variant="destructive" onClick={resetAll}>Reset All</Button>
         </div>
       )}
       <div ref={draggable ? drop : null} className="relative h-[1024px] overflow-y-auto p-8">
