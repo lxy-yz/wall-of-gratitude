@@ -2,6 +2,8 @@
 
 import { GratitudeCard } from "@/components/gratitude-card"
 import { Button } from "@/components/ui/button"
+import { toast } from "@/components/ui/use-toast"
+import { getInitialPositionForCard } from "@/lib/utils"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
@@ -20,17 +22,18 @@ export const Boxes = ({
       left: number
     }
   }>(
-    draggable
-      ? gratitudes.reduce((acc: Record<string, { left: number, top: number }>, e: any) => {
-        return {
-          ...acc,
-          [e.id]: {
-            top: e.top || 0,
-            left: e.left || 0,
-          }
+    gratitudes.reduce((acc: Record<string, { left: number, top: number }>, e: any, index: number) => {
+      const left = draggable ? e.left : getInitialPositionForCard(index).left
+      const top = draggable ? e.top : getInitialPositionForCard(index).top
+
+      return {
+        ...acc,
+        [e.id]: {
+          top,
+          left,
         }
-      }, {})
-      : {}
+      }
+    }, {})
   )
 
   const moveBox = useCallback(
@@ -79,11 +82,24 @@ export const Boxes = ({
   const router = useRouter()
   async function resetAll() {
     return Promise.all(
-      gratitudes.map((data: any) => {
-        return savePosition(data.id, 0, 0)
+      gratitudes.map((data: any, index: number) => {
+        const { left, top } = getInitialPositionForCard(index)
+        return savePosition(data.id, left, top)
       })
-    ).then(() => router.refresh())
+    )
+      .then(() => router.refresh())
+      .then(() => toast({
+        title: "Successfully reset all positions",
+      }))
   }
+
+  // useEffect(() => {
+  //   const el = document.getElementById('droppable')
+  //   if (!el) {
+  //     return
+  //   }
+  //   el.style.height = `${Math.ceil(gratitudes.length / 3) * 336}px`
+  // }, [])
 
   return (
     <div className="space-y-6">
@@ -92,7 +108,7 @@ export const Boxes = ({
           <Button variant="secondary" onClick={resetAll}>Reset All</Button>
         </div>
       )}
-      <div ref={draggable ? drop : null} className=" grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div ref={draggable ? drop : null} className="relative h-[1024px] overflow-y-auto p-8">
         {/* grid gap-4 md:grid-cols-2 lg:grid-cols-3 */}
         {gratitudes.map((data) => {
           return (
@@ -126,41 +142,32 @@ function Box({
     [data.id, left, top],
   )
 
-  const [update, setUpdate] = useState(false)
-  useEffect(() => {
-    setTimeout(() => {
-      setUpdate(true)
-    }, 5000)
-  }, [left, top])
-
   if (isDragging) {
     return <div ref={drag} />
   }
 
   return (
-    <div className="relative mx-auto  h-[320px] w-[320px]">
-      <div id={`box-${data.id}`} ref={draggable ? drag : null} style={update ? { left, top } : {}} className="absolute left-0 top-0">
-        <Link
-          href={`/gratitudes/${data.id}`} className="">
-          <GratitudeCard
-            color={data.bg || 'blue'}
-            typeface={data.typeface || 'font-sans'}
-            fontSize={data.fontSize || 'text-base'}
-            from={{
-              email: data.from.email as string,
-              name: data.from.name as string,
-              username: data.from.username as string,
-            }}
-            to={{
-              email: data.to.email as string,
-              name: data.to.name as string,
-              image: data.to.image as string,
-            }}
-            content={data.content}
-            tags={data.tags.map((tag: { name: string }) => tag.name)}
-          />
-        </Link>
-      </div>
+    <div id={`box-${data.id}`} ref={draggable ? drag : null} style={{ left, top }} className="absolute">
+      <Link
+        href={`/gratitudes/${data.id}`} className="">
+        <GratitudeCard
+          color={data.bg || 'blue'}
+          typeface={data.typeface || 'font-sans'}
+          fontSize={data.fontSize || 'text-base'}
+          from={{
+            email: data.from.email as string,
+            name: data.from.name as string,
+            username: data.from.username as string,
+          }}
+          to={{
+            email: data.to.email as string,
+            name: data.to.name as string,
+            image: data.to.image as string,
+          }}
+          content={data.content}
+          tags={data.tags.map((tag: { name: string }) => tag.name)}
+        />
+      </Link>
     </div>
   )
 }

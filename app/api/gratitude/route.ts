@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { getCurrentUser } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { getUserAvatarImage } from "@/lib/utils"
+import { getInitialPositionForCard, getUserAvatarImage } from "@/lib/utils"
 import { gratitudeSchema } from "@/lib/validations"
 
 const routeContextSchema = z.object({
@@ -25,8 +25,13 @@ export async function POST(
     const { to, content, notify, fontSize, typeface, bg, tags } =
       gratitudeSchema.parse(body)
 
+    const cnt = await db.gratitude.count()
+    const { left, top } = getInitialPositionForCard(cnt - 1)
+
     const result = await db.gratitude.create({
       data: {
+        left,
+        top,
         content,
         notify,
         fontSize,

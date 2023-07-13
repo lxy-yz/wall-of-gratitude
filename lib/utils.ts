@@ -17,3 +17,11 @@ export const today = new Date().toLocaleDateString("en-US", {
   month: "2-digit",
   day: "2-digit",
 })
+
+export function getInitialPositionForCard(currentIndex: number) {
+  const gap = 32
+  const len = 320
+  const left = (currentIndex % 3) * (len + gap)
+  const top = Math.floor(currentIndex / 3) * (len + gap)
+  return { left, top }
+}

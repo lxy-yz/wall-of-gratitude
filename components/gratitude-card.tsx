@@ -31,7 +31,7 @@ export function GratitudeCard({
 }) {
   return (
     <Card className={cn(
-      'h-[320px] w-[320px] text-gray-700 dark:text-gray-300',
+      'h-[320px] w-[320px] border-none text-gray-700 dark:text-gray-300',
       `bg-${color}-300 dark:bg-${color}-700`,
       `font-${typeface} text-${fontSize}`,
       className
