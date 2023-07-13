@@ -9,10 +9,12 @@ import { signOut, useSession } from "next-auth/react"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "./ui/navigation-menu"
 import { cn } from "@/lib/utils"
-import React from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTrigger } from "./ui/sheet"
 import Image from "next/image"
+import { useRouter } from "next/router"
+import { usePathname, useSearchParams } from "next/navigation"
 
 const menuItems = [
   {
@@ -21,60 +23,81 @@ const menuItems = [
   }
 ]
 
+// https://nextjs.org/docs/app/api-reference/functions/use-router#router-events
+function useRouterChange(cb: () => void) {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  useEffect(() => {
+    cb()
+  }, [pathname, searchParams, cb])
+}
+
 export function SiteHeader() {
   const { data: sess } = useSession()
 
-  return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background">
-      <div className="container flex h-16 items-center space-x-4 justify-center sm:space-x-0">
-        <Link href="/" className="flex items-center space-x-2">
-          <Image
-            height={48}
-            width={48}
-            src="/icons/logo.png"
-            alt="Logo"
-          />
-        </Link>
+  const [open, setOpen] = useState(false)
+  useRouterChange(
+    useCallback(() => setOpen(false), [])
+  )
 
-        <MainNav items={siteConfig.mainNav} />
+  return (
+    <header className="sticky top-0 z-40 w-full bg-background">
+      <div className="">
+        {/* <MainNav items={siteConfig.mainNav} /> */}
 
         <div className="fixed bottom-[40px] right-[40px]">
-          <Sheet>
+          <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" className="bg-slate-200 py-8 text-3xl">
+              <div onClick={() => setOpen(true)} className="cursor-pointer text-3xl">
                 🧭
-              </Button>
+              </div>
             </SheetTrigger>
-            <SheetContent side={'bottom'}>
-              <nav className="flex items-center justify-center space-x-4">
+            <SheetContent side={'top'} className='h-full w-full'>
+              <nav className="flex h-full flex-col items-center justify-center gap-3 font-extrabold text-slate-600">
                 {!sess ? (
-                  <Link href="/login">
-                    <div
-                      className={buttonVariants({
-                        size: "sm",
-                        variant: "ghost",
-                      })}
+                  <>
+                    <Image
+                      height={100}
+                      width={100}
+                      src="/icons/logo.png"
+                      alt="Logo"
+                    />
+                    <Link
+                      href="/login"
+                      className={cn(buttonVariants({ variant: "ghost" }), 'text-3xl')}
                     >
                       Login
-                    </div>
-                  </Link>
+                    </Link>
+                  </>
                 ) : (
                   <>
+                    <Image
+                      height={100}
+                      width={100}
+                      src="/icons/logo.png"
+                      alt="Logo"
+                    />
+                    <Link
+                      href="/"
+                      className={cn(buttonVariants({ variant: "ghost" }), 'text-3xl')}
+                    >
+                      Home
+                    </Link>
                     <Link
                       href="/send-gratitude"
-                      className={cn(buttonVariants({ variant: 'ghost' }))}
+                      className={cn(buttonVariants({ variant: 'ghost' }), 'text-3xl')}
                     >
                       Send
                     </Link>
                     <Link
-                      className={cn(buttonVariants({ variant: 'ghost' }))}
+                      className={cn(buttonVariants({ variant: 'ghost' }), 'text-3xl')}
                       href="/profile"
                     >
                       Profile
                     </Link>
                     {/* <Link href="/discover">Discover</Link>  */}
                     <Link
-                      className={cn(buttonVariants({ variant: 'ghost' }))}
+                      className={cn(buttonVariants({ variant: 'ghost' }), 'text-3xl')}
                       href="/"
                       onClick={e => {
                         e.preventDefault()

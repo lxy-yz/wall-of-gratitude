@@ -3,6 +3,7 @@
 import { GratitudeCard } from "@/components/gratitude-card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 import { useDrag, useDrop, XYCoord } from "react-dnd"
 
@@ -75,12 +76,13 @@ export const Boxes = ({
     })
   }
 
+  const router = useRouter()
   async function resetAll() {
     return Promise.all(
       gratitudes.map((data: any) => {
         return savePosition(data.id, 0, 0)
       })
-    )
+    ).then(() => router.refresh())
   }
 
   return (
@@ -90,7 +92,8 @@ export const Boxes = ({
           <Button variant="secondary" onClick={resetAll}>Reset All</Button>
         </div>
       )}
-      <div ref={draggable ? drop : null} className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+      <div ref={draggable ? drop : null} className=" grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {/* grid gap-4 md:grid-cols-2 lg:grid-cols-3 */}
         {gratitudes.map((data) => {
           return (
             <Box draggable={draggable} key={data.id} data={data} left={boxes[data.id]?.left} top={boxes[data.id]?.top} />
@@ -123,13 +126,20 @@ function Box({
     [data.id, left, top],
   )
 
+  const [update, setUpdate] = useState(false)
+  useEffect(() => {
+    setTimeout(() => {
+      setUpdate(true)
+    }, 5000)
+  }, [left, top])
+
   if (isDragging) {
     return <div ref={drag} />
   }
 
   return (
-    <div className="relative mx-auto h-[320px] w-full">
-      <div id={`box-${data.id}`} ref={draggable ? drag : null} style={{ left, top }} className="absolute left-0 top-0">
+    <div className="relative mx-auto  h-[320px] w-[320px]">
+      <div id={`box-${data.id}`} ref={draggable ? drag : null} style={update ? { left, top } : {}} className="absolute left-0 top-0">
         <Link
           href={`/gratitudes/${data.id}`} className="">
           <GratitudeCard
