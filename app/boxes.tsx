@@ -11,10 +11,12 @@ import { useDrag, useDrop, XYCoord } from "react-dnd"
 
 export const Boxes = ({
   gratitudes,
-  draggable = false
+  draggable = false,
+  useSavedPosition = false,
 }: {
   gratitudes: any,
   draggable: boolean
+  useSavedPosition?: boolean
 }) => {
   const [boxes, setBoxes] = useState<{
     [key: string]: {
@@ -23,8 +25,8 @@ export const Boxes = ({
     }
   }>(
     gratitudes.reduce((acc: Record<string, { left: number, top: number }>, e: any, index: number) => {
-      const left = draggable ? e.left : getInitialPositionForCard(index).left
-      const top = draggable ? e.top : getInitialPositionForCard(index).top
+      const left = useSavedPosition ? e.left : getInitialPositionForCard(index).left
+      const top = useSavedPosition ? e.top : getInitialPositionForCard(index).top
 
       return {
         ...acc,

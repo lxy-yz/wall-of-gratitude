@@ -86,6 +86,7 @@ export default async function UserPage({
           >
             <div className="mx-auto max-w-screen-lg">
               <Boxes
+                useSavedPosition
                 draggable={(await getCurrentUser())?.id === profile.id}
                 gratitudes={gratitudesSentByUser}
               />
