@@ -58,12 +58,14 @@ export default async function UserPage({
               <TabsTrigger value="received">Received</TabsTrigger>
             </TabsList>
           </div>
+          <div className="mt-16">
+            <UserCard profile={profile} />
+          </div>
           <TabsContent
             value="sent"
-            className="mt-10 py-12"
+            className="mt-4"
           >
             <div className="mx-auto max-w-screen-lg space-y-8">
-              <UserCard profile={profile} />
               <Boxes
                 useSavedPosition
                 draggable={(await getCurrentUser())?.id === profile.id}
@@ -73,10 +75,9 @@ export default async function UserPage({
           </TabsContent>
           <TabsContent
             value="received"
-            className="mt-10 py-12"
+            className="mt-4"
           >
             <div className="mx-auto max-w-screen-lg space-y-8">
-              <UserCard profile={profile} />
               <Boxes
                 useSavedPosition
                 draggable={(await getCurrentUser())?.id === profile.id}
@@ -93,7 +94,7 @@ export default async function UserPage({
 function UserCard({ profile }: { profile: User }) {
   return (
     <div className="mx-auto w-[320px]">
-      <Card className="border-0 text-center">
+      <Card className="border-0 bg-transparent text-center text-white backdrop-blur-2xl">
         <CardHeader>
           <CardTitle>
             <div className="flex flex-col items-center space-y-2">
@@ -101,17 +102,19 @@ function UserCard({ profile }: { profile: User }) {
                 <AvatarImage className="object-cover" src={profile.image as string} />
                 <AvatarFallback>{ }</AvatarFallback>
               </Avatar>
-              <p className="text-3xl leading-none">
+              <p className="text-3xl">
                 {profile.name}{' '}
-                <span className="text-base text-gray-500 font-normal">(@{profile.username})</span>
               </p>
-              <a href={`mailto:${profile.email}`}>
-                📨
-              </a>
+              <div className="space-x-2 text-base font-normal text-white/80">
+                <span className="">@{profile.username}</span>
+                <a href={`mailto:${profile.email}`}>
+                  📨
+                </a>
+              </div>
             </div>
           </CardTitle>
         </CardHeader>
-        <CardContent className="text-black dark:text-white">
+        <CardContent className="text-white/80">
           {profile.bio}
         </CardContent>
       </Card>

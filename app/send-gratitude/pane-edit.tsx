@@ -1,14 +1,14 @@
 "use client"
 
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { Info, Send, X } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
+import { Button } from "../../components/ui/button";
+import { Checkbox } from "../../components/ui/checkbox";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
-import { Button } from "../../components/ui/button";
-import { cn } from "@/lib/utils";
-import { Info, Send, X } from "lucide-react";
-import { Checkbox } from "../../components/ui/checkbox";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 
 export default function PaneEdit({ data }: {

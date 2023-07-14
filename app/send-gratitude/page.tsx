@@ -1,8 +1,7 @@
-import Link from "next/link"
 
 import { GratitudeForm } from "./gratitude-form"
 
-export default function NewPage() {
+export default function SendGratitudePage() {
   return (
     <section className="mx-auto max-w-screen-lg pb-8 pt-6 md:py-10">
       <h1 className="text-center text-3xl font-bold">

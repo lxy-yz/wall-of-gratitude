@@ -1,12 +1,24 @@
 import { GratitudeCard } from "@/components/gratitude-card";
-import { Badge } from "@/components/ui/badge";
 import { UserCard } from "@/components/user-card";
 import { db } from "@/lib/db";
 import Link from "next/link";
 import { Filters } from "./filters";
 
-export async function DiscoverPage() {
+export async function DiscoverPage({
+  searchParams
+}: {
+  searchParams: {
+    tag?: string
+  }
+}) {
   const gratitudes = await db.gratitude.findMany({
+    where: {
+      tags: {
+        some: {
+          name: searchParams.tag
+        }
+      }
+    },
     take: 10,
     orderBy: {
       createdAt: 'desc'
@@ -14,19 +26,43 @@ export async function DiscoverPage() {
     include: { from: true, to: true, tags: true }
   })
 
+  const senders = (await db.gratitude.findMany({
+    select: {
+      from: true
+    },
+    distinct: ['fromUserId'],
+    orderBy: {
+      createdAt: 'desc'
+    },
+    take: 5,
+  }))
+    .map(data => data.from)
+
+  const receivers = (await db.gratitude.findMany({
+    select: {
+      to: true
+    },
+    distinct: ['toUserId'],
+    orderBy: {
+      createdAt: 'desc'
+    },
+    take: 5,
+  }))
+    .map(data => data.to)
+
   const tags = await db.tag.findMany({
     take: 10,
   });
 
   return (
     <div className="mx-auto max-w-screen-xl">
-      <h1 className="my-8 text-4xl font-bold tracking-tight">
+      <h1 className="my-8 text-2xl font-bold tracking-tight">
         Discover
       </h1>
-      <div className="grid gap-8 md:grid-cols-3 xl:grid-cols-4">
-        <div className="md:col-span-3 xl:col-span-1 xl:col-start-4">
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mx-auto max-w-sm md:col-start-2 lg:col-start-3 xl:col-start-4">
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold tracking-tight">
+            <h2 className="text-xl font-bold tracking-tight">
               Recents
             </h2>
             <div className="mt-8">
@@ -34,16 +70,16 @@ export async function DiscoverPage() {
                 Sender
               </h3>
               <div className="mt-4 space-y-4">
-                {gratitudes.map((data, i) => {
-                  // console.log('data.from', data.from);
-
+                {senders.map((data, i) => {
                   return (
                     <UserCard
                       key={i}
                       data={{
-                        image: data.from.image as string,
-                        name: data.from.name as string,
-                        email: data.from.email as string,
+                        username: data.username as string,
+                        bio: data.bio as string,
+                        image: data.image as string,
+                        name: data.name as string,
+                        email: data.email as string,
                       }}
                     />
                   )
@@ -53,16 +89,16 @@ export async function DiscoverPage() {
                 Receiver
               </h3>
               <div className="mt-4 space-y-4">
-                {gratitudes.map((data, i) => {
-                  // console.log('data.to', data.to);
-
+                {receivers.map((data, i) => {
                   return (
                     <UserCard
                       key={i}
                       data={{
-                        image: data.to.image as string,
-                        name: data.to.name as string,
-                        email: data.to.email as string,
+                        username: data.username as string,
+                        bio: data.bio as string,
+                        image: data.image as string,
+                        name: data.name as string,
+                        email: data.email as string,
                       }}
                     />
                   )
@@ -71,9 +107,9 @@ export async function DiscoverPage() {
             </div>
           </div>
         </div>
-        <div className="md:col-span-3 xl:row-start-1">
+        <div className="md:row-start-1 lg:col-span-2 xl:col-span-3">
           <Filters tags={tags} />
-          <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
             {gratitudes.map((data, i) => (
               <Link className="mx-auto" href={`/gratitudes/${data.id}`}>
                 <GratitudeCard

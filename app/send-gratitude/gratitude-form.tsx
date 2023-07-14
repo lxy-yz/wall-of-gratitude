@@ -1,16 +1,15 @@
 "use client"
 
-import { FormProvider, useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Colors, FontSize, gratitudeSchema, Typeface } from "@/lib/validations";
-import { z } from "zod";
-import React, { useState } from "react";
-import { Separator } from "@/components/ui/separator";
-import { PanePreview } from "./pane-preview";
 import PaneEdit from "@/app/send-gratitude/pane-edit";
+import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
-import { useRouter, useSearchParams } from "next/navigation";
 import { getUserAvatarImage } from "@/lib/utils";
+import { Colors, FontSize, gratitudeSchema, Typeface } from "@/lib/validations";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FormProvider, useForm } from "react-hook-form";
+import { z } from "zod";
+import { PanePreview } from "./pane-preview";
 
 export type GratitudeFormValues = z.infer<typeof gratitudeSchema>
 
@@ -65,14 +64,14 @@ export function GratitudeForm() {
       })
     }
 
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+    // toast({
+    // title: "You submitted the following values:",
+    // description: (
+    //   <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+    //     <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+    //   </pre>
+    // ),
+    // })
     router.push(`/gratitudes/${json.data.id}`)
   }
 

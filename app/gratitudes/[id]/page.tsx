@@ -33,10 +33,10 @@ export default async function GratitudeDetailPage({
   }
 
   return (
-    <>
-      <h2 className="mt-20 text-3xl text-center capitalize">Spread kindness</h2>
-      <p className="mt-2 text-muted-foreground text-center">One sticky note at a time</p>
-      <div className="mt-8 mx-auto flex max-w-screen-lg flex-wrap gap-4">
+    <div className="mx-auto max-w-screen-lg pb-8 pt-6 md:py-10">
+      <h2 className="text-center text-3xl font-bold">Spread a little kindness</h2>
+      <p className="mt-4 text-center text-gray-500">One sticky note at a time</p>
+      <div className="mt-8 flex flex-wrap gap-4">
         <div className="w-full md:w-1/2">
           <div className="mt-4 flex items-center justify-center">
             <div className="flex justify-end">
@@ -62,7 +62,7 @@ export default async function GratitudeDetailPage({
           <Table className="mx-auto max-w-[376px]">
             <TableBody>
               <TableRow>
-                <TableCell className="text-xl">📨</TableCell>
+                <TableCell className="text-xl">✍️</TableCell>
                 <TableCell align="right">{'@' + data.from.username}</TableCell>
               </TableRow>
               <TableRow>
@@ -111,6 +111,6 @@ export default async function GratitudeDetailPage({
           />
         </section>
       </div>
-    </>
+    </div>
   )
 }

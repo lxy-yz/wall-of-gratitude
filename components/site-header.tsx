@@ -2,11 +2,10 @@
 import Link from "next/link"
 
 import { ThemeToggle } from "@/components/theme-toggle"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { X } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
-import Image from "next/image"
 import { usePathname, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
@@ -33,17 +32,15 @@ export function SiteHeader() {
       <div className="">
         {/* <MainNav items={siteConfig.mainNav} /> */}
 
-        <div className="fixed md:left-4 md:top-4">
+        <div className="">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <div onClick={() => setOpen(true)} className="cursor-pointer text-3xl">
-                <Image
-                  height={64}
-                  width={64}
-                  src="/icons/logo.png"
-                  className="mx-auto md:w-24"
-                  alt="Logo"
-                />
+              <div onClick={() => setOpen(true)}>
+                <div className="fixed bottom-4 right-4">
+                  <Button variant="ghost" className="rounded-full px-4 py-8 text-3xl">
+                    🪐
+                  </Button>
+                </div>
               </div>
             </SheetTrigger>
             <SheetContent side={'top'} className='NavDialog h-full w-full'>
@@ -57,6 +54,12 @@ export function SiteHeader() {
                       Send
                     </Link>
                     <Link
+                      href="/discover"
+                      className={cn(buttonVariants({ variant: "ghost" }), 'text-3xl')}
+                    >
+                      Discover
+                    </Link>
+                    <Link
                       href="/login"
                       className={cn(buttonVariants({ variant: 'ghost' }), 'text-3xl')}
                     >
@@ -65,12 +68,6 @@ export function SiteHeader() {
                   </>
                 ) : (
                   <>
-                    {/* <Link
-                      href="/"
-                      className={cn(buttonVariants({ variant: "ghost" }), 'text-3xl')}
-                    >
-                      Home
-                    </Link> */}
                     <Link
                       href="/send-gratitude"
                       className={cn(buttonVariants({ variant: 'ghost' }), 'text-3xl')}
@@ -78,12 +75,17 @@ export function SiteHeader() {
                       Send
                     </Link>
                     <Link
+                      href="/discover"
+                      className={cn(buttonVariants({ variant: "ghost" }), 'text-3xl')}
+                    >
+                      Discover
+                    </Link>
+                    <Link
                       className={cn(buttonVariants({ variant: 'ghost' }), 'text-3xl')}
                       href="/profile"
                     >
                       Profile
                     </Link>
-                    {/* <Link href="/discover">Discover</Link>  */}
                     <Link
                       className={cn(buttonVariants({ variant: 'ghost' }), 'text-3xl')}
                       href="/"

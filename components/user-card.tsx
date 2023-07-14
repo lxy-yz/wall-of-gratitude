@@ -1,8 +1,13 @@
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
-export const UserCard = ({ data }: {
+export const UserCard = ({
+  hover = false,
+  data
+}: {
+  hover?: boolean,
   data: {
     name?: string,
     username?: string,
@@ -12,35 +17,43 @@ export const UserCard = ({ data }: {
   }
 }) => {
   return (
-    <div className="flex space-x-4">
-      <Avatar>
-        <AvatarImage className="object-cover" src={data.image} />
-        <AvatarFallback>{ }</AvatarFallback>
-      </Avatar>
-      <div className="space-y-1">
-        <h4 className="text-sm font-semibold">
-          {
-            `@${data.username}`
-          }
-        </h4>
-        <p className="text-sm">
-          {data.bio || (
-            <span className="text-muted-foreground">
-              no bio yet
-            </span>
-          )}
-        </p>
-        <div className="flex items-center pt-2">
-          <Button type="button" variant="secondary">
-            <Link href={`/u/${data.username}`}>
-              Visit
-            </Link>
-          </Button>
-          {/* <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
-    <span className="text-xs text-muted-foreground">
-      Joined December 2021
-    </span> */}
+    <div className={cn(
+      "grid gap-4",
+      !hover && "grid-cols-2"
+    )}>
+      <div className="flex space-x-4">
+        <Avatar>
+          <AvatarImage className="object-cover" src={data.image} />
+          <AvatarFallback>{ }</AvatarFallback>
+        </Avatar>
+        <div className="space-y-1">
+          <h4 className="text-sm font-semibold">
+            {`@${data.username}`}
+          </h4>
+          <p className="text-sm">
+            {data.bio || (
+              <span className="text-muted-foreground">
+                no bio yet
+              </span>
+            )}
+          </p>
+          {/*
+            <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
+              <span className="text-xs text-muted-foreground">
+                Joined December 2021
+              </span>
+            */}
         </div>
+      </div>
+
+      <div className={cn("flex pt-2",
+        !hover && "items-center justify-end",
+      )}>
+        <Button className={hover ? 'w-full' : ''} type="button" variant="secondary">
+          <Link href={`/u/${data.username}`}>
+            Visit
+          </Link>
+        </Button>
       </div>
     </div>
   )

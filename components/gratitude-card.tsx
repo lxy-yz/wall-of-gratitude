@@ -73,6 +73,7 @@ export function GratitudeCard({
               </HoverCardTrigger>
               <HoverCardContent className="w-80">
                 <UserCard
+                  hover
                   data={{
                     name: from.name,
                     username: from.username,

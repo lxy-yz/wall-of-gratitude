@@ -40,7 +40,6 @@ export function SocialShare({
         <div className="grid grid-cols-4 gap-4 py-4">
           <div></div>
           <div className="col-span-1 flex justify-end">
-            {/* <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" className="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script> */}
             <TwitterShareButton
               url={link}
               title={'Spread some love here!'}
@@ -65,7 +64,7 @@ export function SocialShare({
           <div className="relative">
             <Input disabled value={link} />
             <Button
-              variant="ghost"
+              variant="secondary"
               className="absolute right-0 top-0"
               onClick={async () => {
                 await navigator.clipboard.writeText(link)
