@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { X } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
-import Image from "next/image"
+import Image from 'next/image'
 import { usePathname, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
@@ -29,7 +29,7 @@ export function SiteHeader() {
   )
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-background">
+    <header className="sticky top-0 z-40 w-full bg-transparent">
       <div className="">
         {/* <MainNav items={siteConfig.mainNav} /> */}
 
@@ -41,15 +41,16 @@ export function SiteHeader() {
               </div>
             </SheetTrigger>
             <SheetContent side={'top'} className='NavDialog h-full w-full'>
-              <nav className="flex h-full flex-col items-center justify-center gap-3 font-extrabold text-slate-600">
+              <Image
+                height={160}
+                width={160}
+                src="/icons/logo.png"
+                className="mx-auto"
+                alt="Logo"
+              />
+              <nav className="-mt-[160px] flex h-full flex-col items-center justify-center gap-4 font-extrabold text-slate-600">
                 {!sess ? (
                   <>
-                    <Image
-                      height={100}
-                      width={100}
-                      src="/icons/logo.png"
-                      alt="Logo"
-                    />
                     <Link
                       href="/login"
                       className={cn(buttonVariants({ variant: "ghost" }), 'text-3xl')}
@@ -59,12 +60,6 @@ export function SiteHeader() {
                   </>
                 ) : (
                   <>
-                    <Image
-                      height={100}
-                      width={100}
-                      src="/icons/logo.png"
-                      alt="Logo"
-                    />
                     <Link
                       href="/"
                       className={cn(buttonVariants({ variant: "ghost" }), 'text-3xl')}
