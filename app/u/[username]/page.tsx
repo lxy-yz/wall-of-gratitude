@@ -1,7 +1,7 @@
 import { GratitudeCard } from "@/components/gratitude-card"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getCurrentUser } from "@/lib/auth"
 import { db } from "@/lib/db"
@@ -67,22 +67,24 @@ export default async function UserPage({
                 <Card className="border-0 text-center">
                   <CardHeader>
                     <CardTitle>
-                      <div className="flex flex-col items-center space-y-4">
+                      <div className="flex flex-col items-center space-y-2">
                         <Avatar className="h-40 w-40">
                           <AvatarImage className="object-cover" src={profile?.image as string} />
                           <AvatarFallback>{ }</AvatarFallback>
                         </Avatar>
-                        <div className="space-y-2">
-                          <p className="text-3xl leading-none">
-                            {profile?.name}{' '}
-                            <span className="text-base font-medium leading-none">(@{profile?.username})</span>
-                          </p>
-                          <p className="text-base">{profile?.email}</p>
-                        </div>
+                        <p className="text-3xl leading-none">
+                          {profile.name}{' '}
+                          <span className="text-base text-gray-500 font-normal">(@{profile?.username})</span>
+                        </p>
+                        <a href={`mailto:${profile.email}`}>
+                          📨
+                        </a>
                       </div>
                     </CardTitle>
-                    <CardDescription className="">{profile?.bio}</CardDescription>
                   </CardHeader>
+                  <CardContent className="text-black">
+                    {profile?.bio}
+                  </CardContent>
                 </Card>
               </div>
               <Boxes

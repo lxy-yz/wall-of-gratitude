@@ -6,7 +6,7 @@ import { toast } from "@/components/ui/use-toast"
 import { getInitialPositionForCard } from "@/lib/utils"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import { useDrag, useDrop, XYCoord } from "react-dnd"
 
 export const Boxes = ({
@@ -106,7 +106,7 @@ export const Boxes = ({
   return (
     <div className="space-y-6">
       {draggable && (
-        <div className="mt-4 flex">
+        <div className="flex p-4">
           <Button variant="destructive" onClick={resetAll}>Reset All</Button>
         </div>
       )}

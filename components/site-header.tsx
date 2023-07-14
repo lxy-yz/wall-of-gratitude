@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { X } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
-import Image from 'next/image'
+import Image from "next/image"
 import { usePathname, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
@@ -33,22 +33,21 @@ export function SiteHeader() {
       <div className="">
         {/* <MainNav items={siteConfig.mainNav} /> */}
 
-        <div className="fixed bottom-[40px] right-[40px]">
+        <div className="fixed">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <div onClick={() => setOpen(true)} className="cursor-pointer text-3xl">
-                🧭
+                <Image
+                  height={64}
+                  width={64}
+                  src="/icons/logo.png"
+                  className="mx-auto"
+                  alt="Logo"
+                />
               </div>
             </SheetTrigger>
             <SheetContent side={'top'} className='NavDialog h-full w-full'>
-              <Image
-                height={160}
-                width={160}
-                src="/icons/logo.png"
-                className="mx-auto"
-                alt="Logo"
-              />
-              <nav className="-mt-[160px] flex h-full flex-col items-center justify-center gap-4 font-extrabold text-slate-600">
+              <nav className="flex h-full flex-col items-center justify-center gap-4 font-extrabold text-slate-600">
                 {!sess ? (
                   <>
                     <Link
