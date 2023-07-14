@@ -14,7 +14,7 @@ export const UserCard = ({ data }: {
   return (
     <div className="flex space-x-4">
       <Avatar>
-        <AvatarImage src={data.image} />
+        <AvatarImage className="object-cover" src={data.image} />
         <AvatarFallback>{ }</AvatarFallback>
       </Avatar>
       <div className="space-y-1">

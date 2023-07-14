@@ -42,7 +42,7 @@ export default async function IndexPage() {
             <CardTitle>
               <div className="flex flex-col items-center space-y-4">
                 <Avatar className="h-40 w-40">
-                  <AvatarImage src={profile?.image as string} />
+                  <AvatarImage className="object-cover" src={profile?.image as string} />
                   <AvatarFallback>{ }</AvatarFallback>
                 </Avatar>
                 <div className="space-y-2">
