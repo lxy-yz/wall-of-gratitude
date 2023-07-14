@@ -12,7 +12,7 @@ export default withAuth(
 
     if (hasAuthenticatedPage) {
       if (hasAuthenticated) {
-        return NextResponse.redirect(new URL("/", req.url))
+        return NextResponse.redirect(new URL(`/u/${token.username}`, req.url))
       }
 
       return null

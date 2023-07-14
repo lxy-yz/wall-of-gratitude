@@ -33,7 +33,7 @@ export function SiteHeader() {
       <div className="">
         {/* <MainNav items={siteConfig.mainNav} /> */}
 
-        <div className="fixed top-4">
+        <div className="fixed md:left-4 md:top-4">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <div onClick={() => setOpen(true)} className="cursor-pointer text-3xl">
@@ -41,7 +41,7 @@ export function SiteHeader() {
                   height={64}
                   width={64}
                   src="/icons/logo.png"
-                  className="mx-auto"
+                  className="mx-auto md:w-24"
                   alt="Logo"
                 />
               </div>
@@ -51,20 +51,26 @@ export function SiteHeader() {
                 {!sess ? (
                   <>
                     <Link
+                      href="/send-gratitude"
+                      className={cn(buttonVariants({ variant: 'ghost' }), 'text-3xl')}
+                    >
+                      Send
+                    </Link>
+                    <Link
                       href="/login"
-                      className={cn(buttonVariants({ variant: "ghost" }), 'text-3xl')}
+                      className={cn(buttonVariants({ variant: 'ghost' }), 'text-3xl')}
                     >
                       Login
                     </Link>
                   </>
                 ) : (
                   <>
-                    <Link
+                    {/* <Link
                       href="/"
                       className={cn(buttonVariants({ variant: "ghost" }), 'text-3xl')}
                     >
                       Home
-                    </Link>
+                    </Link> */}
                     <Link
                       href="/send-gratitude"
                       className={cn(buttonVariants({ variant: 'ghost' }), 'text-3xl')}

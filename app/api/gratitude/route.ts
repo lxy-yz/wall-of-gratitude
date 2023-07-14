@@ -52,9 +52,9 @@ export async function POST(
               email: to.email,
             },
             create: {
-              username: getDefaultUsername(to.email),
               email: to.email,
               name: to.name,
+              username: getDefaultUsername(to.email),
               image: getUserAvatarImage({ email: to.email }),
             },
           },
