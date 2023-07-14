@@ -33,7 +33,7 @@ export function SiteHeader() {
       <div className="">
         {/* <MainNav items={siteConfig.mainNav} /> */}
 
-        <div className="fixed">
+        <div className="fixed top-4">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <div onClick={() => setOpen(true)} className="cursor-pointer text-3xl">

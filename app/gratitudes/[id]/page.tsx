@@ -35,7 +35,7 @@ export default async function GratitudeDetailPage({
   return (
     <div className="mx-auto mt-20 flex max-w-screen-lg flex-wrap gap-4">
       <div className="w-full md:w-1/2">
-        <h2 className="text-2xl font-bold">Spread kindness</h2>
+        <h2 className="mt-6 text-2xl font-bold">Spread kindness</h2>
         <p className="mt-2 text-muted-foreground">One sticky note at a time</p>
         <div className="mt-4 flex items-center justify-center">
           <div className="flex justify-end">
