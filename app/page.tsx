@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getCurrentUser } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { formatDate } from "@/lib/utils"
 import { Boxes } from "./boxes"
 
 export default async function IndexPage() {
@@ -102,6 +103,7 @@ export default async function IndexPage() {
                   }}
                   content={data.content}
                   tags={data.tags.map((tag) => tag.name)}
+                  date={formatDate(data.createdAt)}
                 />
               ))}
             </div>

@@ -1,6 +1,7 @@
 import { GratitudeCard } from "@/components/gratitude-card";
 import { UserCard } from "@/components/user-card";
 import { db } from "@/lib/db";
+import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 import { Filters } from "./filters";
 
@@ -125,6 +126,7 @@ export async function DiscoverPage({
                   to={data.to}
                   content={data.content}
                   tags={data.tags.map((tag) => tag.name)}
+                  date={formatDate(data.createdAt)}
                 />
               </Link>
             ))}

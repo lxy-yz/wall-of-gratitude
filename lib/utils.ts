@@ -12,11 +12,13 @@ export const getUserAvatarImage = (
   return user.image || `https://avatar.vercel.sh/${user.email || user.username}`
 }
 
-export const today = new Date().toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-})
+export const formatDate = (date: Date) => {
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  })
+}
 
 export function getInitialPositionForCard(currentIndex: number) {
   const gap = 32

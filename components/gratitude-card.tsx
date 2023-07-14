@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { cn, today } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { User } from "lucide-react";
 import { Button } from "./ui/button";
@@ -18,7 +18,8 @@ export function GratitudeCard({
   content,
   from,
   to,
-  tags
+  tags,
+  date,
 }: {
   className?: string,
   color?: string | null,
@@ -27,7 +28,8 @@ export function GratitudeCard({
   from: { email: string, name?: string, username?: string, image?: string, bio?: string },
   to: { email: string, name?: string, image?: string, username?: string },
   content: string,
-  tags: string[]
+  tags: string[],
+  date: string
 }) {
   return (
     <Card className={cn(
@@ -61,7 +63,7 @@ export function GratitudeCard({
             ))}
           </div>
           <div>
-            {today}
+            {date}
           </div>
           <div className="">
             -{' '}

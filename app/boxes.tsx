@@ -3,7 +3,7 @@
 import { GratitudeCard } from "@/components/gratitude-card"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
-import { getInitialPositionForCard } from "@/lib/utils"
+import { formatDate, getInitialPositionForCard } from "@/lib/utils"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useCallback, useState } from "react"
@@ -168,6 +168,7 @@ function Box({
           }}
           content={data.content}
           tags={data.tags.map((tag: { name: string }) => tag.name)}
+          date={formatDate(data.createdAt)}
         />
       </Link>
     </div>

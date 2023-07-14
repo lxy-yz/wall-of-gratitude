@@ -1,7 +1,7 @@
 import { Icons } from "@/components/icons";
 import { FormField } from "@/components/ui/form";
 import { Menubar, MenubarContent, MenubarMenu, MenubarRadioGroup, MenubarRadioItem, MenubarTrigger } from "@/components/ui/menubar";
-import { getUserAvatarImage } from "@/lib/utils";
+import { formatDate, getUserAvatarImage } from "@/lib/utils";
 import { Colors, FontSize, Typeface } from "@/lib/validations";
 import { useSession } from "next-auth/react";
 import { useFormContext } from "react-hook-form";
@@ -31,6 +31,7 @@ export const PanePreview = () => {
           from={{ username: currentUser.username, name: currentUser.name, email: currentUser.email, image: currentUser.image }}
           content={content}
           tags={tags.map(({ value }: { value: string }) => value)}
+          date={formatDate(new Date())}
         />
       </div>
       <Menubar className="mt-4 px-3 py-6">

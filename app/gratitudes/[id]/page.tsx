@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { db } from "@/lib/db"
+import { formatDate } from "@/lib/utils"
 import { Frown } from "lucide-react"
 import Image from 'next/image'
 
@@ -108,6 +109,7 @@ export default async function GratitudeDetailPage({
             }}
             content={data.content as string}
             tags={data.tags?.map((tag) => tag.name) || []}
+            date={formatDate(data.createdAt)}
           />
         </section>
       </div>
