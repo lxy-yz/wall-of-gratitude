@@ -8,9 +8,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from "@/components/ui/dialog"
 import { Share } from "lucide-react"
+import { useState } from "react"
 import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton } from "react-share"
 import { Input } from "./ui/input"
 import { Separator } from "./ui/separator"
@@ -20,6 +21,8 @@ export function SocialShare({
 }: {
   link?: string
 }) {
+  const [copySuccess, setCopySuccess] = useState(false)
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -61,7 +64,19 @@ export function SocialShare({
         <DialogFooter className="flex !flex-col">
           <div className="relative">
             <Input disabled value={link} />
-            <Button variant="secondary" className="absolute right-0 top-0">copy link</Button>
+            <Button
+              variant="ghost"
+              className="absolute right-0 top-0"
+              onClick={async () => {
+                await navigator.clipboard.writeText(link)
+                setCopySuccess(true)
+                setTimeout(() => {
+                  setCopySuccess(false)
+                }, 2000)
+              }}
+            >
+              {copySuccess ? "copied ✔" : 'copy link'}
+            </Button>
           </div>
         </DialogFooter>
       </DialogContent>

@@ -1,13 +1,13 @@
 import Link from "next/link"
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { GratitudeCard } from "@/components/gratitude-card"
-import { db } from "@/lib/db"
-import { getCurrentUser } from "@/lib/auth"
-import { Boxes } from "./boxes"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { getCurrentUser } from "@/lib/auth"
+import { db } from "@/lib/db"
+import { Boxes } from "./boxes"
 
 export default async function IndexPage() {
   const user = await getCurrentUser()
@@ -58,9 +58,9 @@ export default async function IndexPage() {
           </CardHeader>
           <CardContent className="grid gap-6">
             <div className="flex items-center justify-center">
-              <Button variant="outline">
+              <Button>
                 <Link href={`/u/${user!.username}`}>
-                  Public Profile
+                  Go to public profile
                 </Link>
               </Button>
             </div>

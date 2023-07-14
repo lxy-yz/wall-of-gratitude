@@ -3,7 +3,8 @@ export type SiteConfig = typeof siteConfig
 export const siteConfig = {
   name: "Wall of Gratitude",
   description:
-    "Beautifully designed components built with Radix UI and Tailwind CSS.",
+    "A place to send gratitude to your friends, family, and community.",
+  url: process.env.VERCEL_URL,
   mainNav: [
     {
       title: "Home",
@@ -19,8 +20,8 @@ export const siteConfig = {
     },
   ],
   links: {
-    twitter: "https://twitter.com/shadcn",
-    github: "https://github.com/shadcn/ui",
-    docs: "https://ui.shadcn.com",
+    // twitter: "https://twitter.com/shadcn",
+    // github: "https://github.com/shadcn/ui",
+    // docs: "https://ui.shadcn.com",
   },
 }

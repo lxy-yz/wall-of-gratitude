@@ -3,9 +3,9 @@ import { SocialShare } from "@/components/social-share"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { db } from "@/lib/db"
-import { Frown, ArrowRight } from "lucide-react"
+import { Frown } from "lucide-react"
 import Image from 'next/image'
 
 export default async function GratitudeDetailPage({
@@ -61,23 +61,27 @@ export default async function GratitudeDetailPage({
         <Table className="mt-8">
           <TableBody>
             <TableRow>
-              <TableCell className="font-medium">From</TableCell>
+              <TableCell className="text-xl">📨</TableCell>
               <TableCell align="right">{'@' + data.from.username}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="font-medium">To</TableCell>
+              <TableCell className="text-xl">📥</TableCell>
               <TableCell align="right">{data.to.username ? ('@' + data.to.username) : '@unknown'}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="font-medium">Gratitude</TableCell>
+              <TableCell className="text-xl">💌</TableCell>
               <TableCell align="right">{data.content}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="font-medium">Tags</TableCell>
+              <TableCell className="">
+                <span className="text-xl">
+                  🏷️
+                </span>
+              </TableCell>
               <TableCell align="right">{data.tags.map(tag => tag.name).join(',')}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="font-medium">Share</TableCell>
+              <TableCell className="font-medium"></TableCell>
               <TableCell align="right">
                 <SocialShare />
               </TableCell>
