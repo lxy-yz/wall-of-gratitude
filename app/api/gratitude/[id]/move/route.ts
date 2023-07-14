@@ -21,6 +21,23 @@ export async function PATCH(
     }
 
     const { id } = context.params
+    const found = await db.gratitude.findUnique({
+      where: { id },
+      select: {
+        fromUserId: true,
+        toUserId: true,
+      },
+    })
+    if (!found) {
+      return new Response(null, { status: 404 })
+    }
+
+    const moveBySender = found.fromUserId === user.id
+    const moveByReceiver = found.fromUserId === user.id
+    if (!moveBySender && !moveByReceiver) {
+      return new Response("Unauthorized", { status: 403 })
+    }
+
     const body = await req.json()
     const { top, left } = gratitudeSchema
       .pick({
@@ -30,7 +47,14 @@ export async function PATCH(
       .parse(body)
     await db.gratitude.update({
       where: { id },
-      data: { left, top },
+      data: {
+        ...(moveBySender && {
+          fromPosition: [left, top],
+        }),
+        ...(moveByReceiver && {
+          toPosition: [left, top],
+        }),
+      },
     })
 
     return new Response(null, { status: 204 })

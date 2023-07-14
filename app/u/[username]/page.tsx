@@ -24,7 +24,7 @@ export default async function UserPage({
     )
   }
 
-  const gratitudesSentByUser = await db.gratitude.findMany({
+  const gratitudesSentByUser = (await db.gratitude.findMany({
     where: {
       fromUserId: profile.id
     },
@@ -33,8 +33,13 @@ export default async function UserPage({
       to: true,
       tags: true
     }
-  })
-  const gratitudesReceivedByUser = await db.gratitude.findMany({
+  }))
+    .map((gratitude) => ({
+      ...gratitude,
+      left: gratitude.fromPosition[0],
+      top: gratitude.fromPosition[1]
+    }))
+  const gratitudesReceivedByUser = (await db.gratitude.findMany({
     where: {
       toUserId: profile.id
     },
@@ -43,7 +48,13 @@ export default async function UserPage({
       to: true,
       tags: true
     }
-  })
+  }))
+    .map((gratitude) => ({
+      ...gratitude,
+      left: gratitude.toPosition[0],
+      top: gratitude.toPosition[1]
+    }))
+
 
   return (
     <section className="-mx-4">

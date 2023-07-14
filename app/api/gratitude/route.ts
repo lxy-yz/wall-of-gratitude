@@ -5,7 +5,7 @@ import { db } from "@/lib/db"
 import {
   getDefaultUsername,
   getInitialPositionForCard,
-  getUserAvatarImage,
+  getUserAvatarImage
 } from "@/lib/utils"
 import { gratitudeSchema } from "@/lib/validations"
 
@@ -29,13 +29,27 @@ export async function POST(
     const { to, content, notify, fontSize, typeface, bg, tags } =
       gratitudeSchema.parse(body)
 
-    const cnt = await db.gratitude.count()
-    const { left, top } = getInitialPositionForCard(cnt - 1)
+    const fromCnt = await db.gratitude.count({
+      where: {
+        from: {
+          id: user.id,
+        },
+      },
+    })
+    const toCnt = await db.gratitude.count({
+      where: {
+        to: {
+          email: to.email,
+        },
+      },
+    })
+    const fromPosition = getInitialPositionForCard(fromCnt - 1)
+    const toPosition = getInitialPositionForCard(toCnt - 1)
 
     const result = await db.gratitude.create({
       data: {
-        left,
-        top,
+        fromPosition: [fromPosition.left, fromPosition.top],
+        toPosition: [toPosition.left, toPosition.top],
         content,
         notify,
         fontSize,
