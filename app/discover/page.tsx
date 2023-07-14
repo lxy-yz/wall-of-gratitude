@@ -13,11 +13,13 @@ export async function DiscoverPage({
 }) {
   const gratitudes = await db.gratitude.findMany({
     where: {
-      tags: {
-        some: {
-          name: searchParams.tag
+      ...(searchParams.tag && {
+        tags: {
+          some: {
+            name: searchParams.tag
+          }
         }
-      }
+      }),
     },
     take: 10,
     orderBy: {
@@ -25,6 +27,8 @@ export async function DiscoverPage({
     },
     include: { from: true, to: true, tags: true }
   })
+  console.log('gratitudes', gratitudes.length);
+
 
   const senders = (await db.gratitude.findMany({
     select: {
