@@ -25,7 +25,7 @@ export function GratitudeCard({
   typeface?: string | null,
   fontSize?: string | null,
   from: { email: string, name?: string, username?: string, image?: string, bio?: string },
-  to: { email: string, name?: string, image?: string },
+  to: { email: string, name?: string, image?: string, username?: string },
   content: string,
   tags: string[]
 }) {

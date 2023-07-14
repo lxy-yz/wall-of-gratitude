@@ -1,17 +1,17 @@
 "use client"
 
+import { cn, getUserAvatarImage } from "@/lib/utils";
+import { profileSchema } from "@/lib/validations";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { profileSchema } from "@/lib/validations";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "./ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { Button } from "./ui/button";
-import { cn, getUserAvatarImage } from "@/lib/utils";
 import { toast } from "./ui/use-toast";
-import { Loader } from "lucide-react";
 
 type FormValues = z.infer<typeof profileSchema>
 
@@ -113,7 +113,7 @@ export default function ProfileForm({
                 />
               </div>
               <FormDescription className="text-center">
-                This is your public display image.
+                Click above to change.
               </FormDescription>
               <FormMessage />
             </FormItem>

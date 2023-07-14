@@ -1,10 +1,10 @@
-import { GratitudeCard } from "@/components/gratitude-card"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getCurrentUser } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { User } from "@prisma/client"
 import { Frown } from "lucide-react"
 import { Boxes } from "../../boxes"
 
@@ -63,30 +63,7 @@ export default async function UserPage({
             value="sent"
           >
             <div className="mx-auto max-w-screen-lg space-y-8">
-              <div className="mx-auto w-[320px]">
-                <Card className="border-0 text-center">
-                  <CardHeader>
-                    <CardTitle>
-                      <div className="flex flex-col items-center space-y-2">
-                        <Avatar className="h-40 w-40">
-                          <AvatarImage className="object-cover" src={profile?.image as string} />
-                          <AvatarFallback>{ }</AvatarFallback>
-                        </Avatar>
-                        <p className="text-3xl leading-none">
-                          {profile.name}{' '}
-                          <span className="text-base text-gray-500 font-normal">(@{profile?.username})</span>
-                        </p>
-                        <a href={`mailto:${profile.email}`}>
-                          📨
-                        </a>
-                      </div>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-black">
-                    {profile?.bio}
-                  </CardContent>
-                </Card>
-              </div>
+              <UserCard profile={profile} />
               <Boxes
                 useSavedPosition
                 draggable={(await getCurrentUser())?.id === profile.id}
@@ -95,29 +72,44 @@ export default async function UserPage({
             </div>
           </TabsContent>
           <TabsContent value="received" className="mt-4">
-            <div className="grid grid-cols-3 grid-rows-3 gap-8">
-              {gratitudesReceivedByUser.map((data, i) => (
-                <GratitudeCard
-                  color={data.bg || 'blue'}
-                  typeface={data.typeface || 'font-sans'}
-                  fontSize={data.fontSize || 'text-base'}
-                  from={{
-                    email: data.from.email as string,
-                    name: data.from.name as string,
-                  }}
-                  to={{
-                    email: data.to.email as string,
-                    name: data.to.name as string,
-                    image: data.to.image as string,
-                  }}
-                  content={data.content}
-                  tags={data.tags.map((tag) => tag.name)}
-                />
-              ))}
-            </div>
+            <UserCard profile={profile} />
+            <Boxes
+              useSavedPosition
+              draggable={(await getCurrentUser())?.id === profile.id}
+              gratitudes={gratitudesReceivedByUser}
+            />
           </TabsContent>
         </Tabs>
       </div>
     </section>
+  )
+}
+
+function UserCard({ profile }: { profile: User }) {
+  return (
+    <div className="mx-auto w-[320px]">
+      <Card className="border-0 text-center">
+        <CardHeader>
+          <CardTitle>
+            <div className="flex flex-col items-center space-y-2">
+              <Avatar className="h-40 w-40">
+                <AvatarImage className="object-cover" src={profile.image as string} />
+                <AvatarFallback>{ }</AvatarFallback>
+              </Avatar>
+              <p className="text-3xl leading-none">
+                {profile.name}{' '}
+                <span className="text-base text-gray-500 font-normal">(@{profile.username})</span>
+              </p>
+              <a href={`mailto:${profile.email}`}>
+                📨
+              </a>
+            </div>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="text-black dark:text-white">
+          {profile.bio}
+        </CardContent>
+      </Card>
+    </div>
   )
 }
