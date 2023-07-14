@@ -59,8 +59,8 @@ export default async function UserPage({
             </TabsList>
           </div>
           <TabsContent
-            className="mt-10 py-12"
             value="sent"
+            className="mt-10 py-12"
           >
             <div className="mx-auto max-w-screen-lg space-y-8">
               <UserCard profile={profile} />
@@ -71,13 +71,18 @@ export default async function UserPage({
               />
             </div>
           </TabsContent>
-          <TabsContent value="received" className="mt-4">
-            <UserCard profile={profile} />
-            <Boxes
-              useSavedPosition
-              draggable={(await getCurrentUser())?.id === profile.id}
-              gratitudes={gratitudesReceivedByUser}
-            />
+          <TabsContent
+            value="received"
+            className="mt-10 py-12"
+          >
+            <div className="mx-auto max-w-screen-lg space-y-8">
+              <UserCard profile={profile} />
+              <Boxes
+                useSavedPosition
+                draggable={(await getCurrentUser())?.id === profile.id}
+                gratitudes={gratitudesReceivedByUser}
+              />
+            </div>
           </TabsContent>
         </Tabs>
       </div>

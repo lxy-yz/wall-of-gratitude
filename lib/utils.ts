@@ -25,3 +25,7 @@ export function getInitialPositionForCard(currentIndex: number) {
   const top = Math.floor(currentIndex / 3) * (len + gap)
   return { left, top }
 }
+
+export function getDefaultUsername(email: string) {
+  return email.split("@")[0]
+}

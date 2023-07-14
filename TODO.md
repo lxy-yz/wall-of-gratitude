@@ -1,3 +1,4 @@
+- Email verification
 - Discover page
 - Gratitude detail page
 - Social share, like functionality

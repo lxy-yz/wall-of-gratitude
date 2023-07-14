@@ -2,7 +2,11 @@ import { z } from "zod"
 
 import { getCurrentUser } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { getInitialPositionForCard, getUserAvatarImage } from "@/lib/utils"
+import {
+  getDefaultUsername,
+  getInitialPositionForCard,
+  getUserAvatarImage,
+} from "@/lib/utils"
 import { gratitudeSchema } from "@/lib/validations"
 
 const routeContextSchema = z.object({
@@ -48,6 +52,7 @@ export async function POST(
               email: to.email,
             },
             create: {
+              username: getDefaultUsername(to.email),
               email: to.email,
               name: to.name,
               image: getUserAvatarImage({ email: to.email }),

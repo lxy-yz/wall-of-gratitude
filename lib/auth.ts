@@ -7,6 +7,7 @@ import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google"
 
 import { db as prisma } from "./db"
+import { getDefaultUsername } from "./utils"
 
 export const authOptions: NextAuthOptions = {
   // @ts-ignore
@@ -61,10 +62,13 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GITHUB_SECRET as string,
     }),
     GoogleProvider({
+      // https://next-auth.js.org/configuration/providers/oauth#allowdangerousemailaccountlinking-option
+      allowDangerousEmailAccountLinking: true,
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
+      // https://github.com/nextauthjs/next-auth/issues/7654
       profile(profile: any) {
-        const username = profile.email.split("@")[0]
+        const username = getDefaultUsername(profile.email)
         return {
           username,
           // https://stackoverflow.com/questions/76244244/profile-id-is-missing-in-google-oauth-profile-response-nextauth

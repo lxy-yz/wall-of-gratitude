@@ -33,82 +33,84 @@ export default async function GratitudeDetailPage({
   }
 
   return (
-    <div className="mx-auto mt-20 flex max-w-screen-lg flex-wrap gap-4">
-      <div className="w-full md:w-1/2">
-        <h2 className="mt-6 text-2xl font-bold">Spread kindness</h2>
-        <p className="mt-2 text-muted-foreground">One sticky note at a time</p>
-        <div className="mt-4 flex items-center justify-center">
-          <div className="flex justify-end">
-            <Avatar className="h-20 w-20">
-              <AvatarImage src={data.from.image as string} />
-              <AvatarFallback></AvatarFallback>
-            </Avatar>
+    <>
+      <h2 className="mt-20 text-3xl text-center capitalize">Spread kindness</h2>
+      <p className="mt-2 text-muted-foreground text-center">One sticky note at a time</p>
+      <div className="mt-8 mx-auto flex max-w-screen-lg flex-wrap gap-4">
+        <div className="w-full md:w-1/2">
+          <div className="mt-4 flex items-center justify-center">
+            <div className="flex justify-end">
+              <Avatar className="h-20 w-20">
+                <AvatarImage src={data.from.image as string} />
+                <AvatarFallback></AvatarFallback>
+              </Avatar>
+            </div>
+            <Image
+              className="flex items-center"
+              src='/right_arrow.png'
+              alt='right arrow'
+              width={200}
+              height={100}
+            />
+            <div className="flex">
+              <Avatar className="h-20 w-20">
+                <AvatarImage src={data.to.image as string} />
+                <AvatarFallback></AvatarFallback>
+              </Avatar>
+            </div>
           </div>
-          <Image
-            className="flex items-center"
-            src='/right_arrow.png'
-            alt='right arrow'
-            width={200}
-            height={100}
-          />
-          <div className="flex">
-            <Avatar className="h-20 w-20">
-              <AvatarImage src={data.to.image as string} />
-              <AvatarFallback></AvatarFallback>
-            </Avatar>
-          </div>
+          <Table className="mx-auto max-w-[376px]">
+            <TableBody>
+              <TableRow>
+                <TableCell className="text-xl">📨</TableCell>
+                <TableCell align="right">{'@' + data.from.username}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="text-xl">📥</TableCell>
+                <TableCell align="right">{data.to.username ? ('@' + data.to.username) : '@unknown'}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="text-xl">💌</TableCell>
+                <TableCell align="right">{data.content}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="">
+                  <span className="text-xl">
+                    🏷️
+                  </span>
+                </TableCell>
+                <TableCell align="right">{data.tags.map(tag => tag.name).join(',')}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium"></TableCell>
+                <TableCell align="right">
+                  <SocialShare />
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </div>
-        <Table className="mt-8">
-          <TableBody>
-            <TableRow>
-              <TableCell className="text-xl">📨</TableCell>
-              <TableCell align="right">{'@' + data.from.username}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-xl">📥</TableCell>
-              <TableCell align="right">{data.to.username ? ('@' + data.to.username) : '@unknown'}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-xl">💌</TableCell>
-              <TableCell align="right">{data.content}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="">
-                <span className="text-xl">
-                  🏷️
-                </span>
-              </TableCell>
-              <TableCell align="right">{data.tags.map(tag => tag.name).join(',')}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium"></TableCell>
-              <TableCell align="right">
-                <SocialShare />
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+        <Separator orientation="vertical" className="" />
+        <section className="flex flex-1 items-center justify-center">
+          <GratitudeCard
+            color={data.bg || 'blue'}
+            typeface={data.typeface || 'font-sans'}
+            fontSize={data.fontSize || 'text-base'}
+            from={{
+              email: data.from.email as string,
+              name: data.from.name as string,
+              username: data.from.username as string,
+            }}
+            to={{
+              email: data.to.email as string,
+              name: data.to.name as string,
+              image: data.to.image as string,
+            }}
+            content={data.content as string}
+            tags={data.tags?.map((tag) => tag.name) || []}
+          />
+        </section>
       </div>
-      <Separator orientation="vertical" className="" />
-      <section className="flex flex-1 items-center justify-center">
-        <GratitudeCard
-          color={data.bg || 'blue'}
-          typeface={data.typeface || 'font-sans'}
-          fontSize={data.fontSize || 'text-base'}
-          from={{
-            email: data.from.email as string,
-            name: data.from.name as string,
-            username: data.from.username as string,
-          }}
-          to={{
-            email: data.to.email as string,
-            name: data.to.name as string,
-            image: data.to.image as string,
-          }}
-          content={data.content as string}
-          tags={data.tags?.map((tag) => tag.name) || []}
-        />
-      </section>
-    </div>
+    </>
   )
 }
