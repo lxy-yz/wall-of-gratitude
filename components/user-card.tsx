@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
+import { buttonVariants } from "./ui/button";
 
 export const UserCard = ({
   hover = false,
@@ -18,7 +18,7 @@ export const UserCard = ({
 }) => {
   return (
     <div className={cn(
-      "grid gap-4",
+      "grid gap-4 font-sans",
       !hover && "grid-cols-2"
     )}>
       <div className="flex space-x-4">
@@ -49,11 +49,9 @@ export const UserCard = ({
       <div className={cn("flex pt-2",
         !hover && "items-center justify-end",
       )}>
-        <Button className={hover ? 'w-full' : ''} type="button" variant="secondary">
-          <Link href={`/u/${data.username}`}>
-            Visit
-          </Link>
-        </Button>
+        <Link className={cn(buttonVariants({ variant: 'secondary' }), `text-center ${hover ? 'w-full' : ''}`)} href={`/u/${data.username}`}>
+          Visit
+        </Link>
       </div>
     </div>
   )

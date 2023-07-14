@@ -63,14 +63,14 @@ export default async function UserPage({
           defaultValue="sent"
           className="pt-8 min-h-screen bg-cover bg-[url(https://images.unsplash.com/photo-1575108921107-8a15e73c9ff1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1671&q=80)]"
         >
-          <div className="flex justify-center">
+          <div className="">
+            <UserCard profile={profile} />
+          </div>
+          <div className="mt-4 flex justify-center">
             <TabsList>
               <TabsTrigger value="sent">Sent</TabsTrigger>
               <TabsTrigger value="received">Received</TabsTrigger>
             </TabsList>
-          </div>
-          <div className="mt-16">
-            <UserCard profile={profile} />
           </div>
           <TabsContent
             value="sent"

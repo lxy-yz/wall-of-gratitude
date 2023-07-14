@@ -151,7 +151,9 @@ function Box({
   return (
     <div id={`box-${data.id}`} ref={draggable ? drag : null} style={{ left, top }} className="absolute">
       <Link
-        href={`/gratitudes/${data.id}`} className="">
+        href={`/gratitudes/${data.id}`}
+        className="inline-block"
+      >
         <GratitudeCard
           color={data.bg || 'blue'}
           typeface={data.typeface || 'font-sans'}
@@ -160,6 +162,7 @@ function Box({
             email: data.from.email as string,
             name: data.from.name as string,
             username: data.from.username as string,
+            image: data.from.image as string,
           }}
           to={{
             email: data.to.email as string,
