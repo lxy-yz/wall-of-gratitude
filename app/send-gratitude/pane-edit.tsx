@@ -2,7 +2,7 @@
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { Info, Send, X } from "lucide-react";
+import { Info, Loader, Send, X } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { Button } from "../../components/ui/button";
 import { Checkbox } from "../../components/ui/checkbox";
@@ -11,8 +11,10 @@ import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 
 
-export default function PaneEdit({ data }: {
-  data?: FormData | null
+export default function PaneEdit({
+  sending,
+}: {
+  sending: boolean,
 }) {
   const form = useFormContext()
   const { fields, append, remove } = useFieldArray({
@@ -144,8 +146,14 @@ export default function PaneEdit({ data }: {
           />
         </div>
         <div className="flex flex-1 justify-end">
-          <Button type="submit" className="inline-flex h-[96px] w-[96px] gap-2">
-            <Send className="h-4 w-4" />
+          <Button
+            disabled={sending}
+            type="submit"
+            className="inline-flex h-[96px] w-[96px] gap-2">
+            {sending
+              ? <Loader className="h-4 w-4 animate-spin" />
+              : <Send className="h-4 w-4" />
+            }
             Send
           </Button>
         </div>

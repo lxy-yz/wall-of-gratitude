@@ -7,6 +7,7 @@ import { getUserAvatarImage } from "@/lib/utils";
 import { Colors, FontSize, gratitudeSchema, Typeface } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { PanePreview } from "./pane-preview";
@@ -31,13 +32,16 @@ export function GratitudeForm() {
   })
 
   const router = useRouter()
+  const [sending, setSending] = useState(false)
   async function onSubmit(data: GratitudeFormValues) {
+    setSending(true)
     const res = await fetch("/api/gratitude", {
       method: "POST",
       body: JSON.stringify({
         ...data,
       }),
     })
+    setSending(false)
 
     if (!res.ok) {
       const error = await res.text()
@@ -80,7 +84,7 @@ export function GratitudeForm() {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="flex flex-col md:flex-row">
           <div className="order-3 flex-1 md:order-1">
-            <PaneEdit />
+            <PaneEdit sending={sending} />
           </div>
           <div className="order-2 m-4 block md:hidden">
             <Separator orientation="horizontal" />
