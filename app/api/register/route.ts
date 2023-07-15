@@ -37,7 +37,7 @@ export async function POST(
     const image = getUserAvatarImage({ email })
     const user = await db.user.upsert({
       where: { email },
-      update: { image, username, password: hashedPassword },
+      update: { username, password: hashedPassword },
       create: {
         email,
         image,
