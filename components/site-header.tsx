@@ -3,9 +3,12 @@ import Link from "next/link"
 
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Button, buttonVariants } from "@/components/ui/button"
+import { useSticky } from "@/lib/hooks"
 import { cn } from "@/lib/utils"
+import { Icon } from "@iconify/react"
 import { X } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
+import Image from 'next/image'
 import { usePathname, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
@@ -27,23 +30,36 @@ export function SiteHeader() {
     useCallback(() => setOpen(false), [])
   )
 
-  return (
-    <header className="sticky top-0 z-40 w-full bg-transparent">
-      <div className="">
-        {/* <MainNav items={siteConfig.mainNav} /> */}
+  const [stickyRef, sticky] = useSticky()
+  const pathname = usePathname()
+  const isUserPage = pathname.startsWith('/u/')
 
+  return (
+    <header
+      ref={stickyRef}
+      className={cn("top-0 z-40 w-full",
+        isUserPage ? "fixed bg-transparent" : "sticky bg-white",
+      )}>
+      <div className="flex">
         <div className="">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <div onClick={() => setOpen(true)}>
-                <div className="fixed bottom-4 right-4">
+                <div className="">
                   <Button variant="ghost" className="rounded-full px-4 py-8 text-3xl">
-                    🪐
+                    <Icon className={`${isUserPage ? 'text-white' : ''} h-8 w-8 font-bold`} icon="fluent:panel-left-text-20-regular" />
                   </Button>
                 </div>
               </div>
             </SheetTrigger>
-            <SheetContent side={'top'} className='NavDialog h-full w-full'>
+            <SheetContent side={'left'} className='NavDialog h-full w-full'>
+              <Image
+                className="mx-auto"
+                src='/icons/logo.png'
+                alt='logo'
+                width={100}
+                height={100}
+              />
               <nav className="flex h-full flex-col items-center justify-center gap-4 font-extrabold text-slate-600">
                 {!sess ? (
                   <>
@@ -104,6 +120,8 @@ export function SiteHeader() {
             </SheetContent>
           </Sheet>
         </div>
+
+        {/* <MainNav items={siteConfig.mainNav} /> */}
       </div >
     </header >
   )

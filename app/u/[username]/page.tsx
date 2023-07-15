@@ -66,16 +66,13 @@ export default async function UserPage({
           <div className="">
             <UserCard profile={profile} />
           </div>
-          <div className="mt-4 flex justify-center">
+          <div className="mb-12 mt-4 flex justify-center">
             <TabsList>
               <TabsTrigger value="sent">Sent</TabsTrigger>
               <TabsTrigger value="received">Received</TabsTrigger>
             </TabsList>
           </div>
-          <TabsContent
-            value="sent"
-            className="mt-4"
-          >
+          <TabsContent value="sent">
             <div className="mx-auto max-w-screen-lg space-y-8">
               <Boxes
                 useSavedPosition
@@ -84,10 +81,7 @@ export default async function UserPage({
               />
             </div>
           </TabsContent>
-          <TabsContent
-            value="received"
-            className="mt-4"
-          >
+          <TabsContent value="received">
             <div className="mx-auto max-w-screen-lg space-y-8">
               <Boxes
                 useSavedPosition
