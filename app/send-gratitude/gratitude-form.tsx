@@ -3,7 +3,6 @@
 import PaneEdit from "@/app/send-gratitude/pane-edit";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
-import { getUserAvatarImage } from "@/lib/utils";
 import { Colors, FontSize, gratitudeSchema, Typeface } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -54,28 +53,13 @@ export function GratitudeForm() {
       fetch("/api/email/send", {
         method: "POST",
         body: JSON.stringify({
-          ...data,
-          to: {
-            email: data.to.email,
-            name: data.to.name,
-            image: getUserAvatarImage({ email: data.to.email }),
-          },
-          id: json.data.id,
-          tags: data.tags?.map((tag) => tag.value) || [],
+          gratitudeId: json.id
         }),
       }).catch((err) => {
         console.error(err)
       })
     }
 
-    // toast({
-    // title: "You submitted the following values:",
-    // description: (
-    //   <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //     <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //   </pre>
-    // ),
-    // })
     router.push(`/gratitudes/${json.data.id}`)
   }
 

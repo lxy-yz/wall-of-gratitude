@@ -2,7 +2,7 @@
 import Link from "next/link"
 
 import { ThemeToggle } from "@/components/theme-toggle"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { useSticky } from "@/lib/hooks"
 import { cn } from "@/lib/utils"
 import { Icon } from "@iconify/react"
@@ -45,10 +45,8 @@ export function SiteHeader() {
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <div onClick={() => setOpen(true)}>
-                <div className="">
-                  <Button variant="ghost" className="rounded-full px-4 py-8 text-3xl">
-                    <Icon className={`${isUserPage ? 'text-white' : ''} h-8 w-8 font-bold`} icon="fluent:panel-left-text-20-regular" />
-                  </Button>
+                <div className="p-4">
+                  <Icon className={`${isUserPage ? 'text-white' : ''} h-8 w-8 cursor-pointer font-bold`} icon="fluent:panel-left-text-20-regular" />
                 </div>
               </div>
             </SheetTrigger>

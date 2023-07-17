@@ -1,9 +1,7 @@
-import { GratitudeCard } from "@/components/gratitude-card";
 import { UserCard } from "@/components/user-card";
 import { db } from "@/lib/db";
-import { formatDate } from "@/lib/utils";
-import Link from "next/link";
 import { Filters } from "./filters";
+import { Item } from "./item";
 
 export async function DiscoverPage({
   searchParams
@@ -28,8 +26,6 @@ export async function DiscoverPage({
     },
     include: { from: true, to: true, tags: true }
   })
-  console.log('gratitudes', gratitudes.length);
-
 
   const senders = (await db.gratitude.findMany({
     select: {
@@ -116,19 +112,7 @@ export async function DiscoverPage({
           <Filters tags={tags} />
           <div className="mt-8 grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
             {gratitudes.map((data, i) => (
-              <Link className="mx-auto" href={`/gratitudes/${data.id}`}>
-                <GratitudeCard
-                  className="h-[300px] w-[300px]"
-                  color={data.bg}
-                  typeface={data.typeface}
-                  fontSize={data.fontSize}
-                  from={data.from}
-                  to={data.to}
-                  content={data.content}
-                  tags={data.tags.map((tag) => tag.name)}
-                  date={formatDate(data.createdAt)}
-                />
-              </Link>
+              <Item data={data} />
             ))}
           </div>
         </div>

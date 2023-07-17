@@ -4,7 +4,8 @@ import { render } from "@react-email/render"
 import { z } from "zod"
 
 import { getCurrentUser } from "@/lib/auth"
-import { today } from "@/lib/utils"
+import { db } from "@/lib/db"
+import { formatDate } from "@/lib/utils"
 import { gratitudeSchema } from "@/lib/validations"
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY
@@ -34,8 +35,17 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json()
-    const { id, to, content, fontSize, typeface, bg, tags } =
-      bodySchema.parse(body)
+    const { gratitudeId: id } = body
+    const data = await db.gratitude.findUnique({
+      where: { id },
+      include: { tags: true, from: true, to: true },
+    })
+    if (!data) {
+      return new Response(null, { status: 404 })
+    }
+    if (data.fromUserId !== user.id) {
+      return new Response("Unauthorized", { status: 403 })
+    }
 
     const html = render(
       Email({
@@ -44,17 +54,18 @@ export async function POST(req: Request) {
           email: user.email,
         },
         to: {
-          name: to.name,
-          image: to.image,
+          email: data.to.email as string,
+          name: data.to.name ?? "",
+          image: data.to.image as string,
         },
         detailsLink: `${process.env.VERCEL_URL}/gratitudes/${id}`,
         data: {
-          content,
-          fontSize,
-          typeface,
-          bg,
-          tags,
-          date: today,
+          content: data.content,
+          fontSize: data.fontSize,
+          typeface: data.typeface,
+          bg: data.bg,
+          tags: data.tags.map((tag) => tag.name),
+          date: formatDate(data.createdAt),
         },
       }),
       {
@@ -70,7 +81,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         from: "WallOfGratitude <noreply@wallofgratitude.site>",
-        to: to.email,
+        to: data.to.email,
         subject: `💌 Thank you from ${user.name || user.email}!`,
         html,
       }),

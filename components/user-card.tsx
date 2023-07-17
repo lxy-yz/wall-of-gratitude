@@ -18,7 +18,7 @@ export const UserCard = ({
 }) => {
   return (
     <div className={cn(
-      "grid gap-4 font-sans",
+      "grid items-center gap-4 font-sans",
       !hover && "grid-cols-2"
     )}>
       <div className="flex space-x-4">
@@ -26,17 +26,15 @@ export const UserCard = ({
           <AvatarImage className="object-cover" src={data.image} />
           <AvatarFallback>{ }</AvatarFallback>
         </Avatar>
-        <div className="space-y-1">
+        <div className="flex flex-col justify-center gap-1">
           <h4 className="text-sm font-semibold">
             {`@${data.username}`}
           </h4>
-          <p className="text-sm">
-            {data.bio || (
-              <span className="text-muted-foreground">
-                no bio yet
-              </span>
-            )}
-          </p>
+          {data.name && (
+            <p className="text-sm">
+              {data.name}
+            </p>
+          )}
           {/*
             <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
               <span className="text-xs text-muted-foreground">

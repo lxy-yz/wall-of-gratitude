@@ -13,10 +13,10 @@ datasource db {
 model Gratitude {
   id       String   @id @default(cuid())
   content  String
+  typeface String   @default("sans")
+  bg       String   @default("blue")
+  fontSize String   @default("base")
   notify   Boolean?
-  typeface String?
-  bg       String?
-  fontSize String?
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

@@ -6,9 +6,6 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { cn } from "@/lib/utils";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { User } from "lucide-react";
-import { Button } from "./ui/button";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
-import { UserCard } from "./user-card";
 
 export function GratitudeCard({
   className,
@@ -25,8 +22,8 @@ export function GratitudeCard({
   color?: string | null,
   typeface?: string | null,
   fontSize?: string | null,
-  from: { email: string, name?: string, username?: string, image?: string, bio?: string },
-  to: { email: string, name?: string, image?: string, username?: string },
+  from: { name?: string, username?: string },
+  to: { email: string, name?: string, image?: string },
   content: string,
   tags: string[],
   date: string
@@ -65,9 +62,10 @@ export function GratitudeCard({
           <div>
             {date}
           </div>
-          <div className="">
+          <div className="font-semibold">
             -{' '}
-            <HoverCard>
+            {from.name || '@' + from.username}
+            {/* <HoverCard>
               <HoverCardTrigger asChild>
                 <Button type="button" variant="link" className="p-0 font-semibold italic underline">
                   {from.name || '@' + (from.username || from.email)}
@@ -85,7 +83,7 @@ export function GratitudeCard({
                   }}
                 />
               </HoverCardContent>
-            </HoverCard>
+            </HoverCard> */}
           </div>
         </div>
       </CardContent>

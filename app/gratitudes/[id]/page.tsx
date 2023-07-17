@@ -1,13 +1,7 @@
-import { GratitudeCard } from "@/components/gratitude-card"
-import { SocialShare } from "@/components/social-share"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Separator } from "@/components/ui/separator"
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { db } from "@/lib/db"
-import { formatDate } from "@/lib/utils"
 import { Frown } from "lucide-react"
-import Image from 'next/image'
+import { GratitudeDetail } from "./gratitude-detail"
 
 export default async function GratitudeDetailPage({
   params: { id },
@@ -34,85 +28,9 @@ export default async function GratitudeDetailPage({
   }
 
   return (
-    <div className="mx-auto max-w-screen-lg pb-8 pt-6 md:py-10">
-      <h2 className="text-center text-3xl font-bold">Spread a little kindness</h2>
-      <p className="mt-4 text-center text-gray-500">One sticky note at a time</p>
-      <div className="mt-8 flex flex-wrap gap-4">
-        <div className="w-full md:w-1/2">
-          <div className="mt-4 flex items-center justify-center">
-            <div className="flex justify-end">
-              <Avatar className="h-20 w-20">
-                <AvatarImage src={data.from.image as string} />
-                <AvatarFallback></AvatarFallback>
-              </Avatar>
-            </div>
-            <Image
-              className="flex items-center"
-              src='/right_arrow.png'
-              alt='right arrow'
-              width={200}
-              height={100}
-            />
-            <div className="flex">
-              <Avatar className="h-20 w-20">
-                <AvatarImage src={data.to.image as string} />
-                <AvatarFallback></AvatarFallback>
-              </Avatar>
-            </div>
-          </div>
-          <Table className="mx-auto max-w-[376px]">
-            <TableBody>
-              <TableRow>
-                <TableCell className="text-xl">✍️</TableCell>
-                <TableCell align="right">{'@' + data.from.username}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="text-xl">📥</TableCell>
-                <TableCell align="right">{data.to.username ? ('@' + data.to.username) : '@unknown'}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="text-xl">💌</TableCell>
-                <TableCell align="right">{data.content}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="">
-                  <span className="text-xl">
-                    🏷️
-                  </span>
-                </TableCell>
-                <TableCell align="right">{data.tags.map(tag => tag.name).join(',')}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium"></TableCell>
-                <TableCell align="right">
-                  <SocialShare />
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </div>
-        <Separator orientation="vertical" className="" />
-        <section className="flex flex-1 items-center justify-center">
-          <GratitudeCard
-            color={data.bg || 'blue'}
-            typeface={data.typeface || 'font-sans'}
-            fontSize={data.fontSize || 'text-base'}
-            from={{
-              email: data.from.email as string,
-              name: data.from.name as string,
-              username: data.from.username as string,
-            }}
-            to={{
-              email: data.to.email as string,
-              name: data.to.name as string,
-              image: data.to.image as string,
-            }}
-            content={data.content as string}
-            tags={data.tags?.map((tag) => tag.name) || []}
-            date={formatDate(data.createdAt)}
-          />
-        </section>
-      </div>
-    </div>
+    <GratitudeDetail
+      defaultOpen
+      data={data}
+    />
   )
 }

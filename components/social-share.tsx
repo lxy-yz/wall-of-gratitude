@@ -26,8 +26,9 @@ export function SocialShare({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">
-          <Share />
+        <Button className="flex items-center gap-2">
+          Share
+          <Share className="h-4 w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
