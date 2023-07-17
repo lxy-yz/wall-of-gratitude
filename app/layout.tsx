@@ -1,16 +1,17 @@
 import "@/styles/globals.css"
 import { Metadata } from "next"
 
-import { siteConfig } from "@/config/site"
-import { fontSans } from "@/lib/fonts"
-import { cn } from "@/lib/utils"
+import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
-import { SessionProvider } from "./session-provider"
+import { siteConfig } from "@/config/site"
 import { authOptions } from "@/lib/auth"
+import { fontSans } from "@/lib/fonts"
+import { cn } from "@/lib/utils"
 import { getServerSession } from "next-auth/next"
+import { SessionProvider } from "./session-provider"
 
 export const metadata: Metadata = {
   title: {
@@ -63,6 +64,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
               <div className="relative flex min-h-screen flex-col">
                 <SiteHeader />
                 <div className="flex-1 px-4">{children}</div>
+                <SiteFooter className="mt-10" />
               </div>
               <TailwindIndicator />
               <Toaster />

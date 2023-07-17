@@ -1,7 +1,6 @@
 'use client'
 import Link from "next/link"
 
-import { ThemeToggle } from "@/components/theme-toggle"
 import { buttonVariants } from "@/components/ui/button"
 import { useSticky } from "@/lib/hooks"
 import { cn } from "@/lib/utils"
@@ -111,7 +110,6 @@ export function SiteHeader() {
                       }}>Logout</Link>
                   </>
                 )}
-                <ThemeToggle />
               </nav>
               <X
                 onClick={() => setOpen(false)}
