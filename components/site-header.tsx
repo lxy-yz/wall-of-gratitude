@@ -37,7 +37,7 @@ export function SiteHeader() {
     <header
       ref={stickyRef}
       className={cn("top-0 z-40 w-full",
-        isUserPage ? "fixed bg-transparent" : "sticky bg-white dark:bg-gray-800",
+        isUserPage ? "fixed bg-transparent" : "sticky bg-white dark:bg-black",
       )}>
       <div className="flex">
         <div className="">
