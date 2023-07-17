@@ -57,6 +57,8 @@ export const GratitudeDetail = ({
   const router = useRouter()
   const pathname = usePathname()
 
+  const isMobile = window.matchMedia("(max-width: 600px)").matches;
+
   return (
     <RootTag defaultOpen={defaultOpen} onOpenChange={(open) => {
       if (!open && pathname.startsWith('/gratitudes/')) {
@@ -64,7 +66,7 @@ export const GratitudeDetail = ({
       }
     }}>
       <TriggerTag>{trigger}</TriggerTag>
-      <ContentTag className="overflow-auto" side={'right'}>
+      <ContentTag className="max-h-[600px] overflow-auto" side={isMobile ? 'bottom' : 'right'}>
         <HeaderTag>
           <TitleTag>Spread a little kindness</TitleTag>
           <DescriptionTag>One sticky note at a time</DescriptionTag>
