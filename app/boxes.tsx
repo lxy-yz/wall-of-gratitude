@@ -1,11 +1,12 @@
 'use client'
 
 import { GratitudeCard } from "@/components/gratitude-card"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { formatDate, getInitialPositionForCard } from "@/lib/utils"
+import { Terminal } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { useCallback, useState } from "react"
 import { useDrag, useDrop, XYCoord } from "react-dnd"
 
@@ -81,7 +82,6 @@ export const Boxes = ({
     })
   }
 
-  const router = useRouter()
   async function resetAll() {
     return Promise.all(
       gratitudes.map((data: any, index: number) => {
@@ -95,22 +95,19 @@ export const Boxes = ({
       .then(() => location.reload())
   }
 
-  // useEffect(() => {
-  //   const el = document.getElementById('droppable')
-  //   if (!el) {
-  //     return
-  //   }
-  //   el.style.height = `${Math.ceil(gratitudes.length / 3) * 336}px`
-  // }, [])
-
   return (
-    <div className="space-y-6">
+    <div className={`space-y-6`}>
       {draggable && (
-        <div className="flex p-4">
-          <Button variant="destructive" onClick={resetAll}>Reset All</Button>
-        </div>
+        <Alert className="mx-auto mt-10 max-w-screen-lg">
+          <Terminal className="h-4 w-4" />
+          <AlertTitle>Heads up!</AlertTitle>
+          <AlertDescription>
+            You can drag and drop gratitude cards to reposition them. Or
+            <Button className="px-1 text-red-500 font-bold" variant="link" onClick={resetAll}>reset</Button> them to their default positions.
+          </AlertDescription>
+        </Alert>
       )}
-      <div ref={draggable ? drop : null} className="relative h-[1024px] overflow-y-auto p-8">
+      <div ref={draggable ? drop : null} className={`${draggable ? 'border-4 border-dashed border-white' : ''} relative h-[1024px] overflow-y-auto p-8`}>
         {/* grid gap-4 md:grid-cols-2 lg:grid-cols-3 */}
         {gratitudes.map((data) => {
           return (

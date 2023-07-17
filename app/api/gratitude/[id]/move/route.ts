@@ -33,7 +33,7 @@ export async function PATCH(
     }
 
     const moveBySender = found.fromUserId === user.id
-    const moveByReceiver = found.fromUserId === user.id
+    const moveByReceiver = found.toUserId === user.id
     if (!moveBySender && !moveByReceiver) {
       return new Response("Unauthorized", { status: 403 })
     }
