@@ -1,58 +1,55 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
 import { Icon } from '@iconify/react';
+import * as z from "zod";
 
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useForm } from "react-hook-form"
-import { authSchema } from "@/lib/validations"
-import { signIn } from "next-auth/react"
-import { redirect, useSearchParams } from "next/navigation"
+  FormControl, FormField,
+  FormItem, FormMessage
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { authSchema } from "@/lib/validations";
+import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
 
-import { AlertCircle } from "lucide-react"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { cn } from "@/lib/utils"
-import { toast } from "./ui/use-toast";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { cn } from "@/lib/utils";
+import { AlertCircle } from "lucide-react";
+
+type FormValues = Pick<z.infer<typeof authSchema>, 'email'>;
 
 export function AuthForm({ login }: { login?: boolean }) {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
 
-  const form = useForm<z.infer<typeof authSchema>>({
-    resolver: zodResolver(authSchema),
+  const form = useForm<FormValues>({
+    // resolver: zodResolver(authSchema),
     defaultValues: {
       email: "",
-      password: "",
+      // password: "",
     },
   })
 
-  async function onSubmit(values: z.infer<typeof authSchema>) {
-    if (!login) {
-      const res = await fetch("/api/register", {
-        method: "POST",
-        body: JSON.stringify(values),
-      })
-      if (!res.ok) {
-        const error = await res.text()
-        console.error(error)
-        return toast({ title: 'error', description: error })
-      }
-    }
+  async function onSubmit(values: FormValues) {
+    // if (!login) {
+    //   const res = await fetch("/api/register", {
+    //     method: "POST",
+    //     body: JSON.stringify(values),
+    //   })
+    //   if (!res.ok) {
+    //     const error = await res.text()
+    //     console.error(error)
+    //     return toast({ title: 'error', description: error })
+    //   }
+    // }
 
-    signIn("credentials", {
+    signIn("email", {
       email: values.email,
-      password: values.password,
+      // redirect: false,
+      // password: values.password,
       callbackUrl: searchParams.get("from") ?? "/",
     })
   }
@@ -81,7 +78,7 @@ export function AuthForm({ login }: { login?: boolean }) {
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-          {!login && (
+          {/* {!login && (
             <FormField
               control={form.control}
               name="username"
@@ -95,21 +92,21 @@ export function AuthForm({ login }: { login?: boolean }) {
                 </FormItem>
               )}
             />
-          )}
+          )} */}
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                {/* <FormLabel>Email</FormLabel> */}
                 <FormControl>
-                  <Input type="email" {...field} />
+                  <Input placeholder="abc@example.com" type="email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             control={form.control}
             name="password"
             render={({ field }) => (
@@ -121,14 +118,14 @@ export function AuthForm({ login }: { login?: boolean }) {
                 <FormMessage />
               </FormItem>
             )}
-          />
-          <div className="!mt-4">
-            {!login && (
+          /> */}
+          <div className="">
+            {/* {!login && (
               <Button type="submit">Sign Up →</Button>
-            )}
-            {login && (
-              <Button type="submit">Sign In →</Button>
-            )}
+            )} */}
+            {/* {login && ( */}
+            <Button className="w-full" type="submit">Sign In with Email</Button>
+            {/* )} */}
           </div>
         </form>
         {error && (

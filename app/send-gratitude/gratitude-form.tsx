@@ -53,7 +53,7 @@ export function GratitudeForm() {
       fetch("/api/email/send", {
         method: "POST",
         body: JSON.stringify({
-          gratitudeId: json.id
+          gratitudeId: json.data.id
         }),
       }).catch((err) => {
         console.error(err)

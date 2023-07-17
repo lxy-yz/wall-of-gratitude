@@ -1,31 +1,12 @@
 import { NextResponse } from "next/server"
 import Email from "@/emails/thank-you"
 import { render } from "@react-email/render"
-import { z } from "zod"
 
 import { getCurrentUser } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { formatDate } from "@/lib/utils"
-import { gratitudeSchema } from "@/lib/validations"
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY
-
-const bodySchema = gratitudeSchema
-  .pick({
-    content: true,
-    fontSize: true,
-    typeface: true,
-    bg: true,
-  })
-  .extend({
-    id: z.string(),
-    tags: z.array(z.string()),
-    to: z.object({
-      email: z.string(),
-      name: z.string().optional(),
-      image: z.string().optional(),
-    }),
-  })
 
 export async function POST(req: Request) {
   try {
