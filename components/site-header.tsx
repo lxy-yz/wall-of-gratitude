@@ -53,13 +53,15 @@ export function SiteHeader() {
               </div>
             </SheetTrigger>
             <SheetContent side={'left'} className='NavDialog h-full w-full'>
-              <Image
-                className="mx-auto"
-                src='/icons/logo.png'
-                alt='logo'
-                width={100}
-                height={100}
-              />
+              <div className="relative flex justify-center">
+                <Image
+                  className="absolute"
+                  src='/icons/logo.png'
+                  alt='logo'
+                  width={100}
+                  height={100}
+                />
+              </div>
               <nav className="flex h-full flex-col items-center justify-center gap-4 font-extrabold text-slate-600">
                 {!sess ? (
                   <>
