@@ -61,7 +61,7 @@ export async function POST(req: Request) {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "WallOfGratitude <noreply@wallofgratitude.site>",
+        from: "Wall of Gratitude <noreply@wallofgratitude.site>",
         to: data.to.email,
         subject: `💌 Thank you from ${user.name || user.email}!`,
         html,
