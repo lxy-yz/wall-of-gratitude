@@ -66,7 +66,7 @@ export const GratitudeDetail = ({
       }
     }}>
       <TriggerTag>{trigger}</TriggerTag>
-      <ContentTag className="max-h-[600px] overflow-auto" side={isMobile ? 'bottom' : 'right'}>
+      <ContentTag className={`${isMobile ? 'max-h-[600px]' : ''} overflow-auto`} side={isMobile ? 'bottom' : 'right'}>
         <HeaderTag>
           <TitleTag>Spread a little kindness</TitleTag>
           <DescriptionTag>One sticky note at a time</DescriptionTag>
