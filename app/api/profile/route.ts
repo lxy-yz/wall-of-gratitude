@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         name,
         username,
         bio,
-        urls: urls.map((url) => url.value),
+        urls: urls.map((url) => url.value ?? ""),
         image: uploadedImage,
       },
     })
