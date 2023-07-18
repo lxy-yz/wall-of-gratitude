@@ -101,11 +101,28 @@ export const profileSchema = z.object({
   email: z.string().email("Email must be a valid email."),
   image: z.string().optional(),
   bio: z.string().max(160).min(4),
-  urls: z
-    .array(
-      z.object({
-        value: z.string().url({ message: "Please enter a valid URL." }),
-      })
-    )
-    .optional(),
+  urls: z.tuple([
+    z.object({
+      value: z
+        .string()
+        .url({ message: "Please enter a valid URL." })
+        .optional(),
+    }),
+    z.object({
+      value: z
+        .string()
+        .refine((value) => value === "" || value.includes("twitter.com"), {
+          message: "Invalid Twitter URL",
+        })
+        .optional(),
+    }),
+    z.object({
+      value: z
+        .string()
+        .refine((value) => value === "" || value.includes("instagram.com"), {
+          message: "Invalid Instagram URL",
+        })
+        .optional(),
+    }),
+  ]),
 })

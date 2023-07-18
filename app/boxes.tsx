@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { formatDate, getInitialPositionForCard } from "@/lib/utils"
 import { Terminal } from "lucide-react"
-import Link from "next/link"
 import { useCallback, useState } from "react"
 import { useDrag, useDrop, XYCoord } from "react-dnd"
+import { GratitudeDetail } from "./gratitudes/[id]/gratitude-detail"
 
 export const Boxes = ({
   gratitudes,
@@ -147,30 +147,23 @@ function Box({
 
   return (
     <div id={`box-${data.id}`} ref={draggable ? drag : null} style={{ left, top }} className="absolute">
-      <Link
-        href={`/gratitudes/${data.id}`}
-        className="inline-block"
-      >
-        <GratitudeCard
-          color={data.bg || 'blue'}
-          typeface={data.typeface || 'font-sans'}
-          fontSize={data.fontSize || 'text-base'}
-          from={{
-            email: data.from.email as string,
-            name: data.from.name as string,
-            username: data.from.username as string,
-            image: data.from.image as string,
-          }}
-          to={{
-            email: data.to.email as string,
-            name: data.to.name as string,
-            image: data.to.image as string,
-          }}
-          content={data.content}
-          tags={data.tags.map((tag: { name: string }) => tag.name)}
-          date={formatDate(data.createdAt)}
-        />
-      </Link>
+      <GratitudeDetail
+        data={data}
+        sidePeek
+        trigger={
+          <GratitudeCard
+            className="text-left"
+            color={data.bg || 'blue'}
+            typeface={data.typeface || 'font-sans'}
+            fontSize={data.fontSize || 'text-base'}
+            from={data.from}
+            to={data.to}
+            content={data.content}
+            tags={data.tags.map((tag: { name: string }) => tag.name)}
+            date={formatDate(data.createdAt)}
+          />
+        }
+      />
     </div>
   )
 }

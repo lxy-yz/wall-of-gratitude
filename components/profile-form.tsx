@@ -1,11 +1,11 @@
 "use client"
 
-import { cn, getUserAvatarImage } from "@/lib/utils";
+import { getUserAvatarImage } from "@/lib/utils";
 import { profileSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader } from "lucide-react";
+import { HomeIcon, Instagram, Loader, TwitterIcon } from "lucide-react";
 import { useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "./ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
@@ -26,17 +26,14 @@ export default function ProfileForm({
       urls: data.urls || [
         // https://github.com/orgs/react-hook-form/discussions/7586
         { value: "" },
+        { value: "" },
+        { value: "" },
       ],
       email: data.email || '',
       username: data.username || '',
       name: data.name || '',
       bio: data.bio || '',
     },
-  })
-
-  const { fields, append, } = useFieldArray({
-    name: "urls",
-    control: form.control,
   })
 
   const [isSaving, setIsSaving] = useState(false)
@@ -62,7 +59,9 @@ export default function ProfileForm({
         urls,
         // input file is imuumable, so use a custom input rather than RHF
         // https://github.com/orgs/react-hook-form/discussions/2496
-        image: previewImage || await getUserAvatarImage(data),
+        image: data?.image === previewImage
+          ? undefined
+          : previewImage || await getUserAvatarImage(data),
       })
     })
     setIsSaving(false)
@@ -181,42 +180,61 @@ export default function ProfileForm({
             </FormItem>
           )}
         />
-        <div>
-          {fields.map((field, index) => (
-            <FormField
-              control={form.control}
-              key={field.id}
-              name={`urls.${index}.value`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className={cn(index !== 0 && "sr-only")}>
-                    URLs
-                  </FormLabel>
-                  <FormDescription className={cn(index !== 0 && "sr-only")}>
-                    Add links to your website, blog, or social media profiles.
-                  </FormDescription>
+        <div className="space-y-2">
+          <FormField
+            control={form.control}
+            name={`urls.0.value`}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  URLs
+                </FormLabel>
+                <FormDescription>
+                  Add links to your website, blog, or social media profiles.
+                </FormDescription>
+                <div className="flex items-center gap-4">
+                  <HomeIcon className="h-6 w-6" />
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
                   <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="mt-2"
-            onClick={() => append({ value: "" })}
-          >
-            Add URL
+                </div>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={`urls.1.value`}
+            render={({ field }) => (
+              <FormItem className="flex items-center gap-4">
+                <TwitterIcon className="h-6 w-6" />
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={`urls.2.value`}
+            render={({ field }) => (
+              <FormItem className="flex items-center gap-4">
+                <Instagram className="h-6 w-6" />
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="!mt-6 flex justify-end">
+          <Button className="flex items-center gap-2" type="submit">
+            Update profile
+            {isSaving && <Loader className="h-4 w-4 animate-spin" />}
           </Button>
         </div>
-        <Button className="flex items-center gap-2" type="submit">
-          Update profile
-          {isSaving && <Loader className="h-4 w-4 animate-spin" />}
-        </Button>
       </form>
     </Form >
   )

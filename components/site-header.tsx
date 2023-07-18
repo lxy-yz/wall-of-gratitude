@@ -51,13 +51,18 @@ export function SiteHeader() {
             </SheetTrigger>
             <SheetContent side={'left'} className='NavDialog h-full w-full'>
               <div className="relative flex justify-center">
-                <Image
-                  className="absolute"
-                  src='/icons/logo.png'
-                  alt='logo'
-                  width={100}
-                  height={100}
-                />
+                <div className="absolute">
+                  <Image
+                    className=""
+                    src='/icons/logo.png'
+                    alt='logo'
+                    width={120}
+                    height={120}
+                  />
+                  {/* <span className="relative -top-6 text-sm font-extrabold uppercase">
+                    Wall of Gratitude
+                  </span> */}
+                </div>
               </div>
               <nav className="flex h-full flex-col items-center justify-center gap-4 font-extrabold text-slate-600">
                 {!sess ? (

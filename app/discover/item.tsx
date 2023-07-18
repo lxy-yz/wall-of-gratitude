@@ -13,14 +13,14 @@ export const Item = ({ data }: { data: any }) => {
         sidePeek
         trigger={
           <GratitudeCard
-            className="text-left h-[300px] w-[300px]"
+            className="text-left"
             color={data.bg}
             typeface={data.typeface}
             fontSize={data.fontSize}
             from={data.from}
             to={data.to}
             content={data.content}
-            tags={data.tags.map((tag) => tag.name)}
+            tags={data.tags.map((tag: { name: string }) => tag.name)}
             date={formatDate(data.createdAt)}
           />
         }

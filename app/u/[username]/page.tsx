@@ -1,12 +1,10 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getCurrentUser } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { User } from "@prisma/client"
 import { Frown } from "lucide-react"
 import { Boxes } from "../../boxes"
+import { UserCard } from "./user-card"
 
 export default async function UserPage({
   params: { username },
@@ -39,6 +37,7 @@ export default async function UserPage({
       left: gratitude.fromPosition[0],
       top: gratitude.fromPosition[1]
     }))
+
   const gratitudesReceivedByUser = (await db.gratitude.findMany({
     where: {
       toUserId: profile.id
@@ -93,36 +92,5 @@ export default async function UserPage({
         </Tabs>
       </div>
     </section>
-  )
-}
-
-function UserCard({ profile }: { profile: User }) {
-  return (
-    <div className="mx-auto w-[320px]">
-      <Card className="border-0 bg-transparent text-center text-white backdrop-blur-2xl">
-        <CardHeader>
-          <CardTitle>
-            <div className="flex flex-col items-center space-y-2">
-              <Avatar className="h-40 w-40">
-                <AvatarImage className="object-cover" src={profile.image as string} />
-                <AvatarFallback>{ }</AvatarFallback>
-              </Avatar>
-              <p className="text-3xl">
-                {profile.name}{' '}
-              </p>
-              <div className="space-x-2 text-base font-normal text-white/80">
-                <span className="">@{profile.username}</span>
-                <a href={`mailto:${profile.email}`}>
-                  📨
-                </a>
-              </div>
-            </div>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="text-white/80">
-          {profile.bio}
-        </CardContent>
-      </Card>
-    </div>
   )
 }

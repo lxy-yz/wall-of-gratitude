@@ -14,7 +14,6 @@ export async function POST(req: Request) {
 
     const body = await req.json()
     const { name, username, bio, image, urls } = profileSchema.parse(body)
-    console.log("image", image)
 
     let uploadedImage
     if (image) {
@@ -30,7 +29,7 @@ export async function POST(req: Request) {
         name,
         username,
         bio,
-        urls: urls?.map((url) => url.value),
+        urls: urls.map((url) => url.value),
         image: uploadedImage,
       },
     })
