@@ -43,7 +43,8 @@ export function SocialShare({
           <div className="col-span-1 flex justify-end">
             <TwitterShareButton
               url={link}
-              title={'Spread some love here!'}
+              title={'I shared my gratitude!'}
+              hashtags={["Gratitude"]}
               className=""
             >
               <TwitterIcon size={48} round />
@@ -52,7 +53,7 @@ export function SocialShare({
           <div className="col-span-1 flex">
             <FacebookShareButton
               url={link}
-              quote={'Spread some love here!'}
+              quote={'I shared my gratitude!'}
               className=""
             >
               <FacebookIcon size={48} round />
