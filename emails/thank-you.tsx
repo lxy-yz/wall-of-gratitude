@@ -21,7 +21,7 @@ import { cn } from '../lib/utils'
 import { Quote, User } from "lucide-react"
 
 const baseUrl = process.env.VERCEL_URL
-  ? process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
   : "https://wallofgratitude.site"
 
 // https://demo.react.email/preview/vercel-invite-user?view=source
