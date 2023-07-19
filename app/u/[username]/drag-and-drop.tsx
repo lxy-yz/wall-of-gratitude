@@ -123,7 +123,7 @@ export const DragAndDrop = ({
                     <Button
                       onClick={resetAll}
                     >
-                      Send
+                      Ok
                     </Button>
                   </AlertDialogAction>
                 </AlertDialogFooter>
