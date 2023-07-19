@@ -46,6 +46,11 @@ export async function POST(
     const fromPosition = getInitialPositionForCard(fromCnt)
     const toPosition = getInitialPositionForCard(toCnt)
 
+    let username = getDefaultUsername(to.email)
+    while (await db.user.findFirst({ where: { username } })) {
+      username = `${username}${Math.floor(Math.random() * 1000)}`
+    }
+
     const result = await db.gratitude.create({
       data: {
         fromPosition: [fromPosition.left, fromPosition.top],
@@ -68,7 +73,7 @@ export async function POST(
             create: {
               email: to.email,
               name: to.name,
-              username: getDefaultUsername(to.email),
+              username,
               image: getUserAvatarImage({ email: to.email }),
             },
           },
