@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 export default async function IndexPage() {
-  rerurn "To be implemented"
+  return "To be implemented"
 }
 
 // <Card className={cn("max-w-[] w-[300px] h-[300px]", `bg-blue-300`, `font-cursive`, `text-xl`)}>
