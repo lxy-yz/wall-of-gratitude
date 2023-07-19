@@ -25,7 +25,7 @@ export function GratitudeForm() {
       bg: Colors.Blue,
       fontSize: FontSize.Regular,
       typeface: Typeface.Simple,
-      notify: true,
+      notify: false,
       tags: [],
     },
   })
