@@ -4,7 +4,6 @@ import * as React from "react"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
-import { ThemeToggle } from "./theme-toggle"
 
 export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname()
@@ -38,7 +37,6 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
             .
           </p>
         </div>
-        <ThemeToggle />
       </div>
     </footer>
   )

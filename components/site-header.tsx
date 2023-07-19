@@ -10,6 +10,7 @@ import { signOut, useSession } from "next-auth/react"
 import Image from 'next/image'
 import { usePathname, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
+import { ThemeToggle } from "./theme-toggle"
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
 
 // https://nextjs.org/docs/app/api-reference/functions/use-router#router-events
@@ -115,6 +116,7 @@ export function SiteHeader() {
                       }}>Logout</Link>
                   </>
                 )}
+                <ThemeToggle />
               </nav>
               <X
                 onClick={() => setOpen(false)}
