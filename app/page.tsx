@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getCurrentUser } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { formatDate } from "@/lib/utils"
-import { Boxes } from "./boxes"
+import { Boxes } from "./u/[username]/drag-and-drop"
 
 export default async function IndexPage() {
   const user = await getCurrentUser()

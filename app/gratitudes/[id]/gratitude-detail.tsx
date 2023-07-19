@@ -73,7 +73,7 @@ export const GratitudeDetail = ({
         </HeaderTag>
 
         <div className="grid gap-4 py-8">
-          <div className="grid grid-cols-4 items-center gap-4">
+          <div className="grid grid-cols-4 gap-4">
             <div className="text-sm font-semibold">
               From
             </div>
@@ -81,7 +81,7 @@ export const GratitudeDetail = ({
               <UserCard data={data.from} />
             </div>
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
+          <div className="grid grid-cols-4 gap-4">
             <div className="text-sm font-semibold">
               To
             </div>
@@ -93,22 +93,14 @@ export const GratitudeDetail = ({
 
         <div className="flex flex-col">
           <Quote />
-          <section className="flex flex-1 items-center justify-center">
+          <section className="my-4 flex flex-1 items-center justify-center">
             <GratitudeCard
               color={data.bg || 'blue'}
               typeface={data.typeface || 'font-sans'}
               fontSize={data.fontSize || 'text-base'}
-              from={{
-                email: data.from.email as string,
-                name: data.from.name as string,
-                username: data.from.username as string,
-              }}
-              to={{
-                email: data.to.email as string,
-                name: data.to.name as string,
-                image: data.to.image as string,
-              }}
-              content={data.content as string}
+              from={data.from}
+              to={data.to}
+              content={data.content}
               tags={data.tags?.map((tag) => tag.name) || []}
               date={formatDate(data.createdAt)}
             />

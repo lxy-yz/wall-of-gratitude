@@ -2,20 +2,21 @@
 
 import { GratitudeCard } from "@/components/gratitude-card"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { formatDate, getInitialPositionForCard } from "@/lib/utils"
 import { Terminal } from "lucide-react"
 import { useCallback, useState } from "react"
 import { useDrag, useDrop, XYCoord } from "react-dnd"
-import { GratitudeDetail } from "./gratitudes/[id]/gratitude-detail"
+import { GratitudeDetail } from "../../gratitudes/[id]/gratitude-detail"
 
-export const Boxes = ({
-  gratitudes,
+export const DragAndDrop = ({
+  data,
   draggable = false,
   useSavedPosition = false,
 }: {
-  gratitudes: any,
+  data: any,
   draggable: boolean
   useSavedPosition?: boolean
 }) => {
@@ -25,7 +26,7 @@ export const Boxes = ({
       left: number
     }
   }>(
-    gratitudes.reduce((acc: Record<string, { left: number, top: number }>, e: any, index: number) => {
+    data.reduce((acc: Record<string, { left: number, top: number }>, e: any, index: number) => {
       const left = useSavedPosition ? e.left : getInitialPositionForCard(index).left
       const top = useSavedPosition ? e.top : getInitialPositionForCard(index).top
 
@@ -84,7 +85,7 @@ export const Boxes = ({
 
   async function resetAll() {
     return Promise.all(
-      gratitudes.map((data: any, index: number) => {
+      data.map((data: any, index: number) => {
         const { left, top } = getInitialPositionForCard(index)
         return savePosition(data.id, left, top)
       })
@@ -103,15 +104,45 @@ export const Boxes = ({
           <AlertTitle>Heads up!</AlertTitle>
           <AlertDescription>
             You can drag and drop gratitude cards to reposition them. Or
-            <Button className="px-1 text-red-500 font-bold" variant="link" onClick={resetAll}>reset</Button> them to their default positions.
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button className="px-1 font-bold text-red-500" variant="link">
+                  reset
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Confirmation</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure to reset all positions?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction>
+                    <Button
+                      onClick={resetAll}
+                    >
+                      Send
+                    </Button>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            them to their default positions.
           </AlertDescription>
         </Alert>
       )}
       <div ref={draggable ? drop : null} className={`${draggable ? 'border-4 border-dashed border-white' : ''} relative h-[1024px] overflow-y-auto p-8`}>
-        {/* grid gap-4 md:grid-cols-2 lg:grid-cols-3 */}
-        {gratitudes.map((data) => {
+        {data.map((e: any) => {
           return (
-            <Box draggable={draggable} key={data.id} data={data} left={boxes[data.id]?.left} top={boxes[data.id]?.top} />
+            <Box
+              draggable={draggable}
+              key={e.id}
+              data={e}
+              left={boxes[e.id]?.left}
+              top={boxes[e.id]?.top}
+            />
           )
         })}
       </div>
@@ -153,13 +184,13 @@ function Box({
         trigger={
           <GratitudeCard
             className="text-left"
-            color={data.bg || 'blue'}
-            typeface={data.typeface || 'font-sans'}
-            fontSize={data.fontSize || 'text-base'}
+            color={data.bg}
+            typeface={data.typeface}
+            fontSize={data.fontSize}
             from={data.from}
             to={data.to}
             content={data.content}
-            tags={data.tags.map((tag: { name: string }) => tag.name)}
+            tags={data.tags.map((tag: any) => tag.name)}
             date={formatDate(data.createdAt)}
           />
         }

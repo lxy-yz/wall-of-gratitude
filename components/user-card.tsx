@@ -4,10 +4,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { buttonVariants } from "./ui/button";
 
 export const UserCard = ({
-  hover = false,
   data
 }: {
-  hover?: boolean,
   data: {
     name?: string,
     username?: string,
@@ -17,10 +15,7 @@ export const UserCard = ({
   }
 }) => {
   return (
-    <div className={cn(
-      "grid items-center gap-4 font-sans",
-      !hover && "grid-cols-2"
-    )}>
+    <div className={cn("grid grid-cols-2 items-center gap-4 font-sans")}>
       <div className="flex space-x-4">
         <Avatar>
           <AvatarImage className="object-cover" src={data.image} />
@@ -35,19 +30,10 @@ export const UserCard = ({
               {data.name}
             </p>
           )}
-          {/*
-            <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
-              <span className="text-xs text-muted-foreground">
-                Joined December 2021
-              </span>
-            */}
         </div>
       </div>
-
-      <div className={cn("flex pt-2",
-        !hover && "items-center justify-end",
-      )}>
-        <Link className={cn(buttonVariants({ variant: 'secondary' }), `text-center ${hover ? 'w-full' : ''}`)} href={`/u/${data.username}`}>
+      <div className={cn("flex items-center justify-end")}>
+        <Link className={cn(buttonVariants({ variant: 'secondary' }))} href={`/u/${data.username}`}>
           Visit
         </Link>
       </div>

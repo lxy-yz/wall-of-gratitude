@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getCurrentUser } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { Frown } from "lucide-react"
-import { Boxes } from "../../boxes"
+import { DragAndDrop } from "./drag-and-drop"
 import { UserCard } from "./user-card"
 
 export default async function UserPage({
@@ -73,19 +73,19 @@ export default async function UserPage({
           </div>
           <TabsContent value="sent">
             <div className="mx-auto max-w-screen-lg">
-              <Boxes
+              <DragAndDrop
                 useSavedPosition
                 draggable={(await getCurrentUser())?.id === profile.id}
-                gratitudes={gratitudesSentByUser}
+                data={gratitudesSentByUser}
               />
             </div>
           </TabsContent>
           <TabsContent value="received">
             <div className="mx-auto max-w-screen-lg">
-              <Boxes
+              <DragAndDrop
                 useSavedPosition
                 draggable={(await getCurrentUser())?.id === profile.id}
-                gratitudes={gratitudesReceivedByUser}
+                data={gratitudesReceivedByUser}
               />
             </div>
           </TabsContent>

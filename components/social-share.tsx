@@ -35,7 +35,7 @@ export function SocialShare({
         <DialogHeader>
           <DialogTitle>Share</DialogTitle>
           <DialogDescription>
-            Share to your friends
+            Share to friends and social media
           </DialogDescription>
         </DialogHeader>
         <div className="grid grid-cols-4 gap-4 py-4">
@@ -43,7 +43,7 @@ export function SocialShare({
           <div className="col-span-1 flex justify-end">
             <TwitterShareButton
               url={link}
-              title={'I shared my gratitude!'}
+              title={'I just shared my gratitude!'}
               hashtags={["Gratitude"]}
               className=""
             >
@@ -53,7 +53,7 @@ export function SocialShare({
           <div className="col-span-1 flex">
             <FacebookShareButton
               url={link}
-              quote={'I shared my gratitude!'}
+              quote={'I just shared my gratitude!'}
               className=""
             >
               <FacebookIcon size={48} round />
