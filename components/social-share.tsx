@@ -35,7 +35,7 @@ export function SocialShare({
         <DialogHeader>
           <DialogTitle>Share</DialogTitle>
           <DialogDescription>
-            Share to friends and social media
+            Share to friends on social media
           </DialogDescription>
         </DialogHeader>
         <div className="grid grid-cols-4 gap-4 py-4">
