@@ -9,7 +9,7 @@ export default withAuth(
     const hasAuthenticatedPage =
       req.nextUrl.pathname.startsWith("/login") ||
       req.nextUrl.pathname.startsWith("/register") ||
-      req.nextUrl.pathname.startsWith("/")
+      req.nextUrl.pathname === "/"
 
     if (hasAuthenticatedPage) {
       if (hasAuthenticated) {
