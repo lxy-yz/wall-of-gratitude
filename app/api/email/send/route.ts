@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     const html = render(
       Email({
         from: {
-          name: user.name ?? "Anonymous",
+          name: user.name ?? "Someone",
           email: user.email,
         },
         to: {
