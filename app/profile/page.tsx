@@ -1,6 +1,6 @@
-import { db } from '@/lib/db';
 import ProfileForm from "@/components/profile-form";
 import { getCurrentUser } from '@/lib/auth';
+import { db } from '@/lib/db';
 
 export default async function ProfilePage() {
   const user = await getCurrentUser()
@@ -19,11 +19,11 @@ export default async function ProfilePage() {
   });
 
   return (
-    <div className="pt-20">
+    <div className="mb-20 mt-12">
       <h1 className="text-center text-3xl font-semibold">
         Edit Profile
       </h1>
-      <div className="mx-auto mt-10 max-w-xl">
+      <div className="mx-auto max-w-xl">
         <ProfileForm
           data={{
             ...data,

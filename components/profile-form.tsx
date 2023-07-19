@@ -68,7 +68,7 @@ export default function ProfileForm({
 
     if (!res.ok) {
       return toast({
-        title: 'Something went wrong.'
+        title: '❌ Something went wrong.'
       })
     }
 

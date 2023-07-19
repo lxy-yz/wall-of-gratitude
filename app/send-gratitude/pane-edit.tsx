@@ -23,7 +23,7 @@ export default function PaneEdit({
   })
 
   return (
-    <div className="mx-auto max-w-[512px] space-y-4 px-4">
+    <div className="mx-auto w-full max-w-[400px] space-y-4 px-4">
       <FormField
         control={form.control}
         name="to.email"

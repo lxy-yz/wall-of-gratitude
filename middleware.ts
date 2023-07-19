@@ -8,14 +8,16 @@ export default withAuth(
     const hasAuthenticated = !!token
     const hasAuthenticatedPage =
       req.nextUrl.pathname.startsWith("/login") ||
-      req.nextUrl.pathname.startsWith("/register") ||
-      req.nextUrl.pathname === "/"
+      req.nextUrl.pathname.startsWith("/register")
+    const landingPage = req.nextUrl.pathname === "/"
 
-    if (hasAuthenticatedPage) {
+    if (hasAuthenticatedPage || landingPage) {
       if (hasAuthenticated) {
         return NextResponse.redirect(new URL(`/u/${token.username}`, req.url))
       }
-      return null
+      if (!landingPage) {
+        return null
+      }
     }
 
     if (!hasAuthenticated) {

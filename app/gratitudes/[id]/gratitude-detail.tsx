@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { toast } from "@/components/ui/use-toast"
 import { UserCard } from "@/components/user-card"
+import { useMediaQuery } from "@/lib/hooks"
 import { formatDate } from "@/lib/utils"
 import { DialogClose } from "@radix-ui/react-dialog"
 import { Quote, Send } from "lucide-react"
@@ -47,13 +48,13 @@ export const GratitudeDetail = ({
           gratitudeId: data.id
         }),
       })
-      if (res.ok) 
-        toast({ title: 'Email succesfully sent!' })
+      if (res.ok)
+        toast({ title: '✅ Email succesfully sent.' })
       else
         throw new Error(await res.text())
     } catch (err) {
       console.error(err)
-      toast({ title: 'Email failed to sent!' })
+      toast({ title: '❌ Email failed to sent.' })
     }
     setSending(false)
   }
@@ -61,7 +62,7 @@ export const GratitudeDetail = ({
   const router = useRouter()
   const pathname = usePathname()
 
-  const isMobile = window.matchMedia("(max-width: 600px)").matches;
+  const isMobile = useMediaQuery("(max-width: 600px)")
 
   return (
     <RootTag defaultOpen={defaultOpen} onOpenChange={(open) => {

@@ -73,7 +73,7 @@ export function GratitudeForm() {
           <div className="order-2 m-4 block md:hidden">
             <Separator orientation="horizontal" />
           </div>
-          <div className="order-2 mx-4 hidden md:mx-8 md:block">
+          <div className="order-2 mx-4 hidden md:block">
             <Separator orientation="vertical" />
           </div>
           <div className="order-1 md:order-3 md:w-1/2">

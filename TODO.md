@@ -1,3 +1,4 @@
+- Landing page
 - Profile social link twitter, instagram fb, https://github.com/settings/profile
 - Email verification for oauth linked account
 - Cleanup all TODO:

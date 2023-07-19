@@ -5,6 +5,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
+import { useMediaQuery } from "@/lib/hooks"
 import { formatDate, getInitialPositionForCard } from "@/lib/utils"
 import { Terminal } from "lucide-react"
 import { useCallback, useState } from "react"
@@ -91,14 +92,16 @@ export const DragAndDrop = ({
       })
     )
       .then(() => toast({
-        title: "Successfully reset all positions",
+        title: "✅ Successfully reset all positions.",
       }))
       .then(() => location.reload())
   }
 
+  const editable = useMediaQuery('(max-width: 600px)') && draggable
+
   return (
     <div className={`space-y-6`}>
-      {draggable && (
+      {editable && (
         <Alert className="mx-auto mt-10 max-w-screen-lg">
           <Terminal className="h-4 w-4" />
           <AlertTitle>Heads up!</AlertTitle>
@@ -133,11 +136,11 @@ export const DragAndDrop = ({
           </AlertDescription>
         </Alert>
       )}
-      <div ref={draggable ? drop : null} className={`${draggable ? 'border-4 border-dashed border-white' : ''} relative h-[1024px] overflow-y-auto p-8`}>
+      <div ref={editable ? drop : null} className={`${editable ? 'border-4 border-dashed border-white' : ''} relative h-[1024px] overflow-y-auto p-8`}>
         {data.map((e: any) => {
           return (
             <Box
-              draggable={draggable}
+              draggable={editable}
               key={e.id}
               data={e}
               left={boxes[e.id]?.left}
