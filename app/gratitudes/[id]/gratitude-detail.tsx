@@ -41,15 +41,19 @@ export const GratitudeDetail = ({
   async function handleSendEmail() {
     setSending(true)
     try {
-      await fetch("/api/email/send", {
+      const res = await fetch("/api/email/send", {
         method: "POST",
         body: JSON.stringify({
           gratitudeId: data.id
         }),
       })
-      toast({ title: 'Email succesfully sent!' })
+      if (res.ok) 
+        toast({ title: 'Email succesfully sent!' })
+      else
+        throw new Error(await res.text())
     } catch (err) {
       console.error(err)
+      toast({ title: 'Email failed to sent!' })
     }
     setSending(false)
   }
