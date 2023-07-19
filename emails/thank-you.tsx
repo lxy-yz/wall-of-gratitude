@@ -1,24 +1,17 @@
-import * as React from "react"
 import {
   Body,
-  Button,
-  Column,
-  Container,
+  Button, Container,
   Head,
-  Heading,
-  Hr,
-  Html,
+  Heading, Html,
   Img,
   Link,
-  Preview,
-  Row,
-  Section,
+  Preview, Section,
   Tailwind,
-  Text,
+  Text
 } from "@react-email/components"
 
-import { cn } from '../lib/utils'
 import { Quote, User } from "lucide-react"
+import { cn } from '../lib/utils'
 
 const baseUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`

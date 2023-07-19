@@ -13,7 +13,7 @@ export const Item = ({ data }: { data: any }) => {
         sidePeek
         trigger={
           <GratitudeCard
-            className="text-left"
+            className="h-[300px] w-[300px] text-left"
             color={data.bg}
             typeface={data.typeface}
             fontSize={data.fontSize}

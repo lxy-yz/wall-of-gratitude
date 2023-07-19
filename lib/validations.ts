@@ -100,7 +100,7 @@ export const profileSchema = z.object({
     }),
   email: z.string().email("Email must be a valid email."),
   image: z.string().optional(),
-  bio: z.string().max(160).min(4),
+  bio: z.string().max(160).min(4).optional(),
   urls: z.tuple([
     z.object({
       value: z
