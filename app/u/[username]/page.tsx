@@ -60,7 +60,7 @@ export default async function UserPage({
       <div className="flex w-full flex-col">
         <Tabs
           defaultValue="sent"
-          className="pb-16 min-h-screen bg-cover bg-[url(https://images.unsplash.com/photo-1575108921107-8a15e73c9ff1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1671&q=80)]"
+          className="min-h-screen bg-[url('/bg.jpg')] bg-contain backdrop-opacity-60 pb-16"
         >
           <div className="mt-32">
             <UserCard profile={profile} />

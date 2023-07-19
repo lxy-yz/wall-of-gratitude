@@ -9,7 +9,7 @@ import { User } from "@prisma/client"
 export function UserCard({ profile }: { profile: User }) {
   return (
     <div className="mx-auto w-[320px]">
-      <Card className="border-0 bg-transparent text-center text-white backdrop-blur-2xl">
+      <Card className="border-0 bg-transparent text-center text-slate-800 backdrop-blur-2xl">
         <CardHeader>
           <CardTitle>
             <div className="flex flex-col items-center space-y-2">
@@ -20,7 +20,7 @@ export function UserCard({ profile }: { profile: User }) {
               <p className="text-3xl capitalize">
                 {profile.name}{' '}
               </p>
-              <div className="space-x-2 text-base font-normal text-white/80">
+              <div className="space-x-2 text-base font-normal">
                 <span className="">@{profile.username}</span>
               </div>
               <div className="flex space-x-3">
@@ -46,7 +46,7 @@ export function UserCard({ profile }: { profile: User }) {
             </div>
           </CardTitle>
         </CardHeader>
-        <CardContent className="text-white/80">
+        <CardContent className="text-slate-600">
           {profile.bio}
         </CardContent>
       </Card>

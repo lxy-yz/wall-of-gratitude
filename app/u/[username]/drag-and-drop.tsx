@@ -97,7 +97,7 @@ export const DragAndDrop = ({
       .then(() => location.reload())
   }
 
-  const editable = useMediaQuery('(max-width: 600px)') && draggable
+  const editable = useMediaQuery('(min-width: 600px)') && draggable
 
   return (
     <div className={`space-y-6`}>

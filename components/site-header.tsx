@@ -46,7 +46,7 @@ export function SiteHeader() {
             <SheetTrigger asChild>
               <div onClick={() => setOpen(true)}>
                 <div className="p-4">
-                  <Icon className={`${isUserPage ? 'text-white' : ''} h-8 w-8 cursor-pointer font-bold`} icon="fluent:panel-left-text-20-regular" />
+                  <Icon className={`${isUserPage ? '' : ''} h-8 w-8 cursor-pointer font-bold`} icon="fluent:panel-left-text-20-regular" />
                 </div>
               </div>
             </SheetTrigger>
