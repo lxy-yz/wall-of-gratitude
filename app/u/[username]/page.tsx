@@ -60,37 +60,43 @@ export default async function UserPage({
       <div className="flex w-full flex-col">
         <Tabs
           defaultValue="sent"
-          className="min-h-screen bg-[url('/bg.jpg')] bg-contain backdrop-opacity-60 pb-16"
+          className="min-h-screen"
         >
-          <div className="mt-32">
-            <UserCard profile={profile} />
-          </div>
-          <div className="mb-12 mt-4 flex justify-center">
-            <TabsList>
-              <TabsTrigger value="sent">Sent</TabsTrigger>
-              <TabsTrigger value="received">Received</TabsTrigger>
-            </TabsList>
-          </div>
-          <TabsContent value="sent">
-            <div className="mx-auto max-w-screen-lg">
-              <DragAndDrop
-                useSavedPosition
-                draggable={(await getCurrentUser())?.id === profile.id}
-                data={gratitudesSentByUser}
-              />
+          <div className="flex flex-col md:flex-row">
+            <div className="mx-auto flex w-[350px] flex-col justify-center px-4 md:sticky md:top-0 md:order-2 md:h-screen">
+              <div className="mt-12">
+                <UserCard profile={profile} />
+              </div>
+              <div className="mb-12 mt-4 flex justify-center">
+                <TabsList>
+                  <TabsTrigger value="sent">Sent</TabsTrigger>
+                  <TabsTrigger value="received">Received</TabsTrigger>
+                </TabsList>
+              </div>
             </div>
-          </TabsContent>
-          <TabsContent value="received">
-            <div className="mx-auto max-w-screen-lg">
-              <DragAndDrop
-                useSavedPosition
-                draggable={(await getCurrentUser())?.id === profile.id}
-                data={gratitudesReceivedByUser}
-              />
+            <div className="bg-[url('/bg.jpg')] bg-contain px-4 md:order-1 md:flex-1">
+              <TabsContent value="sent">
+                <div className="mx-auto max-w-screen-lg">
+                  <DragAndDrop
+                    useSavedPosition
+                    draggable={(await getCurrentUser())?.id === profile.id}
+                    data={gratitudesSentByUser}
+                  />
+                </div>
+              </TabsContent>
+              <TabsContent value="received">
+                <div className="mx-auto max-w-screen-lg">
+                  <DragAndDrop
+                    useSavedPosition
+                    draggable={(await getCurrentUser())?.id === profile.id}
+                    data={gratitudesReceivedByUser}
+                  />
+                </div>
+              </TabsContent>
             </div>
-          </TabsContent>
+          </div>
         </Tabs>
       </div>
-    </section>
+    </section >
   )
 }

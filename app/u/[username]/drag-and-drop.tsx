@@ -100,7 +100,20 @@ export const DragAndDrop = ({
   const editable = useMediaQuery('(min-width: 600px)') && draggable
 
   return (
-    <div className={`space-y-6`}>
+    <div className={`space-y-6 py-16`}>
+      <div ref={editable ? drop : null} className={`${editable ? 'border-4 border-dashed border-white' : ''} relative h-[1024px] overflow-y-auto p-8`}>
+        {data.map((e: any) => {
+          return (
+            <Box
+              draggable={editable}
+              key={e.id}
+              data={e}
+              left={boxes[e.id]?.left}
+              top={boxes[e.id]?.top}
+            />
+          )
+        })}
+      </div>
       {editable && (
         <Alert className="mx-auto mt-10 max-w-screen-lg">
           <Terminal className="h-4 w-4" />
@@ -136,19 +149,6 @@ export const DragAndDrop = ({
           </AlertDescription>
         </Alert>
       )}
-      <div ref={editable ? drop : null} className={`${editable ? 'border-4 border-dashed border-white' : ''} relative h-[1024px] overflow-y-auto p-8`}>
-        {data.map((e: any) => {
-          return (
-            <Box
-              draggable={editable}
-              key={e.id}
-              data={e}
-              left={boxes[e.id]?.left}
-              top={boxes[e.id]?.top}
-            />
-          )
-        })}
-      </div>
     </div>
   )
 }
