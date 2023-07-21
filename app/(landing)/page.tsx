@@ -74,7 +74,7 @@ export default function LandingPage() {
             }}
             className="z-20 mx-0 mb-0 mt-8 flex max-w-2xl flex-row justify-center md:mb-[35px] md:mt-0 md:space-x-8"
           >
-            <div className="w-1/3">
+            <div className="w-1/2 md:w-1/3">
               <h2 className="flex items-center text-[1em] font-semibold text-[#1a2b3b]">
                 Send
               </h2>
@@ -82,7 +82,7 @@ export default function LandingPage() {
                 Express your genuine appreciation for someone, and let them hear it.
               </p>
             </div>
-            <div className="w-1/3">
+            <div className="w-1/2 md:w-1/3">
               <h2 className="flex items-center text-[1em] font-semibold text-[#1a2b3b]">
                 Share
               </h2>
@@ -90,7 +90,7 @@ export default function LandingPage() {
                 Share your gratitude with the world and inspire others to do the same.
               </p>
             </div>
-            <div className="w-1/3">
+            <div className="w-1/2 md:w-1/3">
               <h2 className="flex items-center text-[1em] font-semibold text-[#1a2b3b]">
                 Customize
               </h2>
@@ -140,7 +140,7 @@ export default function LandingPage() {
                   boxShadow: "0 1px 1px #0c192714, 0 1px 3px #0c192724",
                 }}
               >
-                <span className="mr-2">Send Gratitude</span>
+                <span className="mr-2">Send</span>
                 <svg
                   className="h-5 w-5"
                   viewBox="0 0 24 24"
