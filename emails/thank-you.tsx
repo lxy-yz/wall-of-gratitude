@@ -55,6 +55,7 @@ export const GratitudeEmail = ({
   }
   from: {
     email: string
+    username?: string
     name?: string
   }
   logoLink?: string
@@ -84,13 +85,15 @@ export const GratitudeEmail = ({
         <Body className="m-auto bg-white font-sans">
           <Container className="mx-auto my-[40px] w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
             <Section className="mt-[32px]">
-              <Img
-                src={logoLink}
-                width="120"
-                height="100"
-                alt="Logo"
-                className="mx-auto my-0"
-              />
+              <Link href={baseUrl}>
+                <Img
+                  src={logoLink}
+                  width="120"
+                  height="100"
+                  alt="Logo"
+                  className="mx-auto my-0"
+                />
+              </Link>
             </Section>
             <Heading className="mx-0 my-[30px] p-0 text-center text-3xl font-bold text-black">
               💌 Thank you!
@@ -99,7 +102,14 @@ export const GratitudeEmail = ({
               Dear {to.name},
             </Text>
             <Text className="text-[14px] leading-[24px] text-black">
-              <strong>{from.name}</strong>{' '}
+              <strong>
+                <Link
+                  href={`${baseUrl}/u/${from.username}`}
+                  className="text-blue-600 no-underline"
+                >
+                  {from.name}
+                </Link>
+              </strong>{' '}
               (<Link
                 href={`mailto:${from.email}`}
                 className="text-blue-600 no-underline"

@@ -32,6 +32,7 @@ export async function POST(req: Request) {
       Email({
         from: {
           name: user.name ?? "Someone",
+          username: user.username,
           email: user.email,
         },
         to: {
