@@ -15,9 +15,9 @@ export default withAuth(
       if (hasAuthenticated) {
         return NextResponse.redirect(new URL(`/u/${token.username}`, req.url))
       }
-      if (!landingPage) {
-        return null
-      }
+      // if (!landingPage) {
+      return null
+      // }
     }
 
     if (!hasAuthenticated) {

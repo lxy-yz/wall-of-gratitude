@@ -32,6 +32,10 @@ export function SiteHeader() {
 
   const [stickyRef, sticky] = useSticky()
   const pathname = usePathname()
+  // TODO: use mutltiple root layouts instead
+  // https://nextjs.org/docs/app/building-your-application/routing/route-groups#opting-specific-segments-into-a-layout
+  // https://github.com/shadcn-ui/taxonomy/blob/main/app/layout.tsx
+  if (pathname === '/') return null
   const isUserPage = pathname.startsWith('/u/')
 
   return (

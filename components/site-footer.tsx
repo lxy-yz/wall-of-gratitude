@@ -3,14 +3,8 @@ import * as React from "react"
 
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
-import { usePathname } from "next/navigation"
 
 export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
-  const pathname = usePathname()
-  if (!pathname.startsWith("/discover")) {
-    return null
-  }
-
   return (
     <footer className={cn(className)}>
       <div className="container flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
