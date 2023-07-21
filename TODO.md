@@ -3,6 +3,7 @@
   - share
   - customize
   - inspire
+- Root/nested layouts (remove conditional logic in header/footer)
 - Cleanup all TODO:
 - Replace lucid icon for iconify
 

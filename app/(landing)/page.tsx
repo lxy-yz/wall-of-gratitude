@@ -52,7 +52,7 @@ export default function LandingPage() {
             <span className="text-gray-800">.</span>
           </motion.h1>
           <motion.p
-            className="mb-8"
+            className="my-4 md:-mt-4 md:mb-8"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
@@ -62,7 +62,7 @@ export default function LandingPage() {
             }}
           >
             A place where you can share gratitude
-            <strong className="ml-1 font-black text-black">In Public.</strong>
+            <strong className="ml-1 font-bold text-black">In Public.</strong>
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -72,25 +72,25 @@ export default function LandingPage() {
               duration: 0.95,
               ease: [0.165, 0.84, 0.44, 1],
             }}
-            className="z-20 mx-0 mb-0 mt-8 flex max-w-2xl flex-row justify-center md:mb-[35px] md:mt-0 md:space-x-8"
+            className="z-20 mx-0 mb-0 mt-8 flex max-w-2xl flex-row flex-wrap justify-start gap-4 md:mb-[35px] md:mt-0 md:flex-nowrap md:justify-center md:space-x-8"
           >
-            <div className="w-1/2 md:w-1/3">
+            <div className="w-1/3">
               <h2 className="flex items-center text-[1em] font-semibold text-[#1a2b3b]">
-                Send
+                Express
               </h2>
               <p className="text-[14px] font-normal leading-[20px] text-[#1a2b3b]">
-                Express your genuine appreciation for someone, and let them hear it.
+                Send your genuine appreciation to others, and let them know it.
               </p>
             </div>
-            <div className="w-1/2 md:w-1/3">
+            <div className="w-1/3">
               <h2 className="flex items-center text-[1em] font-semibold text-[#1a2b3b]">
-                Share
+                Inspire
               </h2>
               <p className="text-[14px] font-normal leading-[20px] text-[#1a2b3b]">
                 Share your gratitude with the world and inspire others to do the same.
               </p>
             </div>
-            <div className="w-1/2 md:w-1/3">
+            <div className="w-1/3">
               <h2 className="flex items-center text-[1em] font-semibold text-[#1a2b3b]">
                 Customize
               </h2>
