@@ -58,8 +58,8 @@ export async function DiscoverPage({
 
   return (
     <>
-      <div className="mx-auto max-w-screen-xl">
-        <h1 className="my-8 text-2xl font-bold tracking-tight">
+      <div className="px-4 md:px-8">
+        <h1 className="mb-8 text-2xl font-bold tracking-tight">
           Discover
         </h1>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

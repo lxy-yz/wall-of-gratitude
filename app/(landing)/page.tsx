@@ -48,7 +48,7 @@ export default function LandingPage() {
             className="font-inter relative z-[100] text-[16vw] font-extrabold leading-[0.9] tracking-[-2px] text-[#1E2B3A] md:mb-[37px] md:ml-[-10px] md:text-[100px]"
           >
             Wall Of <br />
-            <span className="bg-gradient-to-l from-gray-800 via-cyan-800 to-sky-100 bg-clip-text text-transparent caret-pink-600">Gratitude</span>
+            <span className="bg-gradient-to-l from-gray-800 via-orange-800 to-amber-100 bg-clip-text text-transparent caret-pink-600">Gratitude</span>
             <span className="text-gray-800">.</span>
           </motion.h1>
           <motion.p
@@ -118,7 +118,7 @@ export default function LandingPage() {
                     "0px 1px 4px rgba(13, 34, 71, 0.17), inset 0px 0px 0px 1px #061530, inset 0px 0px 0px 2px rgba(255, 255, 255, 0.1)",
                 }}
               >
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#407BBF]">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-500">
                   <Icon icon="pajamas:search" />
                 </span>
                 Discover
@@ -193,7 +193,7 @@ export default function LandingPage() {
           }}
           id="gradient-canvas"
           data-transition-in
-          className="fixed right-[-2px] top-0 z-50 h-screen w-[80%] bg-sky-300/75 md:w-1/2"
+          className="fixed right-[-2px] top-0 z-50 h-screen w-[80%] bg-amber-400/75 md:w-1/2"
         ></motion.canvas>
         {/* <div className="fixed bottom-0 z-20 flex h-[60px] w-full flex-row items-center justify-evenly bg-[#1D2B3A]">
           <p className="flex flex-row whitespace-nowrap text-base font-semibold text-white/80 md:text-lg md:leading-[60px]">
