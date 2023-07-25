@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { FontSize } from "@/lib/validations";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { User } from "lucide-react";
 
@@ -50,7 +51,10 @@ export function GratitudeCard({
         </div>
       </CardHeader>
       <CardContent className="grid gap-6">
-        <p className="font-semibold text-black dark:text-white">
+        <p className={cn("font-semibold text-black dark:text-white",
+          fontSize === FontSize.Large && "line-clamp-6",
+          fontSize === FontSize["Extra Large"] && "line-clamp-4",
+        )}>
           {content}
         </p>
         <div className="space-y-1 text-sm">

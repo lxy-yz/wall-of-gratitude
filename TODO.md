@@ -1,14 +1,9 @@
-- Landing page
-  - create
-  - share
-  - customize
-  - inspire
 - Root/nested layouts (remove conditional logic in header/footer)
 - Cleanup all TODO:
-- Replace lucid icon for iconify
 
 wip
 
+- Replace lucid icon for iconify (next project??)
 - Discover page
 - Social share, like functionality
 - Drag & Drop, delete
@@ -16,6 +11,11 @@ wip
 
 done
 
+- Landing page
+  - create
+  - share
+  - customize
+  - inspire
 - Gratitude detail page
 - Profile social link twitter, instagram fb, https://github.com/settings/profile
 - Email verification for oauth linked account
