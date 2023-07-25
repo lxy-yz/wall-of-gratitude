@@ -2,8 +2,7 @@ export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
   name: "Wall of Gratitude",
-  description:
-    "A place to send gratitude to your friends, family, and community.",
+  description: "A place where you can share gratitude in public",
   url: process.env.VERCEL_URL,
   mainNav: [
     {
