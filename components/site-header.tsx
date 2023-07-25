@@ -49,7 +49,7 @@ export function SiteHeader() {
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <div onClick={() => setOpen(true)}>
-                <div className="p-4">
+                <div className="p-4 md:px-8">
                   <Icon className={`${isUserPage ? '' : ''} h-8 w-8 cursor-pointer font-bold`} icon="fluent:panel-left-text-20-regular" />
                 </div>
               </div>
@@ -57,16 +57,17 @@ export function SiteHeader() {
             <SheetContent side={'left'} className='NavDialog h-full w-full'>
               <div className="relative flex justify-center">
                 <div className="absolute">
-                  <Image
-                    className=""
-                    src='/icons/logo.png'
-                    alt='logo'
-                    width={120}
-                    height={120}
-                  />
-                  {/* <span className="relative -top-6 text-sm font-extrabold uppercase">
-                    Wall of Gratitude
-                  </span> */}
+                  <Link
+                    href="/"
+                  >
+                    <Image
+                      className=""
+                      src='/icons/logo.png'
+                      alt='logo'
+                      width={120}
+                      height={120}
+                    />
+                  </Link>
                 </div>
               </div>
               <nav className="flex h-full flex-col items-center justify-center gap-4 font-extrabold text-slate-600">

@@ -70,7 +70,7 @@ export const GratitudeDetail = ({
         router.push('/discover')
       }
     }}>
-      <TriggerTag>{trigger}</TriggerTag>
+      <TriggerTag className="h-full w-full">{trigger}</TriggerTag>
       <ContentTag className={`${isMobile ? 'max-h-[600px]' : ''} overflow-auto`} side={isMobile ? 'bottom' : 'right'}>
         <HeaderTag>
           <TitleTag>Spread a little kindness</TitleTag>

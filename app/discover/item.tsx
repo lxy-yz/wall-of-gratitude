@@ -8,12 +8,12 @@ import { GratitudeDetail } from "../gratitudes/[id]/gratitude-detail"
 export const Item = ({ data }: { data: any }) => {
   const [open, setOpen] = useState(false)
   return (
-    <div className="mx-auto">
+    <div className="aspect-square">
       <GratitudeDetail
         sidePeek
         trigger={
           <GratitudeCard
-            className="h-[300px] w-[300px] text-left"
+            className="h-full w-full text-left"
             color={data.bg}
             typeface={data.typeface}
             fontSize={data.fontSize}

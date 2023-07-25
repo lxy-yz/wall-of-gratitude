@@ -58,7 +58,7 @@ export async function DiscoverPage({
 
   return (
     <>
-      <div className="px-4 md:px-8">
+      <div className="md:px-4">
         <h1 className="mb-8 text-2xl font-bold tracking-tight">
           Discover
         </h1>
@@ -112,7 +112,7 @@ export async function DiscoverPage({
           </div>
           <div className="md:row-start-1 lg:col-span-2 xl:col-span-3">
             <Filters tags={tags} />
-            <div className="mt-8 grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-8 grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
               {gratitudes.map((data, i) => (
                 <Item data={data} />
               ))}
@@ -120,7 +120,7 @@ export async function DiscoverPage({
           </div>
         </div>
       </div>
-      <SiteFooter />
+      <SiteFooter className="mt-10 md:mx-4" />
     </>
   );
 }
