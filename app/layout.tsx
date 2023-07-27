@@ -51,6 +51,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" />
+          <script defer data-domain="wallofgratitude.site" src="https://plausible.liallen.me/js/script.js"></script>
         </head>
         <body
           className={cn(
