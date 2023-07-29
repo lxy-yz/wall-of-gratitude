@@ -14,7 +14,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
             <a
               href={siteConfig.links.website}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener"
               className="font-medium underline underline-offset-4"
             >
               Allen
