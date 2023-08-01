@@ -142,7 +142,13 @@ export default function LandingPage() {
               </Link>
             </motion.div>
           </div>
+
           <SiteFooter className="mt-10" />
+          <div className="flex justify-center">
+            <a href="https://www.producthunt.com/posts/wall-of-gratitude?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-wall&#0045;of&#0045;gratitude" target="_blank" rel="noreferrer">
+              <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=407061&theme=neutral" alt="Wall&#0032;of&#0032;Gratitude - A&#0032;place&#0032;where&#0032;we&#0032;share&#0032;gratitude&#0032;in&#0032;public | Product Hunt" width="250" height="54" />
+            </a>
+          </div>
         </main>
 
         <div
