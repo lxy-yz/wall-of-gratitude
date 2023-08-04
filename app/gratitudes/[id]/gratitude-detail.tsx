@@ -63,7 +63,8 @@ export const GratitudeDetail = ({
   const pathname = usePathname()
 
   const isMobile = useMediaQuery("(max-width: 600px)")
-
+  const shareLink = (new URL("/gratitudes/" + data.id, window.location)).toString()
+  
   return (
     <RootTag defaultOpen={defaultOpen} onOpenChange={(open) => {
       if (!open && pathname.startsWith('/gratitudes/')) {
@@ -142,7 +143,7 @@ export const GratitudeDetail = ({
               </AlertDialogContent>
             </AlertDialog>
           )}
-          <SocialShare />
+          <SocialShare link={shareLink} />
         </div>
 
         <FooterTag className="">
