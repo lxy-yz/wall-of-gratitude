@@ -100,29 +100,33 @@ export const profileSchema = z.object({
     }),
   email: z.string().email("Email must be a valid email."),
   image: z.string().optional(),
-  bio: z.string().max(160).min(4).optional(),
+  bio: z.union([z.string().min(4).max(160), z.literal("")]),
   urls: z.tuple([
     z.object({
-      value: z
-        .string()
-        .url({ message: "Please enter a valid URL." })
-        .optional(),
+      value: z.union([
+        z.string().url({ message: "Please enter a valid URL." }),
+        z.literal(""),
+      ]),
     }),
     z.object({
-      value: z
-        .string()
-        .refine((value) => value === "" || value.includes("twitter.com"), {
-          message: "Invalid Twitter URL",
-        })
-        .optional(),
+      value: z.union([
+        z
+          .string()
+          .refine((value) => value === "" || value.includes("twitter.com"), {
+            message: "Invalid Twitter URL",
+          }),
+        z.literal(""),
+      ]),
     }),
     z.object({
-      value: z
-        .string()
-        .refine((value) => value === "" || value.includes("instagram.com"), {
-          message: "Invalid Instagram URL",
-        })
-        .optional(),
+      value: z.union([
+        z
+          .string()
+          .refine((value) => value === "" || value.includes("instagram.com"), {
+            message: "Invalid Instagram URL",
+          }),
+        z.literal(""),
+      ]),
     }),
   ]),
 })

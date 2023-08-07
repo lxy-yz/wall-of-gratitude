@@ -29,10 +29,10 @@ export default function ProfileForm({
         { value: "" },
         { value: "" },
       ],
-      email: data.email || '',
-      username: data.username || '',
-      name: data.name || '',
-      bio: data.bio || '',
+      email: data.email,
+      username: data.username,
+      name: data.name,
+      bio: data.bio,
     },
   })
 

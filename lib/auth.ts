@@ -77,7 +77,7 @@ export const authOptions: NextAuthOptions = {
     }),
     GoogleProvider({
       // https://next-auth.js.org/configuration/providers/oauth#allowdangerousemailaccountlinking-option
-      // allowDangerousEmailAccountLinking: true,
+      allowDangerousEmailAccountLinking: true,
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
       // https://github.com/nextauthjs/next-auth/issues/7654
