@@ -3,7 +3,7 @@ import { z } from "zod"
 import { getCurrentUser } from "@/lib/auth"
 import { db } from "@/lib/db"
 import {
-  getDefaultUsername,
+  generateUniqueUsername,
   getInitialPositionForCard,
   getUserAvatarImage,
 } from "@/lib/utils"
@@ -46,10 +46,7 @@ export async function POST(
     const fromPosition = getInitialPositionForCard(fromCnt)
     const toPosition = getInitialPositionForCard(toCnt)
 
-    let username = getDefaultUsername(to.email)
-    while (await db.user.findFirst({ where: { username } })) {
-      username = `${username}${Math.floor(Math.random() * 1000)}`
-    }
+    const username = await generateUniqueUsername(to.email)
 
     const result = await db.gratitude.create({
       data: {

@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 
+import { generateUniqueUsername } from "@/lib/utils"
+
 const prisma = new PrismaClient()
 
 async function resetAllPositions() {
@@ -22,7 +24,7 @@ async function seedMissedUsername() {
   const users = await prisma.user.findMany({})
   for (const user of users) {
     if (!user.username) {
-      const username = user.email?.split("@")[0]
+      const username = await generateUniqueUsername(user.email!)
       await prisma.user.update({
         where: {
           id: user.id,
@@ -37,7 +39,7 @@ async function seedMissedUsername() {
 
 async function main() {
   console.log(`Start seeding ...`)
-  await resetAllPositions()
+  await seedMissedUsername()
   console.log(`Seeding finished.`)
 }
 

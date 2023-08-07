@@ -8,7 +8,7 @@ import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google"
 
 import { db as prisma } from "./db"
-import { getDefaultUsername } from "./utils"
+import { generateUniqueUsername } from "./utils"
 
 export const authOptions: NextAuthOptions = {
   // @ts-ignore
@@ -48,6 +48,20 @@ export const authOptions: NextAuthOptions = {
         return token
       }
 
+      // ensure that the username is generated for the first time sign in
+      // regardless of provider
+      if (!dbUser.username) {
+        dbUser.username = await generateUniqueUsername(dbUser.email as string)
+        await prisma.user.update({
+          where: {
+            email: dbUser.email as string,
+          },
+          data: {
+            username: dbUser.username,
+          },
+        })
+      }
+
       return {
         id: dbUser.id,
         name: dbUser.name,
@@ -64,23 +78,23 @@ export const authOptions: NextAuthOptions = {
     }),
     GoogleProvider({
       // https://next-auth.js.org/configuration/providers/oauth#allowdangerousemailaccountlinking-option
-      allowDangerousEmailAccountLinking: true,
+      // allowDangerousEmailAccountLinking: true,
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
       // https://github.com/nextauthjs/next-auth/issues/7654
-      profile(profile: any) {
-        const username = getDefaultUsername(profile.email)
-        return {
-          username,
-          // https://stackoverflow.com/questions/76244244/profile-id-is-missing-in-google-oauth-profile-response-nextauth
-          id: profile.sub,
-          name: profile.name,
-          firstname: profile.given_name,
-          lastname: profile.family_name,
-          email: profile.email,
-          image: profile.picture,
-        }
-      },
+      // profile(profile: any) {
+      //   const username = getDefaultUsername(profile.email)
+      //   return {
+      //     username,
+      //     // https://stackoverflow.com/questions/76244244/profile-id-is-missing-in-google-oauth-profile-response-nextauth
+      //     id: profile.sub,
+      //     name: profile.name,
+      //     firstname: profile.given_name,
+      //     lastname: profile.family_name,
+      //     email: profile.email,
+      //     image: profile.picture,
+      //   }
+      // },
     }),
     EmailProvider({
       server: {

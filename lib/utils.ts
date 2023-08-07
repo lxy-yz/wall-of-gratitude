@@ -2,6 +2,8 @@ import { User } from "@prisma/client"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
+import { db } from "./db"
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -28,6 +30,14 @@ export function getInitialPositionForCard(currentIndex: number) {
   return { left, top }
 }
 
-export function getDefaultUsername(email: string) {
+export async function generateUniqueUsername(email: string) {
+  let username = getDefaultUsername(email)
+  while (await db.user.findFirst({ where: { username } })) {
+    username = `${username}${Math.floor(Math.random() * 1000)}`
+  }
+  return username
+}
+
+function getDefaultUsername(email: string) {
   return email.split("@")[0]
 }
