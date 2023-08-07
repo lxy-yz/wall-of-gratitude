@@ -8,7 +8,6 @@ import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google"
 
 import { db as prisma } from "./db"
-import { generateUniqueUsername } from "./utils"
 
 export const authOptions: NextAuthOptions = {
   // @ts-ignore
@@ -139,4 +138,16 @@ export async function getCurrentUser() {
   const session = await getServerSession(authOptions)
 
   return session?.user
+}
+
+export async function generateUniqueUsername(email: string) {
+  let username = getDefaultUsername(email)
+  while (await prisma.user.findFirst({ where: { username } })) {
+    username = `${username}${Math.floor(Math.random() * 1000)}`
+  }
+  return username
+}
+
+function getDefaultUsername(email: string) {
+  return email.split("@")[0]
 }

@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client"
 
-import { generateUniqueUsername } from "@/lib/utils"
+import { generateUniqueUsername } from "@/lib/auth"
 
 const prisma = new PrismaClient()
 

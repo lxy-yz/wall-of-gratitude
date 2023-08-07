@@ -1,12 +1,8 @@
 import { z } from "zod"
 
-import { getCurrentUser } from "@/lib/auth"
+import { generateUniqueUsername, getCurrentUser } from "@/lib/auth"
 import { db } from "@/lib/db"
-import {
-  generateUniqueUsername,
-  getInitialPositionForCard,
-  getUserAvatarImage,
-} from "@/lib/utils"
+import { getInitialPositionForCard, getUserAvatarImage } from "@/lib/utils"
 import { gratitudeSchema } from "@/lib/validations"
 
 const routeContextSchema = z.object({
