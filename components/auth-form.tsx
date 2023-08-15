@@ -58,7 +58,7 @@ export function AuthForm({ login }: { login?: boolean }) {
     <div className="">
       <button
         type="button"
-        className={cn(buttonVariants({ variant: "outline" }), 'w-full flex items-center justify-center gap-2')}
+        className={cn(buttonVariants({ variant: "outline" }), 'plausible-event-name=Signup+Google flex w-full items-center justify-center gap-2')}
         onClick={() => {
           signIn("google")
         }}
@@ -77,7 +77,7 @@ export function AuthForm({ login }: { login?: boolean }) {
         </div>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="plausible-event-name=Signup+Email space-y-2">
           {/* {!login && (
             <FormField
               control={form.control}
