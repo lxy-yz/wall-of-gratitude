@@ -39,7 +39,7 @@ export function GratitudeCard({
       <CardHeader>
         <div className="flex items-center justify-end gap-2">
           <Avatar className="order-2">
-            <AvatarImage src={to.image} />
+            <AvatarImage className="object-cover" src={to.image} />
             <AvatarFallback>
               <User />
             </AvatarFallback>

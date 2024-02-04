@@ -21,7 +21,7 @@ export async function DiscoverPage({
         }
       }),
     },
-    take: 10,
+    // take: 10,
     orderBy: {
       createdAt: 'desc'
     },
