@@ -13,9 +13,9 @@ import {
 import { Quote, User } from "lucide-react"
 import { cn } from '../lib/utils'
 
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "https://wallofgratitude.site"
+// FIXME: VERCEL_URL not accurate on every domains #5230
+// https://github.com/vercel/vercel/discussions/5230
+const baseUrl = "https://wallofgratitude.site"
 
 // https://demo.react.email/preview/vercel-invite-user?view=source
 // https://demo.react.email/preview/linear-login-code

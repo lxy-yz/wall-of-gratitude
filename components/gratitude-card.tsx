@@ -52,7 +52,7 @@ export function GratitudeCard({
       </CardHeader>
       <CardContent className="grid gap-6">
         <p className={cn("font-semibold text-black dark:text-white",
-          fontSize === FontSize.Large && "line-clamp-6",
+          fontSize === FontSize.Large && "line-clamp-3",
           fontSize === FontSize["Extra Large"] && "line-clamp-4",
         )}>
           {content}

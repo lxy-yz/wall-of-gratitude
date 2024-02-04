@@ -40,7 +40,7 @@ export async function POST(req: Request) {
           name: data.to.name ?? "",
           image: data.to.image as string,
         },
-        detailsLink: `https://${process.env.VERCEL_URL}/gratitudes/${id}`,
+        detailsLink: `https://wallofgratitude.vercel.app/gratitudes/${id}`,
         data: {
           content: data.content,
           fontSize: data.fontSize,
